@@ -30,7 +30,7 @@ defined('MOODLE_INTERNAL') || die();
  * @param string $feature Constant representing the feature.
  * @return true | null True if the feature is supported, null otherwise.
  */
-function mod_mpgroup_supports($feature) {
+function mpgroup_supports($feature) {
     switch ($feature) {
         case FEATURE_MOD_INTRO:
             return true;
@@ -50,7 +50,7 @@ function mod_mpgroup_supports($feature) {
  * @param mod_mpgroup_mod_form $mform The form.
  * @return int The id of the newly inserted record.
  */
-function mod_mpgroup_add_instance($moduleinstance, $mform = null) {
+function mpgroup_add_instance($moduleinstance, $mform = null) {
     global $DB;
 
     $moduleinstance->timecreated = time();
@@ -71,7 +71,7 @@ function mod_mpgroup_add_instance($moduleinstance, $mform = null) {
  * @param mod_mpgroup_mod_form $mform The form.
  * @return bool True if successful, false otherwise.
  */
-function mod_mpgroup_update_instance($moduleinstance, $mform = null) {
+function mpgroup_update_instance($moduleinstance, $mform = null) {
     global $DB;
 
     $moduleinstance->timemodified = time();
@@ -86,7 +86,7 @@ function mod_mpgroup_update_instance($moduleinstance, $mform = null) {
  * @param int $id Id of the module instance.
  * @return bool True if successful, false on failure.
  */
-function mod_mpgroup_delete_instance($id) {
+function mpgroup_delete_instance($id) {
     global $DB;
 
     $exists = $DB->get_record('mod_mpgroup', array('id' => $id));
