@@ -46,13 +46,13 @@ $PAGE->set_context($coursecontext);
 
 echo $OUTPUT->header();
 
-$modulenameplural = get_string('modulenameplural', 'mod_mpgroup');
+$modulenameplural = get_string('modulenameplural', 'mpgroup');
 echo $OUTPUT->heading($modulenameplural);
 
 $mpgroups = get_all_instances_in_course('mpgroup', $course);
 
 if (empty($mpgroups)) {
-    notice(get_string('nonewmodules', 'mod_mpgroup'), new moodle_url('/course/view.php', array('id' => $course->id)));
+    notice(get_string('nonewmodules', 'mpgroup'), new moodle_url('/course/view.php', array('id' => $course->id)));
 }
 
 $table = new html_table();

@@ -55,7 +55,7 @@ function mpgroup_add_instance($moduleinstance, $mform = null) {
 
     $moduleinstance->timecreated = time();
 
-    $id = $DB->insert_record('mod_mpgroup', $moduleinstance);
+    $id = $DB->insert_record('mpgroup', $moduleinstance);
 
     return $id;
 }
@@ -76,7 +76,7 @@ function mpgroup_update_instance($moduleinstance, $mform = null) {
     $moduleinstance->timemodified = time();
     $moduleinstance->id = $moduleinstance->instance;
 
-    return $DB->update_record('mod_mpgroup', $moduleinstance);
+    return $DB->update_record('mpgroup', $moduleinstance);
 }
 
 /**
@@ -88,12 +88,12 @@ function mpgroup_update_instance($moduleinstance, $mform = null) {
 function mpgroup_delete_instance($id) {
     global $DB;
 
-    $exists = $DB->get_record('mod_mpgroup', array('id' => $id));
+    $exists = $DB->get_record('mpgroup', array('id' => $id));
     if (!$exists) {
         return false;
     }
 
-    $DB->delete_records('mod_mpgroup', array('id' => $id));
+    $DB->delete_records('mpgroup', array('id' => $id));
 
     return true;
 }

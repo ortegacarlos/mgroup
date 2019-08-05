@@ -47,7 +47,7 @@ class mod_mpgroup_mod_form extends moodleform_mod {
         $mform->addElement('header', 'general', get_string('general', 'form'));
 
         // Adding the standard "name" field.
-        $mform->addElement('text', 'name', get_string('mpgroupname', 'mod_mpgroup'), array('size' => '64'));
+        $mform->addElement('text', 'name', get_string('mpgroupname', 'mpgroup'), array('size' => '64'));
 
         if (!empty($CFG->formatstringstriptags)) {
             $mform->setType('name', PARAM_TEXT);
@@ -57,7 +57,7 @@ class mod_mpgroup_mod_form extends moodleform_mod {
 
         $mform->addRule('name', null, 'required', null, 'client');
         $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
-        $mform->addHelpButton('name', 'mpgroupname', 'mod_mpgroup');
+        $mform->addHelpButton('name', 'mpgroupname', 'mpgroup');
 
         // Adding the standard "intro" and "introformat" fields.
         if ($CFG->branch >= 29) {
@@ -66,10 +66,10 @@ class mod_mpgroup_mod_form extends moodleform_mod {
             $this->add_intro_editor();
         }
 
-        // Adding the rest of mod_mpgroup settings, spreading all them into this fieldset
+        // Adding the rest of mpgroup settings, spreading all them into this fieldset
         // ... or adding more fieldsets ('header' elements) if needed for better logic.
-        $mform->addElement('static', 'label1', 'mpgroupsettings', get_string('mpgroupsettings', 'mod_mpgroup'));
-        $mform->addElement('header', 'mpgroupfieldset', get_string('mpgroupfieldset', 'mod_mpgroup'));
+        $mform->addElement('static', 'label1', 'mpgroupsettings', get_string('mpgroupsettings', 'mpgroup'));
+        $mform->addElement('header', 'mpgroupfieldset', get_string('mpgroupfieldset', 'mpgroup'));
 
         // Add standard elements.
         $this->standard_coursemodule_elements();

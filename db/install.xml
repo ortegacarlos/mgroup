@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
   <XMLDB PATH="mod/mpgroup/db" VERSION="20190805" COMMENT="XMLDB file for Moodle mod/mpgroup">
     <TABLES>
-      <TABLE NAME="mpgroup" COMMENT="Default comment for mpgroup, please edit me">
+      <TABLE NAME="mpgroup" COMMENT="Table for mpgroup">
         <FIELDS>
           <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" />
         </FIELDS>
