@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Custom uninstallation procedure.
  */
-function xmldb_mod_mpgroup_uninstall() {
+function xmldb_mpgroup_uninstall() {
 
     return true;
 }

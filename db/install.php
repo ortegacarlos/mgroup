@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Custom code to be run on installing the plugin.
  */
-function xmldb_mod_mpgroup_install() {
+function xmldb_mpgroup_install() {
 
     return true;
 }
