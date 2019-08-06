@@ -34,9 +34,9 @@ $m  = optional_param('m', 0, PARAM_INT);
 if ($id) {
     $cm             = get_coursemodule_from_id('mpgroup', $id, 0, false, MUST_EXIST);
     $course         = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-    $moduleinstance = $DB->get_record('mod_mpgroup', array('id' => $cm->instance), '*', MUST_EXIST);
+    $moduleinstance = $DB->get_record('mpgroup', array('id' => $cm->instance), '*', MUST_EXIST);
 } else if ($m) {
-    $moduleinstance = $DB->get_record('mod_mpgroup', array('id' => $n), '*', MUST_EXIST);
+    $moduleinstance = $DB->get_record('mpgroup', array('id' => $n), '*', MUST_EXIST);
     $course         = $DB->get_record('course', array('id' => $moduleinstance->course), '*', MUST_EXIST);
     $cm             = get_coursemodule_from_instance('mpgroup', $moduleinstance->id, $course->id, false, MUST_EXIST);
 } else {
@@ -52,7 +52,7 @@ $event = \mod_mpgroup\event\course_module_viewed::create(array(
     'context' => $modulecontext
 ));
 $event->add_record_snapshot('course', $course);
-$event->add_record_snapshot('mod_mpgroup', $moduleinstance);
+$event->add_record_snapshot('mpgroup', $moduleinstance);
 $event->trigger();
 
 $PAGE->set_url('/mod/mpgroup/view.php', array('id' => $cm->id));
