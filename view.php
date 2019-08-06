@@ -40,7 +40,7 @@ if ($id) {
     $course         = $DB->get_record('course', array('id' => $moduleinstance->course), '*', MUST_EXIST);
     $cm             = get_coursemodule_from_instance('mpgroup', $moduleinstance->id, $course->id, false, MUST_EXIST);
 } else {
-    print_error(get_string('missingidandcmid', mod_mpgroup));
+    print_error(get_string('missingidandcmid', 'mpgroup'));
 }
 
 require_login($course, true, $cm);
