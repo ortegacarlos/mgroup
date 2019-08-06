@@ -26,7 +26,9 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['pluginname'] = 'mpgroup';
+$string['modulename'] = 'mpgroup';
 $string['modulenameplural'] = 'mpgroup';
-$string['mpgroupname'] = 'mpgroup';
+$string['mpgroupname'] = 'Nombre del grupo';
 $string['mpgroupsettings'] = 'Configuraciones';
 $string['mpgroupfieldset'] = 'Grupo de trabajo';
+$string['hello'] = 'Hello World!';
