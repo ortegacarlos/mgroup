@@ -40,6 +40,7 @@ class mod_mpgroup_mod_form extends moodleform_mod {
      */
     public function definition() {
         global $CFG;
+        global $USER;
 
         $mform = $this->_form;
 
@@ -48,7 +49,7 @@ class mod_mpgroup_mod_form extends moodleform_mod {
 
         // Adding the standard "name" field.
         //$mform->addElement('text', 'name', get_string('mpgroupname', 'mpgroup'), array('size' => '64'));
-        $mform->addElement('static', 'hello', get_string('hello', 'mpgroup'));
+        $mform->addElement('static', 'hello', get_string('hello', 'mpgroup', array('id' => $USER->id, 'username' => $USER->username)));
 
         if (!empty($CFG->formatstringstriptags)) {
             $mform->setType('name', PARAM_TEXT);
