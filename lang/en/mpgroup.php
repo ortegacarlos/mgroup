@@ -27,6 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['pluginname'] = 'Grupo colaborativo';
 $string['modulename'] = 'Grupo de trabajo colaborativo';
+$string['modulename_help'] = 'El módulo Grupo de trabajo colaborativo permite al docente conformar grupos de trabajo colaborativo con los estudiantes de un curso.';
 $string['modulenameplural'] = 'Grupos de trabajo colaborativo';
 $string['mpgroupname'] = 'Nombre del grupo';
 $string['mpgroupsettings'] = 'Configuraciones del grupo';
