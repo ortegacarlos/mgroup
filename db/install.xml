@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-  <XMLDB PATH="mod/mpgroup/db" VERSION="20190805" COMMENT="XMLDB file for Moodle mod/mpgroup">
-    <TABLES>
-      <TABLE NAME="mpgroup" COMMENT="Table for mpgroup">
-        <FIELDS>
-          <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" />
-        </FIELDS>
-        <KEYS>
-          <KEY NAME="primary" TYPE="primary" FIELDS="id" />
-        </KEYS>
-      </TABLE>
-    </TABLES>
-  </XMLDB>
+<XMLDB PATH="mod/mpgroup/db" VERSION="20190807" COMMENT="XMLDB file for Moodle mod/mpgroup"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="mpgroup" COMMENT="Table containing instances of each module mpgroup.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The id of the course that each instance belongs to."/>
+        <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="The full name of each instance of the module."/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Module mpgroup creation time."/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Module mpgroup modified time."/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="courseid" UNIQUE="false" FIELDS="courseid"/>
+      </INDEXES>
+    </TABLE>
+  </TABLES>
+</XMLDB>
