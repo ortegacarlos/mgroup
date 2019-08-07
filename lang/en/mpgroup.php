@@ -32,4 +32,4 @@ $string['modulenameplural'] = 'Grupos de trabajo colaborativo';
 $string['mpgroupname'] = 'Nombre del grupo';
 $string['mpgroupsettings'] = 'Configuraciones del grupo';
 $string['mpgroupfieldset'] = 'Grupo de trabajo';
-$string['hello'] = 'Hello {$a->id} {$a->username}!';
+$string['hello'] = 'Hello {$a->firstname} {$a->lastname}!';
