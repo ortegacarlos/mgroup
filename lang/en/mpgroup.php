@@ -25,10 +25,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['pluginname'] = 'mpgroup';
-$string['modulename'] = 'mpgroup';
-$string['modulenameplural'] = 'mpgroup';
+$string['pluginname'] = 'Grupo colaborativo';
+$string['modulename'] = 'Grupo de trabajo colaborativo';
+$string['modulenameplural'] = 'Grupos de trabajo colaborativo';
 $string['mpgroupname'] = 'Nombre del grupo';
-$string['mpgroupsettings'] = 'Configuraciones';
+$string['mpgroupsettings'] = 'Configuraciones del grupo';
 $string['mpgroupfieldset'] = 'Grupo de trabajo';
 $string['hello'] = 'Hello World!';
