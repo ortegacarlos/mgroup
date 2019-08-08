@@ -79,7 +79,7 @@ class mod_mpgroup_mod_form extends moodleform_mod {
         */
 
         // Add standard buttons.
-        $this->add_action_buttons();
+        $this->add_action_buttons(true);
         
     }
 }
