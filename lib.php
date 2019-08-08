@@ -46,16 +46,16 @@ function mpgroup_supports($feature) {
  * in mod_form.php) this function will create a new instance and return the id
  * number of the instance.
  *
- * @param object $moduleinstance An object from the form.
+ * @param object $mpgroup An object from the form.
  * @param mod_mpgroup_mod_form $mform The form.
  * @return int The id of the newly inserted record.
  */
-function mpgroup_add_instance($moduleinstance, $mform = null) {
+function mpgroup_add_instance($mpgroup, $mform = null) {
     global $DB;
 
-    $moduleinstance->timecreated = time();
+    $mpgroup->timecreated = time();
 
-    $id = $DB->insert_record('mpgroup', $moduleinstance);
+    $id = $DB->insert_record('mpgroup', $mpgroup);
 
     return $id;
 }
@@ -66,17 +66,17 @@ function mpgroup_add_instance($moduleinstance, $mform = null) {
  * Given an object containing all the necessary data (defined in mod_form.php),
  * this function will update an existing instance with new data.
  *
- * @param object $moduleinstance An object from the form in mod_form.php.
+ * @param object $mpgroup An object from the form in mod_form.php.
  * @param mod_mpgroup_mod_form $mform The form.
  * @return bool True if successful, false otherwise.
  */
-function mpgroup_update_instance($moduleinstance, $mform = null) {
+function mpgroup_update_instance($mpgroup, $mform = null) {
     global $DB;
 
-    $moduleinstance->timemodified = time();
-    $moduleinstance->id = $moduleinstance->instance;
+    $mpgroup->timemodified = time();
+    $mpgroup->id = $mpgroup->instance;
 
-    return $DB->update_record('mpgroup', $moduleinstance);
+    return $DB->update_record('mpgroup', $mpgroup);
 }
 
 /**
