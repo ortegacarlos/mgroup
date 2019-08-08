@@ -33,4 +33,5 @@ $string['mpgroupname'] = 'Nombre del grupo';
 $string['mpgroupname_help'] = 'Digite el nombre identificador del nuevo grupo de trabajo colaborativo a crear.';
 $string['mpgroupsettings'] = 'Configuraciones del grupo';
 $string['mpgroupfieldset'] = 'Grupo de trabajo';
+$string['continue'] = 'Continuar';
 $string['hello'] = 'Hello {$a->firstname} {$a->lastname}!';
