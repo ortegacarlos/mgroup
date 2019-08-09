@@ -55,9 +55,9 @@ function mpgroup_add_instance($mpgroup, $mform = null) {
 
     $mpgroup->timecreated = time();
 
-    $id = $DB->insert_record('mpgroup', $mpgroup);
+    $mpgroup->id = $DB->insert_record('mpgroup', $mpgroup);
 
-    return $id;
+    return $mpgroup->id;
 }
 
 /**
