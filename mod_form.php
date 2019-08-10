@@ -74,12 +74,12 @@ class mod_mpgroup_mod_form extends moodleform_mod {
         $mform->addElement('static', 'label1', 'mpgroupsettings', get_string('mpgroupsettings', 'mpgroup'));
         $mform->addElement('header', 'mpgroupfieldset', get_string('mpgroupfieldset', 'mpgroup'));
 
+        */
         // Add standard elements.
         $this->standard_coursemodule_elements();
-        */
 
         // Add standard buttons.
-        $this->add_action_buttons(true, get_string('continue', 'mpgroup'));
+        $this->add_action_buttons();
         
     }
 }
