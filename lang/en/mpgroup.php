@@ -35,3 +35,10 @@ $string['mpgroupsettings'] = 'Configuraciones del grupo';
 $string['mpgroupfieldset'] = 'Grupo de trabajo';
 $string['continue'] = 'Continuar';
 $string['hello'] = 'Hello {$a->firstname} {$a->lastname}!';
+
+$string['campo1'] = 'Campo 1';
+$string['campo1_help'] = 'Digite el valor correspondiente al Campo 1';
+$string['campo2'] = 'Campo 2';
+$string['campo2_help'] = 'Digite el valor correspondiente al Campo 2';
+$string['campo3'] = 'Campo 3';
+$string['campo3_help'] = 'Digite el valor correspondiente al Campo 3';
