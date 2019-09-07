@@ -42,3 +42,6 @@ $string['campo2'] = 'Campo 2';
 $string['campo2_help'] = 'Digite el valor correspondiente al Campo 2';
 $string['campo3'] = 'Campo 3';
 $string['campo3_help'] = 'Digite el valor correspondiente al Campo 3';
+
+$string['userfile'] = 'Archivo de datos';
+$string['userfile_help'] = 'Campo para cargar el archivo de texto plano con los datos requeridos para la conformación de grupos de trabajo colaborativo.';
