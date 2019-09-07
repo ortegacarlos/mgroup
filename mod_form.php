@@ -52,6 +52,8 @@ class mod_mpgroup_mod_form extends moodleform_mod {
         $mform->addElement('text', 'campo1', get_string('campo1', 'mpgroup'), array('size' => '64'));
         $mform->addElement('text', 'campo2', get_string('campo2', 'mpgroup'), array('size' => '64'));
         $mform->addElement('text', 'campo3', get_string('campo3', 'mpgroup'), array('size' => '64'));
+        $mform->addElement('filepicker', 'userfile', get_string('userfile', 'mpgroup'), null,
+                array('maxbytes'=>50, 'accept_types'=>'txt'));
 
         if (!empty($CFG->formatstringstriptags)) {
             $mform->setType('name', PARAM_TEXT);
@@ -74,6 +76,9 @@ class mod_mpgroup_mod_form extends moodleform_mod {
         $mform->addRule('campo3', null, 'required', null, 'client');
         $mform->addRule('campo3', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
         $mform->addHelpButton('campo3', 'campo3', 'mpgroup');
+
+        $mform->addRule('userfile', null, 'required', null, 'client');
+        $mform->addHelpButton('userfile', 'userfile', 'mpgroup');
 
         // Adding the standard "intro" and "introformat" fields.
         if ($CFG->branch >= 29) {
