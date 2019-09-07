@@ -53,7 +53,7 @@ class mod_mpgroup_mod_form extends moodleform_mod {
         $mform->addElement('text', 'campo2', get_string('campo2', 'mpgroup'), array('size' => '64'));
         $mform->addElement('text', 'campo3', get_string('campo3', 'mpgroup'), array('size' => '64'));
         $mform->addElement('filepicker', 'userfile', get_string('userfile', 'mpgroup'), null,
-                array('maxbytes'=>50, 'accept_types'=>'txt'));
+                array('maxbytes'=>50, 'accepted_types'=>'.txt'));
 
         if (!empty($CFG->formatstringstriptags)) {
             $mform->setType('name', PARAM_TEXT);
