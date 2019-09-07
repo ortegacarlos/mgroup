@@ -39,8 +39,7 @@ class mod_mpgroup_mod_form extends moodleform_mod {
      * Defines forms elements
      */
     public function definition() {
-        global $CFG;
-        global $USER;
+        global $CFG, $USER;
 
         $mform = $this->_form;
 
@@ -48,8 +47,11 @@ class mod_mpgroup_mod_form extends moodleform_mod {
         $mform->addElement('header', 'general', get_string('general', 'form'));
 
         // Adding the standard "name" field.
-        $mform->addElement('static', 'hello', get_string('hello', 'mpgroup', array('firstname' => $USER->firstname, 'lastname' => $USER->lastname)));
+        // $mform->addElement('static', 'hello', get_string('hello', 'mpgroup', array('firstname' => $USER->firstname, 'lastname' => $USER->lastname)));
         $mform->addElement('text', 'name', get_string('mpgroupname', 'mpgroup'), array('size' => '64'));
+        $mform->addElement('text', 'campo1', get_string('campo1', 'mpgroup'), array('size' => '64'));
+        $mform->addElement('text', 'campo2', get_string('campo2', 'mpgroup'), array('size' => '64'));
+        $mform->addElement('text', 'campo3', get_string('campo3', 'mpgroup'), array('size' => '64'));
 
         if (!empty($CFG->formatstringstriptags)) {
             $mform->setType('name', PARAM_TEXT);
@@ -61,14 +63,26 @@ class mod_mpgroup_mod_form extends moodleform_mod {
         $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
         $mform->addHelpButton('name', 'mpgroupname', 'mpgroup');
 
-        /*
+        $mform->addRule('campo1', null, 'required', null, 'client');
+        $mform->addRule('campo1', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
+        $mform->addHelpButton('campo1', 'campo1', 'mpgroup');
+
+        $mform->addRule('campo2', null, 'required', null, 'client');
+        $mform->addRule('campo2', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
+        $mform->addHelpButton('campo2', 'campo2', 'mpgroup');
+
+        $mform->addRule('campo3', null, 'required', null, 'client');
+        $mform->addRule('campo3', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
+        $mform->addHelpButton('campo3', 'campo3', 'mpgroup');
+
         // Adding the standard "intro" and "introformat" fields.
         if ($CFG->branch >= 29) {
-            $this->standard_intro_elements();
+            $this->standard_intro_elements(get_string('description'));
         } else {
-            $this->add_intro_editor();
+            $this->add_intro_editor(true, get_string('description'));
         }
 
+        /*
         // Adding the rest of mpgroup settings, spreading all them into this fieldset
         // ... or adding more fieldsets ('header' elements) if needed for better logic.
         $mform->addElement('static', 'label1', 'mpgroupsettings', get_string('mpgroupsettings', 'mpgroup'));
