@@ -81,11 +81,14 @@ class mod_mpgroup_mod_form extends moodleform_mod {
         $mform->addHelpButton('userfile', 'userfile', 'mpgroup');
 
         // Adding the standard "intro" and "introformat" fields.
+        $this->standard_intro_elements(get_string('description'));
+        /*
         if ($CFG->branch >= 29) {
             $this->standard_intro_elements(get_string('description'));
         } else {
             $this->add_intro_editor(true, get_string('description'));
         }
+        */
 
         /*
         // Adding the rest of mpgroup settings, spreading all them into this fieldset
