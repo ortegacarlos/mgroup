@@ -36,12 +36,14 @@ $string['mpgroupfieldset'] = 'Grupo de trabajo';
 $string['continue'] = 'Continuar';
 $string['hello'] = 'Hello {$a->firstname} {$a->lastname}!';
 
-$string['campo1'] = 'Campo 1';
-$string['campo1_help'] = 'Digite el valor correspondiente al Campo 1';
-$string['campo2'] = 'Campo 2';
-$string['campo2_help'] = 'Digite el valor correspondiente al Campo 2';
-$string['campo3'] = 'Campo 3';
-$string['campo3_help'] = 'Digite el valor correspondiente al Campo 3';
+$string['populationsize'] = 'Tamaño de la población';
+$string['populationsize_help'] = 'Digite un valor entero correspondiente al tamaño de la población a considerar. El valor por defecto es de 50 individuos.';
+
+$string['selectionoperator'] = 'Operador de selección';
+$string['selectionoperator_help'] = 'Digite un valor entero correspondiente al porcentaje a considerar para el operador de selección. El valor por defecto es de 40.';
+
+$string['mutationoperator'] = 'Operador de mutación';
+$string['mutationoperator_help'] = 'Digite un valor real correspondiente a la probabilidad a considerar para el operador de mutación. El valor por defecto es de 0.2.';
 
 $string['userfile'] = 'Archivo de datos';
 $string['userfile_help'] = 'Campo para cargar el archivo de texto plano con los datos requeridos para la conformación de grupos de trabajo colaborativo.';
