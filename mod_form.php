@@ -57,8 +57,8 @@ class mod_mpgroup_mod_form extends moodleform_mod {
         $mform->addElement('text', 'populationsize', get_string('populationsize', 'mpgroup'), array('size' => '64'));
         $mform->setType('populationsize', PARAM_INT);
         $mform->addRule('populationsize', null, 'required', null, 'client');
-        $mform->addRule('populationsize', get_string('error'), 'number', 'extraruledata', 'client');
-        #$mform->addRule('populationsize', get_string('error'), 'nonzero', null, 'client');
+        $mform->addRule('populationsize', get_string('err_number', 'mpgroup'), 'number', 'extraruledata', 'client');
+        #$mform->addRule('populationsize', get_string('err_number', 'mpgroup'), 'nonzero', null, 'client');
         $mform->setDefault('populationsize', 50);
         $mform->addHelpButton('populationsize', 'populationsize', 'mpgroup');
 
@@ -66,8 +66,8 @@ class mod_mpgroup_mod_form extends moodleform_mod {
         $mform->addElement('text', 'selectionoperator', get_string('selectionoperator', 'mpgroup'), array('size' => '64'));
         $mform->setType('selectionoperator', PARAM_INT);
         $mform->addRule('selectionoperator', null, 'required', null, 'client');
-        $mform->addRule('selectionoperator', get_string('error'), 'number', 'extraruledata', 'client');
-        #$mform->addRule('selectionoperator', get_string('error'), 'nonzero', null, 'client');
+        $mform->addRule('selectionoperator', get_string('err_number', 'mpgroup'), 'number', 'extraruledata', 'client');
+        #$mform->addRule('selectionoperator', get_string('err_number', 'mpgroup'), 'nonzero', null, 'client');
         $mform->setDefault('selectionoperator', 40);
         $mform->addHelpButton('selectionoperator', 'selectionoperator', 'mpgroup');
 
@@ -75,8 +75,8 @@ class mod_mpgroup_mod_form extends moodleform_mod {
         $mform->addElement('text', 'mutationoperator', get_string('mutationoperator', 'mpgroup'), array('size' => '64'));
         $mform->setType('mutationoperator', PARAM_FLOAT);
         $mform->addRule('mutationoperator', null, 'required', null, 'client');
-        $mform->addRule('mutationoperator', get_string('error'), 'number', 'extraruledata', 'client');
-        #$mform->addRule('mutationoperator', get_string('error'), 'nonzero', null, 'client');
+        $mform->addRule('mutationoperator', get_string('err_number', 'mpgroup'), 'number', 'extraruledata', 'client');
+        #$mform->addRule('mutationoperator', get_string('err_number', 'mpgroup'), 'nonzero', null, 'client');
         $mform->setDefault('mutationoperator', 0.2);
         $mform->addHelpButton('mutationoperator', 'mutationoperator', 'mpgroup');
 
