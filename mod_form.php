@@ -49,11 +49,39 @@ class mod_mpgroup_mod_form extends moodleform_mod {
         // Adding the standard "name" field.
         // $mform->addElement('static', 'hello', get_string('hello', 'mpgroup', array('firstname' => $USER->firstname, 'lastname' => $USER->lastname)));
         $mform->addElement('text', 'name', get_string('mpgroupname', 'mpgroup'), array('size' => '64'));
-        $mform->addElement('text', 'campo1', get_string('campo1', 'mpgroup'), array('size' => '64'));
-        $mform->addElement('text', 'campo2', get_string('campo2', 'mpgroup'), array('size' => '64'));
-        $mform->addElement('text', 'campo3', get_string('campo3', 'mpgroup'), array('size' => '64'));
+        $mform->addRule('name', null, 'required', null, 'client');
+        $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
+        $mform->addHelpButton('name', 'mpgroupname', 'mpgroup');
+
+        // Adding the "populationsize" field.
+        $mform->addElement('text', 'populationsize', get_string('populationsize', 'mpgroup'), array('size' => '64'));
+        $mform->addRule('populationsize', null, 'required', null, 'client');
+        $mform->addRule('populationsize', get_string('error'), 'number', 'extraruledata', 'client');
+        $mform->addRule('populationsize', get_string('error'), 'nonzero', null, 'client');
+        $mform->setDefault('populationsize', 50);
+        $mform->addHelpButton('populationsize', 'populationsize', 'mpgroup');
+
+        // Adding the "selectionoperator" field.
+        $mform->addElement('text', 'selectionoperator', get_string('selectionoperator', 'mpgroup'), array('size' => '64'));
+        $mform->addRule('selectionoperator', null, 'required', null, 'client');
+        $mform->addRule('selectionoperator', get_string('error'), 'number', 'extraruledata', 'client');
+        $mform->addRule('selectionoperator', get_string('error'), 'nonzero', null, 'client');
+        $mform->setDefault('selectionoperator', 40);
+        $mform->addHelpButton('selectionoperator', 'selectionoperator', 'mpgroup');
+
+        // Adding the "mutationoperator" field.
+        $mform->addElement('text', 'mutationoperator', get_string('mutationoperator', 'mpgroup'), array('size' => '64'));
+        $mform->addRule('mutationoperator', null, 'required', null, 'client');
+        $mform->addRule('mutationoperator', get_string('error'), 'number', 'extraruledata', 'client');
+        $mform->addRule('mutationoperator', get_string('error'), 'nonzero', null, 'client');
+        $mform->setDefault('mutationoperator', 0.2);
+        $mform->addHelpButton('mutationoperator', 'mutationoperator', 'mpgroup');
+
+        // Adding the "userfile" field.
         $mform->addElement('filepicker', 'userfile', get_string('userfile', 'mpgroup'), null,
                 array('maxbytes'=>50, 'accepted_types'=>'.txt'));
+        $mform->addRule('userfile', null, 'required', null, 'client');
+        $mform->addHelpButton('userfile', 'userfile', 'mpgroup');
 
         if (!empty($CFG->formatstringstriptags)) {
             $mform->setType('name', PARAM_TEXT);
@@ -61,34 +89,8 @@ class mod_mpgroup_mod_form extends moodleform_mod {
             $mform->setType('name', PARAM_CLEANHTML);
         }
 
-        $mform->addRule('name', null, 'required', null, 'client');
-        $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
-        $mform->addHelpButton('name', 'mpgroupname', 'mpgroup');
-
-        $mform->addRule('campo1', null, 'required', null, 'client');
-        $mform->addRule('campo1', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
-        $mform->addHelpButton('campo1', 'campo1', 'mpgroup');
-
-        $mform->addRule('campo2', null, 'required', null, 'client');
-        $mform->addRule('campo2', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
-        $mform->addHelpButton('campo2', 'campo2', 'mpgroup');
-
-        $mform->addRule('campo3', null, 'required', null, 'client');
-        $mform->addRule('campo3', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
-        $mform->addHelpButton('campo3', 'campo3', 'mpgroup');
-
-        $mform->addRule('userfile', null, 'required', null, 'client');
-        $mform->addHelpButton('userfile', 'userfile', 'mpgroup');
-
         // Adding the standard "intro" and "introformat" fields.
-        $this->standard_intro_elements(get_string('description'));
-        /*
-        if ($CFG->branch >= 29) {
-            $this->standard_intro_elements(get_string('description'));
-        } else {
-            $this->add_intro_editor(true, get_string('description'));
-        }
-        */
+        $this->standard_intro_elements();
 
         /*
         // Adding the rest of mpgroup settings, spreading all them into this fieldset
