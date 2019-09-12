@@ -55,6 +55,7 @@ class mod_mpgroup_mod_form extends moodleform_mod {
 
         // Adding the "populationsize" field.
         $mform->addElement('text', 'populationsize', get_string('populationsize', 'mpgroup'), array('size' => '64'));
+        $mform->setType('populationsize', PARAM_INT);
         $mform->addRule('populationsize', null, 'required', null, 'client');
         $mform->addRule('populationsize', get_string('error'), 'number', 'extraruledata', 'client');
         $mform->addRule('populationsize', get_string('error'), 'nonzero', null, 'client');
@@ -63,6 +64,7 @@ class mod_mpgroup_mod_form extends moodleform_mod {
 
         // Adding the "selectionoperator" field.
         $mform->addElement('text', 'selectionoperator', get_string('selectionoperator', 'mpgroup'), array('size' => '64'));
+        $mform->setType('selectionoperator', PARAM_INT);
         $mform->addRule('selectionoperator', null, 'required', null, 'client');
         $mform->addRule('selectionoperator', get_string('error'), 'number', 'extraruledata', 'client');
         $mform->addRule('selectionoperator', get_string('error'), 'nonzero', null, 'client');
@@ -71,6 +73,7 @@ class mod_mpgroup_mod_form extends moodleform_mod {
 
         // Adding the "mutationoperator" field.
         $mform->addElement('text', 'mutationoperator', get_string('mutationoperator', 'mpgroup'), array('size' => '64'));
+        $mform->setType('mutationoperator', PARAM_FLOAT);
         $mform->addRule('mutationoperator', null, 'required', null, 'client');
         $mform->addRule('mutationoperator', get_string('error'), 'number', 'extraruledata', 'client');
         $mform->addRule('mutationoperator', get_string('error'), 'nonzero', null, 'client');
