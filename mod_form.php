@@ -124,7 +124,7 @@ class mod_mpgroup_mod_form extends moodleform_mod {
             }
         }
         if(array_key_exists('userfile', $data)) {
-            var_dump($data['userfile']->get_file());
+            var_dump($data['userfile']);
         }
 
         return $errors;
