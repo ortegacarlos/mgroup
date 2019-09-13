@@ -114,16 +114,31 @@ class mod_mpgroup_mod_form extends moodleform_mod {
     function validation($data, $files) {
         $errors = parent::validation($data, $files);
         if(array_key_exists('selectionoperator', $data)) {
-            if((int)$data['selectionoperator'] <= 0 or (int)$data['selectionoperator'] > 100) {
+            if($this->validation_selectionoperator((int)$data['selectionoperator'])) {
                 $errors['selectionoperator'] = get_string('err_selectionoperator', 'mpgroup');
             }
         }
         if(array_key_exists('mutationoperator', $data)) {
-            if((float)$data['mutationoperator'] <= 0 or (float)$data['mutationoperator'] > 1) {
+            if($this->validation_mutationoperator((float)$data['mutationoperator'])) {
                 $errors['mutationoperator'] = get_string('err_mutationoperator', 'mpgroup');
             }
         }
+        if(array_key_exists('userfile', $data)) {
+            var_dump($data['userfile']->get_file());
+        }
 
         return $errors;
+    }
+
+    function validation_selectionoperator($value) {
+        return ($value <= 0 or $value > 100) ? false:true;
+    }
+
+    function validation_mutationoperator($value) {
+        return ($value <= 0 or $value > 1) ? false:true;
+    }
+
+    function validation_userfile() {
+
     }
 }
