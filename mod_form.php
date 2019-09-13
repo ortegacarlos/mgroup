@@ -49,6 +49,7 @@ class mod_mpgroup_mod_form extends moodleform_mod {
         // Adding the standard "name" field.
         // $mform->addElement('static', 'hello', get_string('hello', 'mpgroup', array('firstname' => $USER->firstname, 'lastname' => $USER->lastname)));
         $mform->addElement('text', 'name', get_string('mpgroupname', 'mpgroup'), array('size' => '64'));
+        $mform->applyFilter('name', 'trim');
         $mform->addRule('name', null, 'required', null, 'client');
         $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
         $mform->addHelpButton('name', 'mpgroupname', 'mpgroup');
@@ -108,5 +109,21 @@ class mod_mpgroup_mod_form extends moodleform_mod {
         // Add standard buttons.
         $this->add_action_buttons();
         
+    }
+
+    function validation($data, $files) {
+        $errors = parent::validation($data, $files);
+        if(array_key_exists('selectionoperator', $data)) {
+            if((int)$data['selectionoperator'] <= 0 or (int)$data['selectionoperator'] > 100) {
+                $errors['selectionoperator'] = get_string('err_selectionoperator', 'mpgroup');
+            }
+        }
+        if(array_key_exists('mutationoperator', $data)) {
+            if((float)$data['mutationoperator'] <= 0 or (float)$data['mutationoperator'] > 1) {
+                $errors['mutationoperator'] = get_string('err_mutationoperator', 'mpgroup');
+            }
+        }
+
+        return $errors;
     }
 }
