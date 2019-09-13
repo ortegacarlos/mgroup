@@ -48,4 +48,6 @@ $string['mutationoperator_help'] = 'Digite un valor real correspondiente a la pr
 $string['userfile'] = 'Archivo de datos';
 $string['userfile_help'] = 'Campo para cargar el archivo de texto plano con los datos requeridos para la conformación de grupos de trabajo colaborativo.';
 
-$string['err_number'] = 'Sólo se permiten datos numéricos';
+$string['err_selectionoperator'] = 'Debe suministrar un valor entre 0 y 100';
+
+$string['err_mutationoperator'] = 'Debe suministrar un valor entre 0 y 1';
