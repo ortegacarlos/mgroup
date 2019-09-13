@@ -114,12 +114,12 @@ class mod_mpgroup_mod_form extends moodleform_mod {
     function validation($data, $files) {
         $errors = parent::validation($data, $files);
         if(array_key_exists('selectionoperator', $data)) {
-            if($this->validation_selectionoperator((int)$data['selectionoperator'])) {
+            if(!$this->validation_selectionoperator((int)$data['selectionoperator'])) {
                 $errors['selectionoperator'] = get_string('err_selectionoperator', 'mpgroup');
             }
         }
         if(array_key_exists('mutationoperator', $data)) {
-            if($this->validation_mutationoperator((float)$data['mutationoperator'])) {
+            if(!$this->validation_mutationoperator((float)$data['mutationoperator'])) {
                 $errors['mutationoperator'] = get_string('err_mutationoperator', 'mpgroup');
             }
         }
