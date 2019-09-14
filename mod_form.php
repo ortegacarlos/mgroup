@@ -123,7 +123,7 @@ class mod_mpgroup_mod_form extends moodleform_mod {
                 $errors['mutationoperator'] = get_string('err_mutationoperator', 'mpgroup');
             }
         }
-        if(array_key_exists('userfile', $files)) {
+        if(array_key_exists('userfile', $data)) {
             $errors['userfile'] = get_string($this->validation_userfile());
         }
 
