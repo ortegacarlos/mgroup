@@ -123,8 +123,8 @@ class mod_mpgroup_mod_form extends moodleform_mod {
                 $errors['mutationoperator'] = get_string('err_mutationoperator', 'mpgroup');
             }
         }
-        if(array_key_exists('userfile', $data)) {
-            $errors['userfile'] = get_string($this->validation_userfile($files['userfile']));
+        if(array_key_exists('userfile', $files)) {
+            $errors['userfile'] = get_string($this->validation_userfile());
         }
 
         return $errors;
@@ -138,8 +138,9 @@ class mod_mpgroup_mod_form extends moodleform_mod {
         return ($value <= 0 or $value > 1) ? false:true;
     }
 
-    function validation_userfile($userfile) {
-        #$mform =& $this->_form;
-        return print_r($userfile, true);
+    function validation_userfile() {
+        $mform =& $this->_form;
+        $content = $mform->get_file_content('userfile');
+        return $content;
     }
 }
