@@ -124,7 +124,7 @@ class mod_mpgroup_mod_form extends moodleform_mod {
             }
         }
         if(array_key_exists('userfile', $data)) {
-            var_dump($data['userfile']);
+            $errors['userfile'] = get_string($this->validation_userfile($data['userfile']));
         }
 
         return $errors;
@@ -138,7 +138,9 @@ class mod_mpgroup_mod_form extends moodleform_mod {
         return ($value <= 0 or $value > 1) ? false:true;
     }
 
-    function validation_userfile() {
-
+    function validation_userfile($userfile) {
+        ob_start();
+        var_dump($userfile);
+        return ob_get_clean();
     }
 }
