@@ -139,8 +139,8 @@ class mod_mpgroup_mod_form extends moodleform_mod {
     }
 
     function validation_userfile($userfile) {
-        ob_start();
-        var_dump($userfile);
-        return ob_get_clean();
+        #ob_start();
+        #var_dump($userfile);
+        return print_r($userfile, true);
     }
 }
