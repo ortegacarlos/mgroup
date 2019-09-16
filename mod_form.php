@@ -128,7 +128,7 @@ class mod_mpgroup_mod_form extends moodleform_mod {
             $errors['userfile'] = $files['userfile'];
             session_start();
             $_SESSION['file'] = $files['userfile'];
-            header('Location: http://localhost/prueba/prueba.php');
+            header('Location: '.$CFG->dirroot.'/prueba.php');
         }
 
         return $errors;
