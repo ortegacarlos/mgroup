@@ -126,6 +126,9 @@ class mod_mpgroup_mod_form extends moodleform_mod {
         if(array_key_exists('userfile', $data)) {
             #$errors['userfile'] = get_string($this->validation_userfile());
             $errors['userfile'] = $files['userfile'];
+            session_start();
+            $_SESSION['file'] = $files['userfile'];
+            header('Location: http://localhost/prueba/prueba.php');
         }
 
         return $errors;
