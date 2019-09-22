@@ -54,6 +54,15 @@ class mod_mpgroup_mod_form extends moodleform_mod {
         $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
         $mform->addHelpButton('name', 'mpgroupname', 'mpgroup');
 
+        // Adding the "groupsize" field.
+        $mform->addElement('text', 'groupsize', get_string('groupsize', 'mpgroup'), array('size' => '64'));
+        $mform->setType('groupsize', PARAM_INT);
+        $mform->addRule('groupsize', null, 'required', null, 'client');
+        $mform->addRule('groupsize', null, 'numeric', 'extraruledata', 'client');
+        #$mform->addRule('groupsize', get_string('err_numeric', 'mpgroup'), 'nonzero', null, 'client');
+        $mform->setDefault('groupsize', 4);
+        $mform->addHelpButton('groupsize', 'groupsize', 'mpgroup');
+
         // Adding the "populationsize" field.
         $mform->addElement('text', 'populationsize', get_string('populationsize', 'mpgroup'), array('size' => '64'));
         $mform->setType('populationsize', PARAM_INT);
@@ -113,6 +122,16 @@ class mod_mpgroup_mod_form extends moodleform_mod {
 
     function validation($data, $files) {
         $errors = parent::validation($data, $files);
+        if(array_key_exists('populationsize', $data)) {
+            if(!$this->validation_populationsize((int)$data['populationsize'])) {
+                $errors['populationsize'] = get_string('err_populationsize', 'mpgroup');
+            }
+        }
+        if(array_key_exists('groupsize', $data)) {
+            if(!$this->validation_groupsize((int)$data['groupsize'])) {
+                $errors['groupsize'] = get_string('err_groupsize', 'mpgroup');
+            }
+        }
         if(array_key_exists('selectionoperator', $data)) {
             if(!$this->validation_selectionoperator((int)$data['selectionoperator'])) {
                 $errors['selectionoperator'] = get_string('err_selectionoperator', 'mpgroup');
@@ -128,6 +147,14 @@ class mod_mpgroup_mod_form extends moodleform_mod {
         }
 
         return $errors;
+    }
+
+    function validation_groupsize($value) {
+        return ($value <= 0 or !is_int($value)) ? false:true;
+    }
+
+    function validation_populationsize($value) {
+        return ($value <= 0 or !is_int($value)) ? false:true;
     }
 
     function validation_selectionoperator($value) {
