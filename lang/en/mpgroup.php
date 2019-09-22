@@ -36,6 +36,9 @@ $string['mpgroupfieldset'] = 'Grupo de trabajo';
 $string['continue'] = 'Continuar';
 $string['hello'] = 'Hello {$a->firstname} {$a->lastname}!';
 
+$string['groupsize'] = 'Tamaño del grupo';
+$string['groupsize_help'] = 'Digite un valor entero correspondiente a la cantidad de individuos en cada grupo. El valor por defecto es de 4 individuos.';
+
 $string['populationsize'] = 'Tamaño de la población';
 $string['populationsize_help'] = 'Digite un valor entero correspondiente al tamaño de la población a considerar. El valor por defecto es de 50 individuos.';
 
@@ -48,6 +51,10 @@ $string['mutationoperator_help'] = 'Digite un valor real correspondiente a la pr
 $string['userfile'] = 'Archivo de datos';
 $string['userfile_help'] = 'Campo para cargar el archivo de texto plano con los datos requeridos para la conformación de grupos de trabajo colaborativo.';
 
-$string['err_selectionoperator'] = 'Debe suministrar un valor entre 0 y 100';
+$string['err_groupsize'] = 'Debe suministrar un valor entero mayor a 0';
+
+$string['err_populationsize'] = 'Debe suministrar un valor entero mayor a 0';
+
+$string['err_selectionoperator'] = 'Debe suministrar un valor entero entre 1 y 100';
 
 $string['err_mutationoperator'] = 'Debe suministrar un valor entre 0 y 1';
