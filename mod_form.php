@@ -105,13 +105,22 @@ class mod_mpgroup_mod_form extends moodleform_mod {
         // Adding the standard "intro" and "introformat" fields.
         $this->standard_intro_elements();
 
-        /*
         // Adding the rest of mpgroup settings, spreading all them into this fieldset
         // ... or adding more fieldsets ('header' elements) if needed for better logic.
-        $mform->addElement('static', 'label1', 'mpgroupsettings', get_string('mpgroupsettings', 'mpgroup'));
-        $mform->addElement('header', 'mpgroupfieldset', get_string('mpgroupfieldset', 'mpgroup'));
+        #$mform->addElement('static', 'label1', 'mpgroupsettings', get_string('mpgroupsettings', 'mpgroup'));
+        $mform->addElement('header', 'groupingsettings', get_string('groupingsettings', 'mpgroup'));
+        $groupingtype = array();
+        $homogeneous = $mform->createElement('radio', 'groupingtype', '', get_string('homogeneous', 'mpgroup'), 0, null);
+        $heterogeneous = $mform->createElement('radio', 'groupingtype', '', get_string('heterogeneous', 'mpgroup'), 1, null);
+        $mixed = $mform->createElement('radio', 'groupingtype', '', get_string('mixed', 'mpgroup'), 2, null);
+        $groupingtype[] = $homogeneous;
+        $groupingtype[] = $heterogeneous;
+        $groupingtype[] = $mixed;
+        $mform->addGroup($groupingtype, 'groupingtypear', get_string('groupingtypear', 'mpgroup'), array('<br />'), false);
+        $mform->addRule('groupingtype', null, 'required', null, 'client');
+        $mform->setDefault('groupingtype', 0);
+        $mform->addHelpButton('groupingtypear', 'groupingtypear', 'mpgroup');
 
-        */
         // Add standard elements.
         $this->standard_coursemodule_elements();
 
