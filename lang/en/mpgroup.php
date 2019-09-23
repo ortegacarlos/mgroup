@@ -29,13 +29,13 @@ $string['pluginname'] = 'Grupo colaborativo';
 $string['modulename'] = 'Grupo de trabajo colaborativo';
 $string['modulename_help'] = 'El módulo Grupo de trabajo colaborativo permite al docente conformar grupos de trabajo colaborativo con los estudiantes de un curso.';
 $string['modulenameplural'] = 'Grupos de trabajo colaborativo';
+
 $string['mpgroupname'] = 'Nombre del grupo';
 $string['mpgroupname_help'] = 'Digite el nombre identificador del nuevo grupo de trabajo colaborativo a crear.';
-$string['mpgroupsettings'] = 'Configuraciones del grupo';
-$string['mpgroupfieldset'] = 'Grupo de trabajo';
-$string['continue'] = 'Continuar';
-$string['hello'] = 'Hello {$a->firstname} {$a->lastname}!';
 
+#$string['hello'] = 'Hello {$a->firstname} {$a->lastname}!';
+
+// Add string by form
 $string['groupsize'] = 'Tamaño del grupo';
 $string['groupsize_help'] = 'Digite un valor entero correspondiente a la cantidad de individuos en cada grupo. El valor por defecto es de 4 individuos.';
 
@@ -51,6 +51,15 @@ $string['mutationoperator_help'] = 'Digite un valor real correspondiente a la pr
 $string['userfile'] = 'Archivo de datos';
 $string['userfile_help'] = 'Campo para cargar el archivo de texto plano con los datos requeridos para la conformación de grupos de trabajo colaborativo.';
 
+$string['groupingsettings'] = 'Ajustes de agrupamiento';
+$string['homogeneous'] = 'Homogéneo';
+$string['heterogeneous'] = 'Heterogéneo';
+$string['mixed'] = 'Mixto';
+
+$string['groupingtypearr'] = 'Seleccione el tipo de agrupamiento';
+$string['groupingtypearr_help'] = 'Ayuda sobre el tipo de agrupamiento.';
+
+// Add string errors
 $string['err_groupsize'] = 'Debe suministrar un valor entero mayor a 0';
 
 $string['err_populationsize'] = 'Debe suministrar un valor entero mayor a 0';
