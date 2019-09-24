@@ -56,8 +56,8 @@ $string['homogeneous'] = 'Homogéneo';
 $string['heterogeneous'] = 'Heterogéneo';
 $string['mixed'] = 'Mixto';
 
-$string['groupingtypear'] = 'Seleccione el tipo de agrupamiento';
-$string['groupingtypear_help'] = 'Ayuda sobre el tipo de agrupamiento.';
+$string['groupingtypear'] = 'Tipo de agrupamiento';
+$string['groupingtypear_help'] = 'Seleccione el tipo de agrupamiento que desea utilizar al momento de hacer la conformación de grupos. El agrupamiento mixto toma un combinación de características homogéneas y heterogéneas al momento de hacer la conformación de grupos.';
 
 $string['grouphomocharacteristic'] = 'Homogéneo para...';
 $string['grouphomocharacteristic_help'] = 'Seleccione las características que serán tomadas como homogéneas al momento de la conformación de grupos.';
