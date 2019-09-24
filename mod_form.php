@@ -105,8 +105,7 @@ class mod_mpgroup_mod_form extends moodleform_mod {
         // Adding the standard "intro" and "introformat" fields.
         $this->standard_intro_elements();
 
-        // Adding the rest of mpgroup settings, spreading all them into this fieldset
-        // ... or adding more fieldsets ('header' elements) if needed for better logic.
+        // Adding grouping settings.
         #$mform->addElement('static', 'label1', 'mpgroupsettings', get_string('mpgroupsettings', 'mpgroup'));
         $mform->addElement('header', 'groupingsettings', get_string('groupingsettings', 'mpgroup'));
         $groupingtype = array();
@@ -117,9 +116,27 @@ class mod_mpgroup_mod_form extends moodleform_mod {
         $groupingtype[] = $heterogeneous;
         $groupingtype[] = $mixed;
         $mform->addGroup($groupingtype, 'groupingtypear', get_string('groupingtypear', 'mpgroup'), array('<br />'), false);
-        $mform->addRule('groupingtype', null, 'required', null, 'client');
+        $mform->addRule('groupingtypear', null, 'required', null, 'client');
         $mform->setDefault('groupingtype', 0);
         $mform->addHelpButton('groupingtypear', 'groupingtypear', 'mpgroup');
+
+        //Adding characteristic panel
+        $mform->addElement('hidden', 'characteristic', '5');
+        if($characteristic = $mform->getElementValue('characteristic')) {
+            $homocharacteristic = array();
+            $hetecharacteristic = array();
+            for($i = 0; $i<(int)$characteristic; $i++) {
+                $homocharacteristic[] = $mform->createElement('radio', 'char'.($i+1), '', 'C'.($i+1), 0, null);
+                $hetecharacteristic[] = $mform->createElement('radio', 'char'.($i+1), '', 'C'.($i+1), 1, null);
+                $mform->setDefault('char'.(i+1), 0);
+            }
+            $mform->addGroup($homocharacteristic, 'grouphomocharacteristic', get_string('grouphomocharacteristic', 'mpgroup'), array(''), false);
+            $mform->addHelpButton('grouphomocharacteristic', 'grouphomocharacteristic', 'mpgroup');
+            $mform->disabledIf('grouphomocharacteristic', 'groupingtype', 'neq', 2);
+            $mform->addGroup($hetecharacteristic, 'grouphetecharacteristic', get_string('grouphetecharacteristic', 'mpgroup'), array(''), false);
+            $mform->addHelpButton('grouphetecharacteristic', 'grouphetecharacteristic', 'mpgroup');
+            $mform->disabledIf('grouphetecharacteristic', 'groupingtype', 'neq', 2);
+        }
 
         // Add standard elements.
         $this->standard_coursemodule_elements();
