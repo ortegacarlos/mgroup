@@ -56,8 +56,14 @@ $string['homogeneous'] = 'Homogéneo';
 $string['heterogeneous'] = 'Heterogéneo';
 $string['mixed'] = 'Mixto';
 
-$string['groupingtypearr'] = 'Seleccione el tipo de agrupamiento';
-$string['groupingtypearr_help'] = 'Ayuda sobre el tipo de agrupamiento.';
+$string['groupingtypear'] = 'Seleccione el tipo de agrupamiento';
+$string['groupingtypear_help'] = 'Ayuda sobre el tipo de agrupamiento.';
+
+$string['grouphomocharacteristic'] = 'Homogéneo para...';
+$string['grouphomocharacteristic_help'] = 'Seleccione las características que serán tomadas como homogéneas al momento de la conformación de grupos.';
+
+$string['grouphetecharacteristic'] = 'Heterogéneo para...';
+$string['grouphetecharacteristic_help'] = 'Seleccione las características que serán tomadas como heterogéneas al momento de la conformación de grupos.';
 
 // Add string errors
 $string['err_groupsize'] = 'Debe suministrar un valor entero mayor a 0';
