@@ -49,6 +49,11 @@ class mod_mpgroup_mod_form extends moodleform_mod {
         // Adding the standard "name" field.
         // $mform->addElement('static', 'hello', get_string('hello', 'mpgroup', array('firstname' => $USER->firstname, 'lastname' => $USER->lastname)));
         $mform->addElement('text', 'name', get_string('mpgroupname', 'mpgroup'), array('size' => '64'));
+        if (!empty($CFG->formatstringstriptags)) {
+            $mform->setType('name', PARAM_TEXT);
+        } else {
+            $mform->setType('name', PARAM_CLEANHTML);
+        }
         $mform->applyFilter('name', 'trim');
         $mform->addRule('name', null, 'required', null, 'client');
         $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
@@ -96,11 +101,9 @@ class mod_mpgroup_mod_form extends moodleform_mod {
         $mform->addRule('userfile', null, 'required', null, 'client');
         $mform->addHelpButton('userfile', 'userfile', 'mpgroup');
 
-        if (!empty($CFG->formatstringstriptags)) {
-            $mform->setType('name', PARAM_TEXT);
-        } else {
-            $mform->setType('name', PARAM_CLEANHTML);
-        }
+        //Adding chekbox verification of enrolled students
+        $mform->addElement('advcheckbox', 'enrolled', '', get_string('enrolled', 'mpgroup'), null, array(0, 1));
+        $mform->addHelpButton('enrolled', 'enrolled', 'mpgroup');
 
         // Adding the standard "intro" and "introformat" fields.
         $this->standard_intro_elements();
@@ -122,7 +125,8 @@ class mod_mpgroup_mod_form extends moodleform_mod {
 
         //Adding characteristic panel
         $mform->addElement('hidden', 'characteristic', '5');
-        if($characteristic = $mform->getElementValue('characteristic')) {
+        if($mform->elementExists('characteristic')) {
+            $characteristic = $mform->getElementValue('characteristic');
             $homocharacteristic = array();
             $hetecharacteristic = array();
             for($i = 0; $i<(int)$characteristic; $i++) {
