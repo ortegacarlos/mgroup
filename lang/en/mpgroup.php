@@ -33,6 +33,8 @@ $string['modulenameplural'] = 'Grupos de trabajo colaborativo';
 $string['mpgroupname'] = 'Nombre del grupo';
 $string['mpgroupname_help'] = 'Digite el nombre identificador del nuevo grupo de trabajo colaborativo a crear.';
 
+$string['nonewmodules'] = 'No hay Grupos de trabajo colaborativo';
+
 $string['hello'] = 'Hello {$a->firstname} {$a->lastname}!';
 
 // Add string by form
