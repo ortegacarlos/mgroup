@@ -62,4 +62,6 @@ $PAGE->set_context($modulecontext);
 
 echo $OUTPUT->header();
 
+echo '<h2>'.get_string('hello', 'mpgroup', array('firstname' => $USER->firstname, 'lastname' => $USER->lastname)).'</h2>';
+
 echo $OUTPUT->footer();
