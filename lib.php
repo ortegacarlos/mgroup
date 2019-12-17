@@ -51,7 +51,11 @@ function mpgroup_supports($feature) {
  * @return int The id of the newly inserted record.
  */
 function mpgroup_add_instance($mpgroup, $mform = null) {
-    global $DB;
+    global $DB, $CFG;
+
+    if(isset($mform)) {
+        $file = $mform->save_file('userfile', $CFG->dirroot.'/mod/mpgroup/files/userfile.txt', true);
+    }
 
     $mpgroup->timecreated = time();
 
