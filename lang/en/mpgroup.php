@@ -71,6 +71,7 @@ $string['grouphetecharacteristic'] = 'Heterogéneo para...';
 $string['grouphetecharacteristic_help'] = 'Seleccione las características que serán tomadas como heterogéneas al momento de la conformación de grupos.';
 
 // Add string admin settings
+$string['defaultsettings'] = 'Configuración por defecto';
 $string['javaserver'] = 'Dirección del servidor Java';
 $string['javaserver_desc'] = 'La dirección por defecto corresponde a un servidor Java corriendo en la misma máquina en la cual se ejecuta el servidor Web. Si el servidor Java se encuentra ejecuntando en otra máquina, por favor ingrese la dirección correspondiente.';
 
