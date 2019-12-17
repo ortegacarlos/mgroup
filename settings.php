@@ -26,6 +26,6 @@
 defined('MOODLE_INTERNAL') || die();
 
 if ($ADMIN->fulltree) {
-   // TODO: Define the plugin settings page.
-   // https://docs.moodle.org/dev/Admin_settings
+   $settings->add(new admin_setting_heading('defaults', get_string('defaultsettings', 'mpgroup'), ''));
+   $settings->add(new admin_setting_configtext('mpgroup_javaserver', get_string('javaserver', 'mgroup'), get_string('javaserver_desc', 'mpgroup'), 'http://localhost:8080/JavaBridge/java/Java.inc'));
 }
