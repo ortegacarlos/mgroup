@@ -27,5 +27,5 @@ defined('MOODLE_INTERNAL') || die();
 
 if ($ADMIN->fulltree) {
    $settings->add(new admin_setting_heading('defaults', get_string('defaultsettings', 'mpgroup'), ''));
-   $settings->add(new admin_setting_configtext('mpgroup_javaserver', get_string('javaserver', 'mgroup'), get_string('javaserver_desc', 'mpgroup'), 'http://localhost:8080/JavaBridge/java/Java.inc'));
+   $settings->add(new admin_setting_configtext('mpgroup_javaserver', get_string('javaserver', 'mpgroup'), get_string('javaserver_desc', 'mpgroup'), 'http://localhost:8080/JavaBridge/java/Java.inc'));
 }
