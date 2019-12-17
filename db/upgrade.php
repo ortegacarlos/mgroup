@@ -17,7 +17,7 @@
 /**
  * Plugin upgrade steps are defined here.
  *
- * @package     mod_mpgroup
+ * @package     mod_mgroup
  * @category    upgrade
  * @copyright   2019 Carlos Ortega <carlosortega@udenar.edu.co>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -28,12 +28,12 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__.'/upgradelib.php');
 
 /**
- * Execute mod_mpgroup upgrade from the given old version.
+ * Execute mod_mgroup upgrade from the given old version.
  *
  * @param int $oldversion
  * @return bool
  */
-function xmldb_mpgroup_upgrade($oldversion) {
+function xmldb_mgroup_upgrade($oldversion) {
     global $DB;
 
     $dbman = $DB->get_manager();

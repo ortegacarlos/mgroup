@@ -17,7 +17,7 @@
 /**
  * Plugin upgrade helper functions are defined here.
  *
- * @package     mod_mpgroup
+ * @package     mod_mgroup
  * @category    upgrade
  * @copyright   2019 Carlos Ortega <carlosortega@udenar.edu.co>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Helper function used by the upgrade.php file.
  */
-function mpgroup_helper_function() {
+function mgroup_helper_function() {
     global $DB;
 
     // Please note that you should always be performing any task using raw (low

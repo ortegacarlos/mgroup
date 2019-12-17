@@ -1,4 +1,4 @@
-# mpgroup #
+# mgroup #
 
 TODO Describe the plugin shortly here.
 

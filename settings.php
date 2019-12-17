@@ -17,7 +17,7 @@
 /**
  * Plugin administration pages are defined here.
  *
- * @package     mod_mpgroup
+ * @package     mod_mgroup
  * @category    admin
  * @copyright   2019 Carlos Ortega <carlosortega@udenar.edu.co>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -26,6 +26,6 @@
 defined('MOODLE_INTERNAL') || die();
 
 if ($ADMIN->fulltree) {
-   $settings->add(new admin_setting_heading('defaults', get_string('defaultsettings', 'mpgroup'), ''));
-   $settings->add(new admin_setting_configtext('mpgroup_javaserver', get_string('javaserver', 'mpgroup'), get_string('javaserver_desc', 'mpgroup'), 'http://localhost:8080/JavaBridge/java/Java.inc'));
+   $settings->add(new admin_setting_heading('defaults', get_string('defaultsettings', 'mgroup'), ''));
+   $settings->add(new admin_setting_configtext('mgroup_javaserver', get_string('javaserver', 'mgroup'), get_string('javaserver_desc', 'mgroup'), 'http://localhost:8080/JavaBridge/java/Java.inc'));
 }

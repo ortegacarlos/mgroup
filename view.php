@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Prints an instance of mod_mpgroup.
+ * Prints an instance of mod_mgroup.
  *
- * @package     mod_mpgroup
+ * @package     mod_mgroup
  * @copyright   2019 Carlos Ortega <carlosortega@udenar.edu.co>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -32,36 +32,36 @@ $id = optional_param('id', 0, PARAM_INT);
 $m  = optional_param('m', 0, PARAM_INT);
 
 if ($id) {
-    $cm             = get_coursemodule_from_id('mpgroup', $id, 0, false, MUST_EXIST);
+    $cm             = get_coursemodule_from_id('mgroup', $id, 0, false, MUST_EXIST);
     $course         = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-    $moduleinstance = $DB->get_record('mpgroup', array('id' => $cm->instance), '*', MUST_EXIST);
+    $moduleinstance = $DB->get_record('mgroup', array('id' => $cm->instance), '*', MUST_EXIST);
 } else if ($m) {
-    $moduleinstance = $DB->get_record('mpgroup', array('id' => $n), '*', MUST_EXIST);
+    $moduleinstance = $DB->get_record('mgroup', array('id' => $n), '*', MUST_EXIST);
     $course         = $DB->get_record('course', array('id' => $moduleinstance->course), '*', MUST_EXIST);
-    $cm             = get_coursemodule_from_instance('mpgroup', $moduleinstance->id, $course->id, false, MUST_EXIST);
+    $cm             = get_coursemodule_from_instance('mgroup', $moduleinstance->id, $course->id, false, MUST_EXIST);
 } else {
-    print_error(get_string('missingidandcmid', 'mpgroup'));
+    print_error(get_string('missingidandcmid', 'mgroup'));
 }
 
 require_login($course, true, $cm);
 
 $modulecontext = context_module::instance($cm->id);
 
-$event = \mod_mpgroup\event\course_module_viewed::create(array(
+$event = \mod_mgroup\event\course_module_viewed::create(array(
     'objectid' => $moduleinstance->id,
     'context' => $modulecontext
 ));
 $event->add_record_snapshot('course', $course);
-$event->add_record_snapshot('mpgroup', $moduleinstance);
+$event->add_record_snapshot('mgroup', $moduleinstance);
 $event->trigger();
 
-$PAGE->set_url('/mod/mpgroup/view.php', array('id' => $cm->id));
+$PAGE->set_url('/mod/mgroup/view.php', array('id' => $cm->id));
 $PAGE->set_title(format_string($moduleinstance->name));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($modulecontext);
 
 echo $OUTPUT->header();
 
-echo '<h2>'.get_string('hello', 'mpgroup', array('firstname' => $USER->firstname, 'lastname' => $USER->lastname)).'</h2>';
+echo '<h2>'.get_string('hello', 'mgroup', array('firstname' => $USER->firstname, 'lastname' => $USER->lastname)).'</h2>';
 
 echo $OUTPUT->footer();

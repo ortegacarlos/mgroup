@@ -17,14 +17,14 @@
 /**
  * Plugin version and other meta-data are defined here.
  *
- * @package     mod_mpgroup
+ * @package     mod_mgroup
  * @copyright   2019 Carlos Ortega <carlosortega@udenar.edu.co>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'mod_mpgroup';
+$plugin->component = 'mod_mgroup';
 $plugin->release = '0.1.0';
 $plugin->version = 2019071700;
 $plugin->requires = 2015111600;

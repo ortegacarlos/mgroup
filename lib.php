@@ -17,7 +17,7 @@
 /**
  * Library of interface functions and constants.
  *
- * @package     mod_mpgroup
+ * @package     mod_mgroup
  * @copyright   2019 Carlos Ortega <carlosortega@udenar.edu.co>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -30,7 +30,7 @@ defined('MOODLE_INTERNAL') || die();
  * @param string $feature Constant representing the feature.
  * @return true | null True if the feature is supported, null otherwise.
  */
-function mpgroup_supports($feature) {
+function mgroup_supports($feature) {
     switch ($feature) {
         case FEATURE_MOD_INTRO:
             return true;
@@ -40,64 +40,64 @@ function mpgroup_supports($feature) {
 }
 
 /**
- * Saves a new instance of the mod_mpgroup into the database.
+ * Saves a new instance of the mod_mgroup into the database.
  *
  * Given an object containing all the necessary data, (defined by the form
  * in mod_form.php) this function will create a new instance and return the id
  * number of the instance.
  *
- * @param object $mpgroup An object from the form.
- * @param mod_mpgroup_mod_form $mform The form.
+ * @param object $mgroup An object from the form.
+ * @param mod_mgroup_mod_form $mform The form.
  * @return int The id of the newly inserted record.
  */
-function mpgroup_add_instance($mpgroup, $mform = null) {
+function mgroup_add_instance($mgroup, $mform = null) {
     global $DB, $CFG;
 
     if(isset($mform)) {
-        $file = $mform->save_file('userfile', $CFG->dirroot.'/mod/mpgroup/files/userfile.txt', true);
+        $file = $mform->save_file('userfile', $CFG->dirroot.'/mod/mgroup/files/userfile.txt', true);
     }
 
-    $mpgroup->timecreated = time();
+    $mgroup->timecreated = time();
 
-    $mpgroup->id = $DB->insert_record('mpgroup', $mpgroup);
+    $mgroup->id = $DB->insert_record('mgroup', $mgroup);
 
-    return $mpgroup->id;
+    return $mgroup->id;
 }
 
 /**
- * Updates an instance of the mod_mpgroup in the database.
+ * Updates an instance of the mod_mgroup in the database.
  *
  * Given an object containing all the necessary data (defined in mod_form.php),
  * this function will update an existing instance with new data.
  *
- * @param object $mpgroup An object from the form in mod_form.php.
- * @param mod_mpgroup_mod_form $mform The form.
+ * @param object $mgroup An object from the form in mod_form.php.
+ * @param mod_mgroup_mod_form $mform The form.
  * @return bool True if successful, false otherwise.
  */
-function mpgroup_update_instance($mpgroup, $mform = null) {
+function mgroup_update_instance($mgroup, $mform = null) {
     global $DB;
 
-    $mpgroup->timemodified = time();
-    $mpgroup->id = $mpgroup->instance;
+    $mgroup->timemodified = time();
+    $mgroup->id = $mgroup->instance;
 
-    return $DB->update_record('mpgroup', $mpgroup);
+    return $DB->update_record('mgroup', $mgroup);
 }
 
 /**
- * Removes an instance of the mod_mpgroup from the database.
+ * Removes an instance of the mod_mgroup from the database.
  *
  * @param int $id Id of the module instance.
  * @return bool True if successful, false on failure.
  */
-function mpgroup_delete_instance($id) {
+function mgroup_delete_instance($id) {
     global $DB;
 
-    $exists = $DB->get_record('mpgroup', array('id' => $id));
+    $exists = $DB->get_record('mgroup', array('id' => $id));
     if (!$exists) {
         return false;
     }
 
-    $DB->delete_records('mpgroup', array('id' => $id));
+    $DB->delete_records('mgroup', array('id' => $id));
 
     return true;
 }

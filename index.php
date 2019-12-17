@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Display information about all the mod_mpgroup modules in the requested course.
+ * Display information about all the mod_mgroup modules in the requested course.
  *
- * @package     mod_mpgroup
+ * @package     mod_mgroup
  * @copyright   2019 Carlos Ortega <carlosortega@udenar.edu.co>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -33,26 +33,26 @@ require_course_login($course);
 
 $coursecontext = context_course::instance($course->id);
 
-$event = \mod_mpgroup\event\course_module_instance_list_viewed::create(array(
+$event = \mod_mgroup\event\course_module_instance_list_viewed::create(array(
     'context' => $modulecontext
 ));
 $event->add_record_snapshot('course', $course);
 $event->trigger();
 
-$PAGE->set_url('/mod/mpgroup/index.php', array('id' => $id));
+$PAGE->set_url('/mod/mgroup/index.php', array('id' => $id));
 $PAGE->set_title(format_string($course->fullname));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($coursecontext);
 
 echo $OUTPUT->header();
 
-$modulenameplural = get_string('modulenameplural', 'mpgroup');
+$modulenameplural = get_string('modulenameplural', 'mgroup');
 echo $OUTPUT->heading($modulenameplural);
 
-$mpgroups = get_all_instances_in_course('mpgroup', $course);
+$mgroups = get_all_instances_in_course('mgroup', $course);
 
-if (empty($mpgroups)) {
-    notice(get_string('nonewmodules', 'mpgroup'), new moodle_url('/course/view.php', array('id' => $course->id)));
+if (empty($mgroups)) {
+    notice(get_string('nonewmodules', 'mgroup'), new moodle_url('/course/view.php', array('id' => $course->id)));
 }
 
 $table = new html_table();
@@ -69,20 +69,20 @@ if ($course->format == 'weeks') {
     $table->align = array('left', 'left', 'left');
 }
 
-foreach ($mpgroups as $mpgroup) {
-    if (!$mpgroup->visible) {
+foreach ($mgroups as $mgroup) {
+    if (!$mgroup->visible) {
         $link = html_writer::link(
-            new moodle_url('/mod/mpgroup/view.php', array('id' => $mpgroup->coursemodule)),
-            format_string($mpgroup->name, true),
+            new moodle_url('/mod/mgroup/view.php', array('id' => $mgroup->coursemodule)),
+            format_string($mgroup->name, true),
             array('class' => 'dimmed'));
     } else {
         $link = html_writer::link(
-            new moodle_url('/mod/mpgroup/view.php', array('id' => $mpgroup->coursemodule)),
-            format_string($mpgroup->name, true));
+            new moodle_url('/mod/mgroup/view.php', array('id' => $mgroup->coursemodule)),
+            format_string($mgroup->name, true));
     }
 
     if ($course->format == 'weeks' or $course->format == 'topics') {
-        $table->data[] = array($mpgroup->section, $link);
+        $table->data[] = array($mgroup->section, $link);
     } else {
         $table->data[] = array($link);
     }

@@ -17,7 +17,7 @@
 /**
  * Plugin strings are defined here.
  *
- * @package     mod_mpgroup
+ * @package     mod_mgroup
  * @category    string
  * @copyright   2019 Carlos Ortega <carlosortega@udenar.edu.co>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -30,8 +30,8 @@ $string['modulename'] = 'Grupo de trabajo colaborativo';
 $string['modulename_help'] = 'El módulo Grupo de trabajo colaborativo permite al docente conformar grupos de trabajo colaborativo con los estudiantes de un curso.';
 $string['modulenameplural'] = 'Grupos de trabajo colaborativo';
 
-$string['mpgroupname'] = 'Nombre del grupo';
-$string['mpgroupname_help'] = 'Digite el nombre identificador del nuevo grupo de trabajo colaborativo a crear.';
+$string['mgroupname'] = 'Nombre del grupo';
+$string['mgroupname_help'] = 'Digite el nombre identificador del nuevo grupo de trabajo colaborativo a crear.';
 
 $string['nonewmodules'] = 'No hay Grupos de trabajo colaborativo';
 
@@ -73,7 +73,7 @@ $string['grouphetecharacteristic_help'] = 'Seleccione las características que s
 // Add string admin settings
 $string['defaultsettings'] = 'Configuración por defecto';
 $string['javaserver'] = 'Dirección del servidor Java';
-$string['javaserver_desc'] = 'La dirección por defecto corresponde a un servidor Java corriendo en la misma máquina en la cual se ejecuta el servidor Web. Si el servidor Java se encuentra ejecuntando en otra máquina, por favor ingrese la dirección correspondiente.';
+$string['javaserver_desc'] = 'La dirección por defecto corresponde a un servidor Java ejecutándose en la misma máquina en la cual se ejecuta el servidor Web. Si el servidor Java se encuentra ejecuntando en otra máquina, por favor ingrese la dirección correspondiente.';
 
 // Add string errors
 $string['err_groupsize'] = 'Debe suministrar un valor entero mayor a 0';

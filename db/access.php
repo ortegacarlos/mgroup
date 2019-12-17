@@ -1,6 +1,6 @@
 <?php
 //
-// Capability definitions for the mpgroup module.
+// Capability definitions for the mgroup module.
 //
 // The capabilities are loaded into the database table when the module is
 // installed or updated. Whenever the capability definitions are updated,
@@ -30,7 +30,7 @@
 
 $capabilities = array(
 
-    'mod/mpgroup:view' => array(
+    'mod/mgroup:view' => array(
 
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
@@ -41,7 +41,7 @@ $capabilities = array(
         )
     ),
 
-    'mod/mpgroup:addinstance' => array(
+    'mod/mgroup:addinstance' => array(
 
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
