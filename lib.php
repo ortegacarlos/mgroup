@@ -54,7 +54,7 @@ function mgroup_add_instance($mgroup, $mform = null) {
     global $DB, $CFG;
 
     if(isset($mform)) {
-        $file = $mform->save_file('userfile', $CFG->dirroot.'/mod/mgroup/files/userfile.txt', true);
+        $file = $mform->save_file('userfile', $CFG->dataroot.'/temp/filestorage/userfile.txt', true);
     }
 
     $mgroup->timecreated = time();
