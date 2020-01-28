@@ -68,6 +68,22 @@ class mod_mgroup_mod_form extends moodleform_mod {
         $mform->setDefault('groupsize', 4);
         $mform->addHelpButton('groupsize', 'groupsize', 'mgroup');
 
+        // Adding the "userfile" field.
+        $mform->addElement('filepicker', 'userfile', get_string('userfile', 'mgroup'), null,
+                array('maxbytes'=>50, 'accepted_types'=>'.txt'));
+        $mform->addRule('userfile', null, 'required', null, 'client');
+        $mform->addHelpButton('userfile', 'userfile', 'mgroup');
+
+        //Adding chekbox verification of enrolled students
+        $mform->addElement('advcheckbox', 'enrolled', '', get_string('enrolled', 'mgroup'), null, array(0, 1));
+        $mform->addHelpButton('enrolled', 'enrolled', 'mgroup');
+
+        // Adding the standard "intro" and "introformat" fields.
+        $this->standard_intro_elements();
+
+        // Adding grouping parameters.
+        $mform->addElement('header', 'groupingparameters', get_string('goupingparameters', 'mgroup'));
+        
         // Adding the "populationsize" field.
         $mform->addElement('text', 'populationsize', get_string('populationsize', 'mgroup'), array('size' => '64'));
         $mform->setType('populationsize', PARAM_INT);
@@ -94,19 +110,6 @@ class mod_mgroup_mod_form extends moodleform_mod {
         #$mform->addRule('mutationoperator', get_string('err_numeric', 'mgroup'), 'nonzero', null, 'client');
         $mform->setDefault('mutationoperator', 0.2);
         $mform->addHelpButton('mutationoperator', 'mutationoperator', 'mgroup');
-
-        // Adding the "userfile" field.
-        $mform->addElement('filepicker', 'userfile', get_string('userfile', 'mgroup'), null,
-                array('maxbytes'=>50, 'accepted_types'=>'.txt'));
-        $mform->addRule('userfile', null, 'required', null, 'client');
-        $mform->addHelpButton('userfile', 'userfile', 'mgroup');
-
-        //Adding chekbox verification of enrolled students
-        $mform->addElement('advcheckbox', 'enrolled', '', get_string('enrolled', 'mgroup'), null, array(0, 1));
-        $mform->addHelpButton('enrolled', 'enrolled', 'mgroup');
-
-        // Adding the standard "intro" and "introformat" fields.
-        $this->standard_intro_elements();
 
         // Adding grouping settings.
         #$mform->addElement('static', 'label1', 'mgroupsettings', get_string('mgroupsettings', 'mgroup'));
