@@ -56,6 +56,7 @@ $string['userfile_help'] = 'Campo para cargar el archivo de texto plano con los 
 $string['enrolled'] = 'Permitir estudiantes no matriculados en el curso';
 $string['enrolled_help'] = 'Seleccione esta opción si desea permitir la formación de grupos con estudiantes no matriculados en su curso.';
 
+$string['groupingparameters'] = 'Parámetros de agrupamiento';
 $string['groupingsettings'] = 'Ajustes de agrupamiento';
 $string['homogeneous'] = 'Homogéneo';
 $string['heterogeneous'] = 'Heterogéneo';
