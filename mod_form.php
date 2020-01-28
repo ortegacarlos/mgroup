@@ -82,8 +82,8 @@ class mod_mgroup_mod_form extends moodleform_mod {
         $this->standard_intro_elements();
 
         // Adding grouping parameters.
-        $mform->addElement('header', 'groupingparameters', get_string('goupingparameters', 'mgroup'));
-        
+        $mform->addElement('header', 'groupingparameters', get_string('groupingparameters', 'mgroup'));
+
         // Adding the "populationsize" field.
         $mform->addElement('text', 'populationsize', get_string('populationsize', 'mgroup'), array('size' => '64'));
         $mform->setType('populationsize', PARAM_INT);
