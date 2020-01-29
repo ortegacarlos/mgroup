@@ -52,17 +52,17 @@ function mgroup_supports($feature) {
  */
 function mgroup_add_instance($mgroup, $mform = null) {
     global $DB;
-    if(mgroup_save_file($mform)) {
-        $mgroup->timecreated = time();
 
-        $mgroup->id = $DB->insert_record('mgroup', $mgroup);
-
-        return $mgroup->id;
-    }
-    else {
+    if(!mgroup_save_file($mform)) {
         \core\notification::error(get_string('err_savefile', 'mgroup'));
         return false;
     }
+
+    $mgroup->timecreated = time();
+
+    $mgroup->id = $DB->insert_record('mgroup', $mgroup);
+
+    return $mgroup->id;
 }
 
 /**
