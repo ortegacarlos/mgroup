@@ -51,11 +51,7 @@ function mgroup_supports($feature) {
  * @return int The id of the newly inserted record.
  */
 function mgroup_add_instance($mgroup, $mform = null) {
-    global $DB, $CFG;
-
-    if(isset($mform)) {
-        $file = $mform->save_file('userfile', $CFG->dataroot.'/temp/filestorage/userfile.txt', true);
-    }
+    global $DB;
 
     $mgroup->timecreated = time();
 
@@ -77,10 +73,17 @@ function mgroup_add_instance($mgroup, $mform = null) {
 function mgroup_update_instance($mgroup, $mform = null) {
     global $DB;
 
+    if($this->mgroup_save_file($mform)) {
+
     $mgroup->timemodified = time();
     $mgroup->id = $mgroup->instance;
 
     return $DB->update_record('mgroup', $mgroup);
+    }
+    else {
+        \core\notification::add('Sin éxito al guardar el archivo', \core\notification::PROBLEM);
+        return false;
+    }
 }
 
 /**
@@ -100,4 +103,22 @@ function mgroup_delete_instance($id) {
     $DB->delete_records('mgroup', array('id' => $id));
 
     return true;
+}
+
+/**
+ * Save a file of the mod_mgroup.
+ *
+ * @param mod_mgroup_mod_form $mform The form.
+ * @return bool True if successful, false on failure.
+ */
+function mgroup_save_file($mform = null) {
+    global $CFG;
+
+    if(isset($mform)) {
+        if($file = $mform->save_file('userfile', $CFG->dataroot.'/temp/filestorage/userfile.txt', true)) {
+            return true;
+        }
+    }
+
+    return false;
 }
