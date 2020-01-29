@@ -52,12 +52,17 @@ function mgroup_supports($feature) {
  */
 function mgroup_add_instance($mgroup, $mform = null) {
     global $DB;
+    if(mgroup_save_file($mform)) {
+        $mgroup->timecreated = time();
 
-    $mgroup->timecreated = time();
+        $mgroup->id = $DB->insert_record('mgroup', $mgroup);
 
-    $mgroup->id = $DB->insert_record('mgroup', $mgroup);
-
-    return $mgroup->id;
+        return $mgroup->id;
+    }
+    else {
+        \core\notification::error(get_string('err_savefile', 'mgroup'));
+        return false;
+    }
 }
 
 /**
@@ -73,17 +78,11 @@ function mgroup_add_instance($mgroup, $mform = null) {
 function mgroup_update_instance($mgroup, $mform = null) {
     global $DB;
 
-    if($this->mgroup_save_file($mform)) {
-
     $mgroup->timemodified = time();
     $mgroup->id = $mgroup->instance;
 
     return $DB->update_record('mgroup', $mgroup);
-    }
-    else {
-        \core\notification::add('Sin éxito al guardar el archivo', \core\notification::PROBLEM);
-        return false;
-    }
+    
 }
 
 /**
