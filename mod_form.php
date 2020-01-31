@@ -84,6 +84,15 @@ class mod_mgroup_mod_form extends moodleform_mod {
         // Adding grouping parameters.
         $mform->addElement('header', 'groupingparameters', get_string('groupingparameters', 'mgroup'));
 
+        // Adding the "numberofcharacteristics" field.
+        $mform->addElement('text', 'numberofcharacteristics', get_string('numberofcharacteristics', 'mgroup'), array('size' => '64'));
+        $mform->setType('numberofcharacteristics', PARAM_INT);
+        $mform->addRule('numberofcharacteristics', null, 'required', null, 'client');
+        $mform->addRule('numberofcharacteristics', null, 'numeric', 'extraruledata', 'client');
+        #$mform->addRule('numberofcharacteristics', get_string('err_numeric', 'mgroup'), 'nonzero', null, 'client');
+        $mform->setDefault('numberofcharacteristics', 50);
+        $mform->addHelpButton('numberofcharacteristics', 'numberofcharacteristics', 'mgroup');
+
         // Adding the "populationsize" field.
         $mform->addElement('text', 'populationsize', get_string('populationsize', 'mgroup'), array('size' => '64'));
         $mform->setType('populationsize', PARAM_INT);
@@ -127,9 +136,9 @@ class mod_mgroup_mod_form extends moodleform_mod {
         $mform->addHelpButton('groupingtypear', 'groupingtypear', 'mgroup');
 
         //Adding characteristic panel
-        $mform->addElement('hidden', 'characteristic', '5');
-        if($mform->elementExists('characteristic')) {
-            $characteristic = $mform->getElementValue('characteristic');
+        //$mform->addElement('hidden', 'characteristic', '5');
+        if($mform->elementExists('numberofcharacteristics')) {
+            $characteristic = $mform->getElementValue('numberofcharacteristics');
             $homocharacteristic = array();
             $hetecharacteristic = array();
             for($i = 0; $i<(int)$characteristic; $i++) {
@@ -155,6 +164,11 @@ class mod_mgroup_mod_form extends moodleform_mod {
 
     function validation($data, $files) {
         $errors = parent::validation($data, $files);
+        if(array_key_exists('numberofcharacteristics', $data)) {
+            if(!$this->validation_groupsize((int)$data['numberofcharacteristics'])) {
+                $errors['numberofcharacteristics'] = get_string('err_numberofcharacteristics', 'mgroup');
+            }
+        }
         if(array_key_exists('populationsize', $data)) {
             if(!$this->validation_populationsize((int)$data['populationsize'])) {
                 $errors['populationsize'] = get_string('err_populationsize', 'mgroup');
@@ -182,10 +196,11 @@ class mod_mgroup_mod_form extends moodleform_mod {
         return $errors;
     }
 
+    
     function validation_groupsize($value) {
         return ($value <= 0 or !is_int($value)) ? false:true;
     }
-
+    
     function validation_populationsize($value) {
         return ($value <= 0 or !is_int($value)) ? false:true;
     }
