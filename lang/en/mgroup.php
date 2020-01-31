@@ -41,6 +41,9 @@ $string['hello'] = 'Hello {$a->firstname} {$a->lastname}!';
 $string['groupsize'] = 'Tamaño del grupo';
 $string['groupsize_help'] = 'Digite un valor entero correspondiente a la cantidad de individuos en cada grupo. El valor por defecto es de 4 individuos.';
 
+$string['numberofcharacteristics'] = 'Cantidad de características';
+$string['numberofcharacteristics_help'] = 'Digite un valor entero correspondiente a la cantidad de características de cada individuo necesarias para la conformación de los grupos. El valor por defecto es de 5 características.';
+
 $string['populationsize'] = 'Tamaño de la población';
 $string['populationsize_help'] = 'Digite un valor entero correspondiente al tamaño de la población a considerar. El valor por defecto es de 50 individuos.';
 
@@ -78,6 +81,7 @@ $string['javaserver_desc'] = 'La dirección por defecto corresponde a un servido
 
 // Add string errors
 $string['err_groupsize'] = 'Debe suministrar un valor entero mayor a 0';
+$string['err_numberofcharacteristics'] = 'Debe suministrar un valor entero mayor a 0';
 $string['err_populationsize'] = 'Debe suministrar un valor entero mayor a 0';
 $string['err_selectionoperator'] = 'Debe suministrar un valor entero entre 1 y 100';
 $string['err_mutationoperator'] = 'Debe suministrar un valor entre 0 y 1';
