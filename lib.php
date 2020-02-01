@@ -51,11 +51,17 @@ function mgroup_supports($feature) {
  * @return int The id of the newly inserted record.
  */
 function mgroup_add_instance($mgroup, $mform = null) {
-    global $DB;
+    global $DB, $CFG;
 
-    if(!mgroup_save_file($mform)) {
-        \core\notification::error(get_string('err_savefile', 'mgroup'));
-        return false;
+    $path = $CFG->dataroot.'/temp/filestorage/userfile.txt';
+    $characteristics = $mgroup->numberofcharacteristics;
+
+    if(!mgroup_save_file($path, $mform)) {
+        return null;
+    }
+
+    if(!mgroup_check_file($path, $characteristics)) {
+        return null;
     }
 
     $mgroup->timecreated = time();
@@ -105,19 +111,83 @@ function mgroup_delete_instance($id) {
 }
 
 /**
- * Save a file of the mod_mgroup.
+ * Save a text file of the mod_mgroup.
  *
+ * @param string $path Text file path.
  * @param mod_mgroup_mod_form $mform The form.
  * @return bool True if successful, false on failure.
  */
-function mgroup_save_file($mform = null) {
-    global $CFG;
+function mgroup_save_file($path = null, $mform = null) {
 
-    if(isset($mform)) {
-        if($file = $mform->save_file('userfile', $CFG->dataroot.'/temp/filestorage/userfile.txt', true)) {
+    if(isset($path, $mform)) {
+        if($mform->save_file('userfile', $path, true)) {
             return true;
         }
     }
 
+    \core\notification::error(get_string('err_savefile', 'mgroup'));
     return false;
+}
+
+/**
+ * Read a text file of the mod_mgroup.
+ *
+ * @param string $path Text file path.
+ * @return object Array if successful, null on failure.
+ */
+function mgroup_read_file($path = null) {
+
+    if(isset($path)) {
+        if($content = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES)) {
+            return $content;
+        }
+    }
+
+    \core\notification::error(get_string('err_readfile', 'mgroup'));
+    return null;
+}
+
+/**
+ * Check a text file of the mod_mgroup.
+ *
+ * @param string $path Text file path.
+ * @return boolean True if successful, false on failure.
+ */
+function mgroup_check_file($path = null, $characteristics = null) {
+
+    $content = mgroup_read_file($path);
+
+    if(isset($path, $characteristics, $content)) {
+        $errrors = false;
+        foreach($content as $line_number => $line) {
+            $parameters = explode(',', $line);
+            if(!mgroup_check_parameters($parameters, $characteristics)) {
+                $errrors = true;
+                \core\notification::error(get_string('err_checkparameters', 'mgroup', array('number' => $line_number+1)));
+            }
+        }
+        if(!$errrors) return true;
+    }
+
+    \core\notification::error(get_string('err_ckeckfile', 'mgroup'));
+    return false;
+}
+
+/**
+ * Check the parameters of each individual of the mod_mgroup.
+ *
+ * @param object $parameters Array with parameters.
+ * @param int $characteristics Number of characteristics.
+ * @return boolean True if successful, false on failure.
+ */
+function mgroup_check_parameters($parameters = null, $characteristics = null) {
+
+    if(isset($parameters, $characteristics)) {
+        if($characteristics !== (count($parameters)-2)) return false;
+        foreach($parameters as $parameter) {
+            if(is_null($parameter)) return false;
+        }
+    }
+
+    return true;
 }
