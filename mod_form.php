@@ -148,10 +148,10 @@ class mod_mgroup_mod_form extends moodleform_mod {
             }
             $mform->addGroup($homocharacteristic, 'grouphomocharacteristic', get_string('grouphomocharacteristic', 'mgroup'), array(''), false);
             $mform->addHelpButton('grouphomocharacteristic', 'grouphomocharacteristic', 'mgroup');
-            $mform->disabledIf('grouphomocharacteristic', 'groupingtype', 'neq', 2);
+            $mform->hideIf('grouphomocharacteristic', 'groupingtype', 'neq', 2);
             $mform->addGroup($hetecharacteristic, 'grouphetecharacteristic', get_string('grouphetecharacteristic', 'mgroup'), array(''), false);
             $mform->addHelpButton('grouphetecharacteristic', 'grouphetecharacteristic', 'mgroup');
-            $mform->disabledIf('grouphetecharacteristic', 'groupingtype', 'neq', 2);
+            $mform->hideIf('grouphetecharacteristic', 'groupingtype', 'neq', 2);
         }
 
         // Add standard elements.
