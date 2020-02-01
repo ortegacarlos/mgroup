@@ -86,3 +86,6 @@ $string['err_populationsize'] = 'Debe suministrar un valor entero mayor a 0';
 $string['err_selectionoperator'] = 'Debe suministrar un valor entero entre 1 y 100';
 $string['err_mutationoperator'] = 'Debe suministrar un valor entre 0 y 1';
 $string['err_savefile'] = 'Sin éxito al guardar el archivo';
+$string['err_readfile'] = 'Sin éxito al leer el archivo';
+$string['err_checkfile'] = 'El archivo tiene inconsistencias';
+$string['err_ckeckparameters'] = 'Hay inconsistencias en la línea {$a->number}';
