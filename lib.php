@@ -169,7 +169,7 @@ function mgroup_check_file($path = null, $characteristics = null) {
         if(!$errrors) return true;
     }
 
-    \core\notification::error(get_string('err_ckeckfile', 'mgroup'));
+    \core\notification::error(get_string('err_checkfile', 'mgroup'));
     return false;
 }
 
