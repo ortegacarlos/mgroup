@@ -90,7 +90,7 @@ class mod_mgroup_mod_form extends moodleform_mod {
         $mform->addRule('numberofcharacteristics', null, 'required', null, 'client');
         $mform->addRule('numberofcharacteristics', null, 'numeric', 'extraruledata', 'client');
         #$mform->addRule('numberofcharacteristics', get_string('err_numeric', 'mgroup'), 'nonzero', null, 'client');
-        $mform->setDefault('numberofcharacteristics', 50);
+        $mform->setDefault('numberofcharacteristics', 5);
         $mform->addHelpButton('numberofcharacteristics', 'numberofcharacteristics', 'mgroup');
 
         // Adding the "populationsize" field.
