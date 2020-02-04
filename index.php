@@ -34,7 +34,7 @@ require_course_login($course);
 $coursecontext = context_course::instance($course->id);
 
 $event = \mod_mgroup\event\course_module_instance_list_viewed::create(array(
-    'context' => $modulecontext
+    'context' => $coursecontext //Cambio $modulecontext por $coursecontext
 ));
 $event->add_record_snapshot('course', $course);
 $event->trigger();
