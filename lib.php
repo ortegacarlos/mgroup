@@ -53,15 +53,22 @@ function mgroup_supports($feature) {
 function mgroup_add_instance($mgroup, $mform = null) {
     global $DB, $CFG;
 
+    $javaserver = $CFG->mgroup_javaserver;
     $path = $CFG->dataroot.'/temp/filestorage/userfile.txt';
     $characteristics = $mgroup->numberofcharacteristics;
 
     if(!mgroup_save_file($path, $mform)) {
-        return null;
+        print_error('error');
     }
 
     if(!mgroup_check_file($path, $characteristics)) {
-        return null;
+        //\core\notification::error(''.$DB->get_course());
+        //\core\notification::error(gettype($mgroup->enrolled).' '.$mgroup->enrolled);
+        print_error('error');
+    }
+
+    if($mgroup->enrolled == '0') {
+        mgroup_check_users_in_course($mgroup->course, $path);
     }
 
     $mgroup->timecreated = time();
@@ -117,7 +124,7 @@ function mgroup_delete_instance($id) {
  * @param mod_mgroup_mod_form $mform The form.
  * @return bool True if successful, false on failure.
  */
-function mgroup_save_file($path = null, $mform = null) {
+function mgroup_save_file($path, $mform = null) {
 
     if(isset($path, $mform)) {
         if($mform->save_file('userfile', $path, true)) {
@@ -135,11 +142,16 @@ function mgroup_save_file($path = null, $mform = null) {
  * @param string $path Text file path.
  * @return object Array if successful, null on failure.
  */
-function mgroup_read_file($path = null) {
+function mgroup_read_file($path) {
+
+    $parameters = array();
 
     if(isset($path)) {
         if($content = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES)) {
-            return $content;
+            foreach($content as $line) {
+                $parameters[] = explode(',', $line);
+            }
+            return $parameters;
         }
     }
 
@@ -153,20 +165,22 @@ function mgroup_read_file($path = null) {
  * @param string $path Text file path.
  * @return boolean True if successful, false on failure.
  */
-function mgroup_check_file($path = null, $characteristics = null) {
+function mgroup_check_file($path, $characteristics) {
 
     $content = mgroup_read_file($path);
 
     if(isset($path, $characteristics, $content)) {
         $errrors = false;
         foreach($content as $line_number => $line) {
-            $parameters = explode(',', $line);
-            if(!mgroup_check_parameters($parameters, $characteristics)) {
+            //$parameters = explode(',', $line);
+            if(!mgroup_check_parameters($line, $characteristics)) {
                 $errrors = true;
                 \core\notification::error(get_string('err_checkparameters', 'mgroup', array('number' => $line_number+1)));
             }
         }
-        if(!$errrors) return true;
+        if(!$errrors) {
+            return true;
+        }
     }
 
     \core\notification::error(get_string('err_checkfile', 'mgroup'));
@@ -180,14 +194,44 @@ function mgroup_check_file($path = null, $characteristics = null) {
  * @param int $characteristics Number of characteristics.
  * @return boolean True if successful, false on failure.
  */
-function mgroup_check_parameters($parameters = null, $characteristics = null) {
+function mgroup_check_parameters($parameters, $characteristics) {
 
     if(isset($parameters, $characteristics)) {
-        if($characteristics !== (count($parameters)-2)) return false;
+        if($characteristics !== (count($parameters)-2)) {
+            return false;
+        }
         foreach($parameters as $parameter) {
-            if(is_null($parameter)) return false;
+            if(is_null($parameter)) {
+                return false;
+            }
         }
     }
 
     return true;
+}
+
+function mgroup_check_users_in_course($course, $path) {
+    global $DB;
+
+    if(isset($course, $path)) {
+        $content = mgroup_read_file($path);
+        $errors = false;
+        $sql = "SELECT  a.id, a.username, b.userid, b.modifierid
+                FROM    {user} a
+                JOIN    {user_enrolments} b ON a.id = b.userid
+                WHERE   a.username = :id
+                        AND b.modifierid = :course";
+        foreach ($content as $user) {
+            list($id, $fullname) = $user;
+            if(!$DB->record_exists_sql($sql, array('id' => $id, 'course' => $course))) {
+                $errors = true;
+                \core\notification::error($fullname.' no se encuentra registrado en el curso');
+            }
+        }
+        if(!$errors) {
+            return true;
+        }
+    }
+    print_error('error');
+    return false;
 }
