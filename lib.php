@@ -210,6 +210,13 @@ function mgroup_check_parameters($parameters, $characteristics) {
     return true;
 }
 
+/**
+ * Check users enrolled in the course of the mod_mgroup.
+ *
+ * @param string $course Course id.
+ * @param string $path Text field path.
+ * @return boolean True if successful, false on failure.
+ */
 function mgroup_check_users_in_course($course, $path) {
     global $DB;
 
@@ -225,13 +232,13 @@ function mgroup_check_users_in_course($course, $path) {
             list($id, $fullname) = $user;
             if(!$DB->record_exists_sql($sql, array('id' => $id, 'course' => $course))) {
                 $errors = true;
-                \core\notification::error($fullname.' no se encuentra registrado en el curso');
+                \core\notification::error('err_user', 'mgroup', array('name' => $fullname));
             }
         }
         if(!$errors) {
             return true;
         }
     }
-    print_error('error');
+    \core\notification::error('err_checkusers', 'mgroup');
     return false;
 }
