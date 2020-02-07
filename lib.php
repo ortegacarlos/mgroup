@@ -111,7 +111,7 @@ function mgroup_add_instance($mgroup, $mform = null) {
                         $data->fullname = $content[1];
                     }
                 }
-                if(empty($data->name)) {
+                if(empty($data->fullname)) {
                     $data->fullname = 'DUMMY';
                 }
                 $data->timecreated = time();
