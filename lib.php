@@ -24,6 +24,12 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once($CFG->mgroup_javaserver);
+
+//The content of the text file to be used in later functions
+global $MGROUP_CONTENT_FILE;
+$MGROUP_CONTENT_FILE = null;
+
 /**
  * Return if the plugin supports $feature.
  *
@@ -32,7 +38,21 @@ defined('MOODLE_INTERNAL') || die();
  */
 function mgroup_supports($feature) {
     switch ($feature) {
+        case FEATURE_GROUPS:
+            return true;
+        case FEATURE_GROUPINGS:
+            return true;
         case FEATURE_MOD_INTRO:
+            return true;
+        case FEATURE_BACKUP_MOODLE2:
+            return true;
+        case FEATURE_COMPLETION_TRACKS_VIEWS:
+            return true;
+        case FEATURE_GRADE_HAS_GRADE:
+            return false;
+        case FEATURE_GRADE_OUTCOMES:
+            return true;
+        case FEATURE_SHOW_DESCRIPTION:
             return true;
         default:
             return null;
@@ -51,9 +71,8 @@ function mgroup_supports($feature) {
  * @return int The id of the newly inserted record.
  */
 function mgroup_add_instance($mgroup, $mform = null) {
-    global $DB, $CFG;
+    global $DB, $CFG, $MGROUP_CONTENT_FILE;
 
-    $javaserver = $CFG->mgroup_javaserver;
     $path = $CFG->dataroot.'/temp/filestorage/userfile.txt';
     $characteristics = $mgroup->numberofcharacteristics;
 
@@ -62,8 +81,6 @@ function mgroup_add_instance($mgroup, $mform = null) {
     }
 
     if(!mgroup_check_file($path, $characteristics)) {
-        //\core\notification::error(''.$DB->get_course());
-        //\core\notification::error(gettype($mgroup->enrolled).' '.$mgroup->enrolled);
         print_error('error');
     }
 
@@ -71,11 +88,37 @@ function mgroup_add_instance($mgroup, $mform = null) {
         mgroup_check_users_in_course($mgroup->course, $path);
     }
 
-    $mgroup->timecreated = time();
+    $results = mgroup_form_groups($mgroup, $path);
 
-    $mgroup->id = $DB->insert_record('mgroup', $mgroup);
-
-    return $mgroup->id;
+    if(isset($results)) {
+        $mgroup->timecreated = time();
+        $mgroup->id = $DB->insert_record('mgroup', $mgroup);
+        
+        foreach($results as $group => $individuals) {
+            foreach($individuals as $username) {
+                $data = new stdClass();
+                $data->mgroupid = $mgroup->id;
+                $data->courseid = (int)$mgroup->course;
+                $data->workgroup = ($group + 1);
+                $userid = $DB->get_field('user', 'id', array('username' => $username));
+                if(isset($userid)) {
+                    $data->userid = $userid;
+                }
+                $data->username = (string)$username;
+                foreach($MGROUP_CONTENT_FILE as $content) {
+                    if(in_array((string)$username, $content, true)) {
+                        $data->fullname = $content[1];
+                    }
+                }
+                if(empty($data->name)) {
+                    $data->fullname = 'DUMMY';
+                }
+                $data->timecreated = time();
+                $DB->insert_record('mgroup_individuals', $data);
+            }
+        }
+        return $mgroup->id;
+    }
 }
 
 /**
@@ -143,6 +186,7 @@ function mgroup_save_file($path, $mform = null) {
  * @return object Array if successful, null on failure.
  */
 function mgroup_read_file($path) {
+    global $MGROUP_CONTENT_FILE;
 
     $parameters = array();
 
@@ -151,6 +195,7 @@ function mgroup_read_file($path) {
             foreach($content as $line) {
                 $parameters[] = explode(',', $line);
             }
+            $MGROUP_CONTENT_FILE = $parameters;
             return $parameters;
         }
     }
@@ -241,4 +286,62 @@ function mgroup_check_users_in_course($course, $path) {
     }
     \core\notification::error('err_checkusers', 'mgroup');
     return false;
+}
+
+/**
+ * Group conformation in the course of the mod_mgroup.
+ *
+ * @param object $mgroup An object from the form.
+ * @param string $path Text field path.
+ * @return object Array with results if successful, null on failure.
+ */
+function mgroup_form_groups($mgroup, $path) {
+
+    $characteristics = $mgroup->numberofcharacteristics;
+    $groupsize = $mgroup->groupsize;
+    $populationsize = $mgroup->populationsize;
+    $selectionoperator = $mgroup->selectionoperator;
+    $mutationoperator = $mgroup->mutationoperator;
+    $groupingtype = (int)$mgroup->groupingtype;
+    $hetecharacteristics = null;
+    $homocharacteristics = null;
+    if($groupingtype == 2) {
+        $hetecharacteristics = array();
+        $homocharacteristics = array();
+        for ($i=0; $i < $characteristics; $i++) {
+            $char = 'char'.($i+1);
+            $characteristic = $mgroup->$char;
+            if($characteristic == '1') {
+                $hetecharacteristics[] = $i;
+            }
+            else {
+                $homocharacteristics[] = $i;
+            }
+        }
+    }
+
+    $data = new Java('Data', $path, $groupsize, $groupingtype, $hetecharacteristics, $homocharacteristics);
+    $generations = 0;
+    $ga = new Java('GA', $data, $populationsize, $selectionoperator, $mutationoperator);
+    $ga->initialPopulation();
+    if($groupingtype == 0) {
+        $ga->checkFitnessMinimize();
+    }
+    $ga->evaluation();
+    //java_values($ga->getPopulation()[$ga->getBestPosition()]->getRawFitness()) > 0.01
+    while ($generations < 1000) {
+        $ga->rouletteWheelW((int)ceil(java_values($ga->getPopulationSize())) * ((double)java_values($ga->getSelectionPercent()) / 100));
+        $ga->reproduction();
+        $ga->mutation();
+        if($groupingtype == 0) {
+            $ga->checkFitnessMinimize();
+        }
+        $ga->evaluation();
+        $generations++;
+    }
+    $results = java_values($ga->getPopulation()[$ga->getBestPosition()]->getGenes());
+    if(isset($results)) {
+        return $results;
+    }
+    return null;
 }
