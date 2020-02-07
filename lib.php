@@ -24,8 +24,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->mgroup_javaserver);
-
+if(isset($CFG->mgroup_javaserver)) {
+    require_once($CFG->mgroup_javaserver);
+}
 //The content of the text file to be used in later functions
 global $MGROUP_CONTENT_FILE;
 $MGROUP_CONTENT_FILE = null;
@@ -93,7 +94,7 @@ function mgroup_add_instance($mgroup, $mform = null) {
     if(isset($results)) {
         $mgroup->timecreated = time();
         $mgroup->id = $DB->insert_record('mgroup', $mgroup);
-        
+
         foreach($results as $group => $individuals) {
             foreach($individuals as $username) {
                 $data = new stdClass();
