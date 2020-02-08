@@ -86,7 +86,9 @@ function mgroup_add_instance($mgroup, $mform = null) {
     }
 
     if($mgroup->enrolled == '0') {
-        mgroup_check_users_in_course($mgroup->course, $path);
+        if(!mgroup_check_users_in_course($mgroup->course, $path)) {
+            print_error('error');
+        }
     }
 
     $results = mgroup_form_groups($mgroup, $path);
@@ -194,7 +196,7 @@ function mgroup_read_file($path) {
     if(isset($path)) {
         if($content = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES)) {
             foreach($content as $line) {
-                $parameters[] = explode(',', $line);
+                $parameters[] = explode(',', utf8_encode($line));
             }
             $MGROUP_CONTENT_FILE = $parameters;
             return $parameters;
@@ -264,28 +266,28 @@ function mgroup_check_parameters($parameters, $characteristics) {
  * @return boolean True if successful, false on failure.
  */
 function mgroup_check_users_in_course($course, $path) {
-    global $DB;
+    global $DB, $MGROUP_CONTENT_FILE;
 
     if(isset($course, $path)) {
-        $content = mgroup_read_file($path);
+        //$content = mgroup_read_file($path);
         $errors = false;
         $sql = "SELECT  a.id, a.username, b.userid, b.modifierid
                 FROM    {user} a
                 JOIN    {user_enrolments} b ON a.id = b.userid
                 WHERE   a.username = :id
                         AND b.modifierid = :course";
-        foreach ($content as $user) {
+        foreach ($MGROUP_CONTENT_FILE as $user) {
             list($id, $fullname) = $user;
             if(!$DB->record_exists_sql($sql, array('id' => $id, 'course' => $course))) {
                 $errors = true;
-                \core\notification::error('err_user', 'mgroup', array('name' => $fullname));
+                \core\notification::error(get_string('err_user', 'mgroup', array('name' => $fullname)));
             }
         }
         if(!$errors) {
             return true;
         }
     }
-    \core\notification::error('err_checkusers', 'mgroup');
+    \core\notification::error(get_string('err_checkusers', 'mgroup'));
     return false;
 }
 
