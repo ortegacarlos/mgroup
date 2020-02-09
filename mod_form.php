@@ -163,46 +163,62 @@ class mod_mgroup_mod_form extends moodleform_mod {
     }
 
     function validation($data, $files) {
+        global $DB;
+
         $errors = parent::validation($data, $files);
+        $groupsize = $DB->get_field('mgroup', 'groupsize', array('id' => $data['id']));
+
         if(array_key_exists('numberofcharacteristics', $data)) {
-            if(!$this->validation_groupsize((int)$data['numberofcharacteristics'])) {
+            if(! $this->validation_groupsize($data['numberofcharacteristics'])) {
                 $errors['numberofcharacteristics'] = get_string('err_numberofcharacteristics', 'mgroup');
             }
         }
+
         if(array_key_exists('populationsize', $data)) {
-            if(!$this->validation_populationsize((int)$data['populationsize'])) {
+            if(! $this->validation_populationsize($data['populationsize'])) {
                 $errors['populationsize'] = get_string('err_populationsize', 'mgroup');
             }
         }
+
         if(array_key_exists('groupsize', $data)) {
-            if(!$this->validation_groupsize((int)$data['groupsize'])) {
+            if(! $this->validation_groupsize($data['groupsize'])) {
                 $errors['groupsize'] = get_string('err_groupsize', 'mgroup');
             }
+            if(isset($groupsize)) {
+                if(! $this->validation_groupsize($data['groupsize'], $groupsize)) {
+                    $errors['groupsize'] = get_string('err_groupsizedb', 'mgroup');
+                }
+            }
         }
+
         if(array_key_exists('selectionoperator', $data)) {
-            if(!$this->validation_selectionoperator((int)$data['selectionoperator'])) {
+            if(! $this->validation_selectionoperator($data['selectionoperator'])) {
                 $errors['selectionoperator'] = get_string('err_selectionoperator', 'mgroup');
             }
         }
+
         if(array_key_exists('mutationoperator', $data)) {
-            if(!$this->validation_mutationoperator((float)$data['mutationoperator'])) {
+            if(! $this->validation_mutationoperator($data['mutationoperator'])) {
                 $errors['mutationoperator'] = get_string('err_mutationoperator', 'mgroup');
             }
-        }
-        if(array_key_exists('userfile', $data)) {
-            #$errors['userfile'] = $data['userfile'];
         }
 
         return $errors;
     }
 
     
-    function validation_groupsize($value) {
-        return ($value <= 0 or !is_int($value)) ? false:true;
+    function validation_groupsize($value, $field = null) {
+        if(isset($field)) {
+            if($value != $field) {
+                return false;
+            }
+            return true;
+        }
+        return ($value <= 0 or ! is_int($value)) ? false:true;
     }
     
     function validation_populationsize($value) {
-        return ($value <= 0 or !is_int($value)) ? false:true;
+        return ($value <= 0 or ! is_int($value)) ? false:true;
     }
 
     function validation_selectionoperator($value) {
@@ -211,11 +227,5 @@ class mod_mgroup_mod_form extends moodleform_mod {
 
     function validation_mutationoperator($value) {
         return ($value <= 0 or $value > 1) ? false:true;
-    }
-
-    function validation_userfile() {
-        #$mform =& $this->_form;
-        #$content = $mform->get_file_content('userfile');
-        #return $content;
     }
 }
