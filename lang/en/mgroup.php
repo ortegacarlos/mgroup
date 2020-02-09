@@ -81,6 +81,7 @@ $string['javaserver_desc'] = 'La dirección por defecto corresponde a un servido
 
 // Add string errors
 $string['err_groupsize'] = 'Debe suministrar un valor entero mayor a 0';
+$string['err_groupsizedb'] = 'El tamaño del grupo no corresponde con el guardado en la base de datos';
 $string['err_numberofcharacteristics'] = 'Debe suministrar un valor entero mayor a 0';
 $string['err_populationsize'] = 'Debe suministrar un valor entero mayor a 0';
 $string['err_selectionoperator'] = 'Debe suministrar un valor entero entre 1 y 100';
