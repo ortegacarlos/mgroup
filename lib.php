@@ -77,16 +77,16 @@ function mgroup_add_instance($mgroup, $mform = null) {
     $path = $CFG->dataroot.'/temp/filestorage/userfile.txt';
     $characteristics = $mgroup->numberofcharacteristics;
 
-    if(!mgroup_save_file($path, $mform)) {
+    if(! mgroup_save_file($path, $mform)) {
         print_error('error');
     }
 
-    if(!mgroup_check_file($path, $characteristics)) {
+    if(! mgroup_check_file($path, $characteristics)) {
         print_error('error');
     }
 
     if($mgroup->enrolled == '0') {
-        if(!mgroup_check_users_in_course($mgroup->course, $path)) {
+        if(! mgroup_check_users_in_course($mgroup->course, $path)) {
             print_error('error');
         }
     }
@@ -94,6 +94,7 @@ function mgroup_add_instance($mgroup, $mform = null) {
     $results = mgroup_form_groups($mgroup, $path);
 
     if(isset($results)) {
+        $mgroup->groupsize = $mgroup->numberofcharacteristics;
         $mgroup->timecreated = time();
         $mgroup->id = $DB->insert_record('mgroup', $mgroup);
 
@@ -153,14 +154,22 @@ function mgroup_update_instance($mgroup, $mform = null) {
 function mgroup_delete_instance($id) {
     global $DB;
 
-    $exists = $DB->get_record('mgroup', array('id' => $id));
-    if (!$exists) {
+    if (! $mgroup = $DB->get_record('mgroup', array('id' => $id))) {
         return false;
     }
 
-    $DB->delete_records('mgroup', array('id' => $id));
+    $result = true;
 
-    return true;
+    // Delete any dependent records here.
+
+    if(! $DB->delete_records('mgroup', array('id' => $id))) {
+        $result = false;
+    }
+    if(! $DB->delete_records('mgroup_individuals', array('mgroupid' => $id))) {
+        $result = false;
+    }
+
+    return $result;
 }
 
 /**
@@ -221,12 +230,12 @@ function mgroup_check_file($path, $characteristics) {
         $errrors = false;
         foreach($content as $line_number => $line) {
             //$parameters = explode(',', $line);
-            if(!mgroup_check_parameters($line, $characteristics)) {
+            if(! mgroup_check_parameters($line, $characteristics)) {
                 $errrors = true;
                 \core\notification::error(get_string('err_checkparameters', 'mgroup', array('number' => $line_number+1)));
             }
         }
-        if(!$errrors) {
+        if(! $errrors) {
             return true;
         }
     }
@@ -245,7 +254,7 @@ function mgroup_check_file($path, $characteristics) {
 function mgroup_check_parameters($parameters, $characteristics) {
 
     if(isset($parameters, $characteristics)) {
-        if($characteristics !== (count($parameters)-2)) {
+        if($characteristics != (count($parameters)-2)) {
             return false;
         }
         foreach($parameters as $parameter) {
@@ -278,12 +287,12 @@ function mgroup_check_users_in_course($course, $path) {
                         AND b.modifierid = :course";
         foreach ($MGROUP_CONTENT_FILE as $user) {
             list($id, $fullname) = $user;
-            if(!$DB->record_exists_sql($sql, array('id' => $id, 'course' => $course))) {
+            if(! $DB->record_exists_sql($sql, array('id' => $id, 'course' => $course))) {
                 $errors = true;
                 \core\notification::error(get_string('err_user', 'mgroup', array('name' => $fullname)));
             }
         }
-        if(!$errors) {
+        if(! $errors) {
             return true;
         }
     }
