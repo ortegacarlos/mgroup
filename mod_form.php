@@ -166,7 +166,7 @@ class mod_mgroup_mod_form extends moodleform_mod {
         global $DB;
 
         $errors = parent::validation($data, $files);
-        $groupsize = $DB->get_field('mgroup', 'groupsize', array('id' => $data['id']));
+        $groupsize = $DB->get_field('mgroup', 'groupsize', array('id' => $data['instance']));
 
         if(array_key_exists('numberofcharacteristics', $data)) {
             if(! $this->validation_groupsize($data['numberofcharacteristics'])) {
@@ -184,8 +184,8 @@ class mod_mgroup_mod_form extends moodleform_mod {
             if(! $this->validation_groupsize($data['groupsize'])) {
                 $errors['groupsize'] = get_string('err_groupsize', 'mgroup');
             }
-            if(isset($groupsize)) {
-                if(! $this->validation_groupsize($data['groupsize'], $groupsize)) {
+            if($groupsize != false) {
+                if(! $this->validation_groupsize($data['groupsize'], (int)$groupsize)) {
                     $errors['groupsize'] = get_string('err_groupsizedb', 'mgroup');
                 }
             }
