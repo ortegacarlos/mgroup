@@ -94,7 +94,7 @@ function mgroup_add_instance($mgroup, $mform = null) {
     $results = mgroup_form_groups($mgroup, $path);
 
     if(isset($results)) {
-        $mgroup->groupsize = $mgroup->numberofcharacteristics;
+        $mgroup->groupsize = $mgroup->groupsize;
         $mgroup->timecreated = time();
         $mgroup->id = $DB->insert_record('mgroup', $mgroup);
 
@@ -121,6 +121,7 @@ function mgroup_add_instance($mgroup, $mform = null) {
                 $DB->insert_record('mgroup_individuals', $data);
             }
         }
+        //file_put_contents($CFG->dataroot.'/temp/filestorage/resultscreate.json', json_encode($results));
         return $mgroup->id;
     }
 }
@@ -136,13 +137,59 @@ function mgroup_add_instance($mgroup, $mform = null) {
  * @return bool True if successful, false otherwise.
  */
 function mgroup_update_instance($mgroup, $mform = null) {
-    global $DB;
+    global $DB, $CFG, $MGROUP_CONTENT_FILE;
 
-    $mgroup->timemodified = time();
-    $mgroup->id = $mgroup->instance;
+    $path = $CFG->dataroot.'/temp/filestorage/userfile.txt';
+    $characteristics = $mgroup->numberofcharacteristics;
 
-    return $DB->update_record('mgroup', $mgroup);
-    
+    if(! mgroup_save_file($path, $mform)) {
+        print_error('error');
+    }
+
+    if(! mgroup_check_file($path, $characteristics)) {
+        print_error('error');
+    }
+
+    if($mgroup->enrolled == '0') {
+        if(! mgroup_check_users_in_course($mgroup->course, $path)) {
+            print_error('error');
+        }
+    }
+
+    $results = mgroup_form_groups($mgroup, $path);
+    $data = array();
+    $data = array_merge($data, $DB->get_records('mgroup_individuals', array('mgroupid' => $mgroup->instance)));
+
+    $index = 0;
+
+    if(isset($results)) {
+        foreach($results as $group => $individuals) {
+            foreach($individuals as $username) {
+                $data[$index]->mgroupid = $mgroup->instance;
+                $userid = $DB->get_field('user', 'id', array('username' => $username));
+                if(isset($userid)) {
+                    $data[$index]->userid = $userid;
+                }
+                $data[$index]->username = (string)$username;
+                foreach($MGROUP_CONTENT_FILE as $content) {
+                    if(in_array((string)$username, $content, true)) {
+                        $data[$index]->fullname = $content[1];
+                    }
+                }
+                if(empty($data[$index]->fullname)) {
+                    $data[$index]->fullname = 'DUMMY';
+                }
+                $data[$index]->timemodified = time();
+                $DB->update_record('mgroup_individuals', $data[$index]);
+                $index++;
+            }
+        }
+        $mgroup->timemodified = time();
+        $mgroup->id = $mgroup->instance;
+
+        //file_put_contents($CFG->dataroot.'/temp/filestorage/resultsupdate.json', json_encode($results));
+        return $DB->update_record('mgroup', $mgroup);
+    }
 }
 
 /**
