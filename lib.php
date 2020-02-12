@@ -171,6 +171,7 @@ function mgroup_update_instance($mgroup, $mform = null) {
                     $data[$index]->userid = $userid;
                 }
                 $data[$index]->username = (string)$username;
+                $data[$index]->fullname = null;
                 foreach($MGROUP_CONTENT_FILE as $content) {
                     if(in_array((string)$username, $content, true)) {
                         $data[$index]->fullname = $content[1];
