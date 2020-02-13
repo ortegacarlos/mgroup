@@ -40,8 +40,8 @@ class backup_mgroup_activity_structure_step extends backup_activity_structure_st
         $individuals = new backup_nested_element('individuals');
 
         $individual = new backup_nested_element('individual', array('id'), array(
-            'mgroupid', 'courseid', 'workgroup', 'userid',
-            'username', 'fullname', 'timecreated', 'timemodified'));
+            'mgroupid', 'workgroup', 'userid', 'username',
+            'fullname', 'timecreated', 'timemodified'));
 
         // Build the tree
         $mgroup->add_child($individuals);
