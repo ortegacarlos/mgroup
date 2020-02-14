@@ -1,4 +1,4 @@
-.path-mod-mgroup .group {
+.path-mod-mgroup .group .individual {
     border: 1px solid #ccc;
     width: 100%;
     display: inline-block;
@@ -6,11 +6,14 @@
     padding: 15px;
 }
 
-.path-mod-mgroup .individual {
+.path-mod-mgroup .group {
+    /*
     border: 1px solid #ccc;
     width: 100%;
     display: inline-block;
     margin: 5px;
-    margin-right: 20px;
     padding: 15px;
+    */
+    
+    padding-right: 25px;
 }
