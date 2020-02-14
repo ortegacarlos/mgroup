@@ -94,7 +94,7 @@ function mgroup_add_instance($mgroup, $mform = null) {
     $results = mgroup_form_groups($mgroup, $path);
 
     if(isset($results)) {
-        $mgroup->groupsize = $mgroup->groupsize;
+        //$mgroup->groupsize = $mgroup->groupsize;
         $mgroup->timecreated = time();
         $mgroup->id = $DB->insert_record('mgroup', $mgroup);
 
