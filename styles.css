@@ -3,7 +3,7 @@
     width: 100%;
     display: inline-block;
     margin: 5px;
-    padding: 5px;
+    padding: 15px;
 }
 
 .path-mod-mgroup .individual {
@@ -11,5 +11,6 @@
     width: 100%;
     display: inline-block;
     margin: 5px;
-    padding: 16px;
+    margin-right: 20px;
+    padding: 15px;
 }
