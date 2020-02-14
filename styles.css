@@ -1,9 +1,15 @@
 .path-mod-mgroup .group {
-    overflow: auto;
     border: 1px solid #ccc;
-    min-width: 80%;
-    max-width: 100%;
+    width: 100%;
     display: inline-block;
-    margin-left: 5px;
-    margin-right: 5px;
+    margin: 5px;
+    padding: 5px;
+}
+
+.path-mod-mgroup .individual {
+    border: 1px solid #ccc;
+    width: 100%;
+    display: inline-block;
+    margin: 5px;
+    padding: 16px;
 }
