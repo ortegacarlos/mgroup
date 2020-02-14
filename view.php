@@ -70,7 +70,7 @@ $individuals = array_chunk($DB->get_records('mgroup_individuals', array('mgroupi
 
 if(isset($individuals)) {
     foreach($individuals as $group => $individual) {
-        echo $OUTPUT->container_start('', 'group');
+        echo $OUTPUT->container_start('group', 'group');
         echo '<h3>Grupo '.($group + 1).'</h3><hr>';
         foreach($individual as $values) {
             $link = true;
@@ -83,7 +83,7 @@ if(isset($individuals)) {
                 $user->firstname = $values->fullname;
                 $user->lastname = '';
             }
-            echo $OUTPUT->box_start('generalbox', 'individual');
+            echo $OUTPUT->box_start('individual', 'individual');
             echo $OUTPUT->user_picture($user, array('courseid' => $course->id, 'size' => 50, 'popup' => true, 'includefullname' => true, 'link' => $link));
             echo $OUTPUT->box_end();
         }
