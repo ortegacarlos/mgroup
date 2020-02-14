@@ -62,6 +62,33 @@ $PAGE->set_context($modulecontext);
 
 echo $OUTPUT->header();
 
-echo '<h2>'.get_string('hello', 'mgroup', array('firstname' => $USER->firstname, 'lastname' => $USER->lastname)).'</h2>';
+echo '<div class="clearer"></div>';
+
+$user = null;
+$groupsize = $DB->get_field('mgroup', 'groupsize', array('id' => $moduleinstance->id));
+$individuals = array_chunk($DB->get_records('mgroup_individuals', array('mgroupid' => $moduleinstance->id)), (int)$groupsize);
+
+if(isset($individuals)) {
+    foreach($individuals as $group => $individual) {
+        echo $OUTPUT->container_start('', 'group');
+        echo '<h3>Grupo '.($group + 1).'</h3><hr>';
+        foreach($individual as $values) {
+            $link = true;
+            $user = $DB->get_record('user', array('id' => $values->userid));
+            if($values->userid == '0') {
+                $user = $DB->get_record('user', array('id' => 1));
+                $link = false;
+            }
+            if(isset($user)) {
+                $user->firstname = $values->fullname;
+                $user->lastname = '';
+            }
+            echo $OUTPUT->box_start('generalbox', 'individual');
+            echo $OUTPUT->user_picture($user, array('courseid' => $course->id, 'size' => 50, 'popup' => true, 'includefullname' => true, 'link' => $link));
+            echo $OUTPUT->box_end();
+        }
+        echo $OUTPUT->container_end();
+    }
+}
 
 echo $OUTPUT->footer();
