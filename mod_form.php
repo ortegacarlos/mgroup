@@ -39,8 +39,10 @@ class mod_mgroup_mod_form extends moodleform_mod {
      * Defines forms elements
      */
     public function definition() {
-        global $CFG, $USER;
+        global $CFG, $PAGE;
 
+        $PAGE->requires->js_call_amd('mod_mgroup/add_remove_characteristics', 'init');
+        
         $mform = $this->_form;
 
         // Adding the "general" fieldset, where all the common settings are showed.
