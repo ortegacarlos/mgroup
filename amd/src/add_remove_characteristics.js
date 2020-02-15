@@ -24,10 +24,11 @@
 define(['jquery'], function($) {
     return {
         init: function () {
-            $('#id_numberofcharacteristics').on('change', function(e) {
+            $('#id_numberofcharacteristics').on('click', function(e) {
                 e.preventDefault();
                 //$('#attemptsform').find('input:checkbox').prop('checked', $(this).data('selectInfo'));
                 alert($('#fgroup_id_grouphomocharacteristic').html());
+                console.log("Hello");
             });
         }
     };
