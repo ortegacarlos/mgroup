@@ -140,10 +140,10 @@ class mod_mgroup_mod_form extends moodleform_mod {
         //Adding characteristic panel
         //$mform->addElement('hidden', 'characteristic', '5');
         if($mform->elementExists('numberofcharacteristics')) {
-            $characteristic = $mform->getElementValue('numberofcharacteristics');
+            //$characteristic = $mform->getElementValue('numberofcharacteristics');
             $homocharacteristic = array();
             $hetecharacteristic = array();
-            for($i = 0; $i<(int)$characteristic; $i++) {
+            for($i = 0; $i<50; $i++) {
                 $homocharacteristic[] = $mform->createElement('radio', 'char'.($i+1), '', 'C'.($i+1), 0, null);
                 $hetecharacteristic[] = $mform->createElement('radio', 'char'.($i+1), '', 'C'.($i+1), 1, null);
                 $mform->setDefault('char'.(i+1), 0);
