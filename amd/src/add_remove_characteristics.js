@@ -24,12 +24,13 @@
 define(['jquery'], function($) {
     return {
         init: function () {
-            $('#id_numberofcharacteristics').on('change', function(e) {
-                e.preventDefault();
+
+            function addRadioButton(element) {
                 var fitemid = $('#fgroup_id_grouphomocharacteristic').children('.felement').find('.fitem').prop('id');
-                var numberofcharacteristics = parseInt($(this).val());
-                var index = parseInt(fitemid.substr(-3));
-                var labelid = fitemid.substr(0, fitemid.length-3);
+                var numberofcharacteristics = parseInt(element.val());
+                var index = fitemid.split('_');
+                var labelid = fitemid.substr(0, fitemid.length - index[index.length - 1].length);
+                index = parseInt(index[index.length - 1]);
                 var style = '';
                 var hidden = '';
                 var disabled = '';
@@ -41,27 +42,43 @@ define(['jquery'], function($) {
                 $('#fgroup_id_grouphomocharacteristic').children('.felement').empty();
                 $('#fgroup_id_grouphetecharacteristic').children('.felement').empty();
                 for (let i = 0; i < numberofcharacteristics; i++) {
-                        $('#fgroup_id_grouphomocharacteristic').children('.felement').append(
-                            '<label class="form-check-inline form-check-label  fitem  " id="'+labelid+index+'" '+hidden+' style'+style+'>'+
-                            '<input type="radio" class="form-check-input " name="char'+(i+1)+'" id="id_char'+(i+1)+'_0" value="0" checked '+disabled+'>'+
-                                'C'+(i+1)+
-                            '</label>'+
-                            '<span class="form-control-feedback invalid-feedback" id="id_error_char'+(i+1)+'_0"></span>'
-                        );
-                        index++;
-                        $('#fgroup_id_grouphetecharacteristic').children('.felement').append(
-                            '<label class="form-check-inline form-check-label  fitem  " id="'+labelid+index+'" '+hidden+' style'+style+'>'+
-                            '<input type="radio" class="form-check-input " name="char'+(i+1)+'" id="id_char'+(i+1)+'_1" value="1" '+disabled+'>'+
-                                'C'+(i+1)+
-                            '</label>'+
-                            '<span class="form-control-feedback invalid-feedback" id="id_error_char'+(i+1)+'_1"></span>'
-                        );
-                        index++;
+                    $('#fgroup_id_grouphomocharacteristic').children('.felement').append(
+                        '<label class="form-check-inline form-check-label  fitem  " id="'+labelid+index+'" '+hidden+' style'+style+'>'+
+                        '<input type="radio" class="form-check-input " name="char'+(i+1)+'" id="id_char'+(i+1)+'_0" value="0" checked '+disabled+'>'+
+                            'C'+(i+1)+
+                        '</label>'+
+                        '<span class="form-control-feedback invalid-feedback" id="id_error_char'+(i+1)+'_0"></span>'
+                    );
+                    index++;
+                    $('#fgroup_id_grouphetecharacteristic').children('.felement').append(
+                        '<label class="form-check-inline form-check-label  fitem  " id="'+labelid+index+'" '+hidden+' style'+style+'>'+
+                        '<input type="radio" class="form-check-input " name="char'+(i+1)+'" id="id_char'+(i+1)+'_1" value="1" '+disabled+'>'+
+                            'C'+(i+1)+
+                        '</label>'+
+                        '<span class="form-control-feedback invalid-feedback" id="id_error_char'+(i+1)+'_1"></span>'
+                    );
+                    index++;
                 }
+            }
+
+            function changeAttributes() {
+                $('#fgroup_id_grouphomocharacteristic').children('.felement').find('label').attr('hidden', 'hidden');
+                $('#fgroup_id_grouphomocharacteristic').children('.felement').find('label').attr('style', 'display: none;');
+                $('#fgroup_id_grouphomocharacteristic').children('.felement').find('input:radio').attr('disabled', 'disabled');
+                $('#fgroup_id_grouphetecharacteristic').children('.felement').find('label').attr('hidden', 'hiden');
+                $('#fgroup_id_grouphetecharacteristic').children('.felement').find('label').attr('style', 'display: none;');
+                $('#fgroup_id_grouphetecharacteristic').children('.felement').find('input:radio').attr('disabled', 'disabled');
+            }
+
+            $('#id_numberofcharacteristics').on('change', function(e) {
+                e.preventDefault();
+                console.log($(this));
+                addRadioButton($(this));
             });
 
             $('#id_groupingtype_2').on('change', function(e) {
                 if($(this).is(':checked')) {
+                    addRadioButton($('#id_numberofcharacteristics'));
                     $('#fgroup_id_grouphomocharacteristic').children('.felement').find('label').removeAttr('hidden');
                     $('#fgroup_id_grouphomocharacteristic').children('.felement').find('label').attr('style', '');
                     $('#fgroup_id_grouphomocharacteristic').children('.felement').find('input:radio').removeAttr('disabled');
@@ -73,23 +90,13 @@ define(['jquery'], function($) {
 
             $('#id_groupingtype_1').on('change', function(e) {
                 if($(this).is(':checked')) {
-                    $('#fgroup_id_grouphomocharacteristic').children('.felement').find('label').attr('hidden', 'hidden');
-                    $('#fgroup_id_grouphomocharacteristic').children('.felement').find('label').attr('style', 'display: none;');
-                    $('#fgroup_id_grouphomocharacteristic').children('.felement').find('input:radio').attr('disabled', 'disabled');
-                    $('#fgroup_id_grouphetecharacteristic').children('.felement').find('label').attr('hidden', 'hiden');
-                    $('#fgroup_id_grouphetecharacteristic').children('.felement').find('label').attr('style', 'display: none;');
-                    $('#fgroup_id_grouphetecharacteristic').children('.felement').find('input:radio').attr('disabled', 'disabled');
+                    changeAttributes();
                 }
             });
 
             $('#id_groupingtype_0').on('change', function(e) {
                 if($(this).is(':checked')) {
-                    $('#fgroup_id_grouphomocharacteristic').children('.felement').find('label').attr('hidden', 'hidden');
-                    $('#fgroup_id_grouphomocharacteristic').children('.felement').find('label').attr('style', 'display: none;');
-                    $('#fgroup_id_grouphomocharacteristic').children('.felement').find('input:radio').attr('disabled', 'disabled');
-                    $('#fgroup_id_grouphetecharacteristic').children('.felement').find('label').attr('hidden', 'hiden');
-                    $('#fgroup_id_grouphetecharacteristic').children('.felement').find('label').attr('style', 'display: none;');
-                    $('#fgroup_id_grouphetecharacteristic').children('.felement').find('input:radio').attr('disabled', 'disabled');
+                    changeAttributes();
                 }
             });
         }
