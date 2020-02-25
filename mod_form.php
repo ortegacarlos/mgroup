@@ -72,7 +72,7 @@ class mod_mgroup_mod_form extends moodleform_mod {
 
         // Adding the "userfile" field.
         $mform->addElement('filepicker', 'userfile', get_string('userfile', 'mgroup'), null,
-                array('maxbytes'=>50, 'accepted_types'=>'.txt'));
+                array('maxbytes'=>1048576, 'accepted_types'=>'.txt'));
         $mform->addRule('userfile', null, 'required', null, 'client');
         $mform->addHelpButton('userfile', 'userfile', 'mgroup');
 
