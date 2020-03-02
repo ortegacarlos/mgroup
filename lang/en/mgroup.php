@@ -87,6 +87,6 @@ $string['err_mutationoperator'] = 'Debe suministrar un valor entre 0 y 1';
 $string['err_savefile'] = 'Hubieron errores al guardar el archivo';
 $string['err_readfile'] = 'Hubieron errores al leer el archivo';
 $string['err_checkfile'] = 'Revise las inconsistencias encontradas en el archivo';
-$string['err_checkparameters'] = 'Hay inconsistencias en la línea {$a->number}';
+$string['err_checkparameters'] = 'Hay inconsistencias en la línea {$a->number}. El número de características ingresadas no coincide con el número de características guardadas en el archivo.';
 $string['err_checkusers'] = 'Revise que los estudiantes se encuentran matriculados en el curso';
 $string['err_user'] = '{$a->name} no se encuentra matriculado en el curso';
