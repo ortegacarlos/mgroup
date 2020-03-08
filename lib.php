@@ -74,19 +74,36 @@ function mgroup_supports($feature) {
 function mgroup_add_instance($mgroup, $mform = null) {
     global $DB, $CFG, $MGROUP_CONTENT_FILE;
 
-    $path = $CFG->dataroot.'/temp/filestorage/userfile.txt';
+    $path = $CFG->dataroot.'/temp/filestorage/userfile.csv';
     $characteristics = $mgroup->numberofcharacteristics;
-
-    if(! mgroup_save_file($path, $mform)) {
-        print_error('error');
+    $bfi = '0';
+    
+    if(isset($mgroup->bfi)) {
+        $bfi = $mgroup->bfi;
     }
 
-    if(! mgroup_check_file($path, $characteristics)) {
-        print_error('error');
+    if($bfi == '0') {
+        if(! mgroup_save_file($path, $mform)) {
+            print_error('error');
+        }
+    
+        if(! mgroup_check_file($path, $characteristics)) {
+            print_error('error');
+        }
+    
+        if($mgroup->enrolled == '0') {
+            if(! mgroup_check_users_in_course($mgroup->course, $path)) {
+                print_error('error');
+            }
+        }
     }
-
-    if($mgroup->enrolled == '0') {
-        if(! mgroup_check_users_in_course($mgroup->course, $path)) {
+    else {
+        $mgroup->numberofcharacteristics = 5;
+        $dimensionvalues = $DB->get_records('bfi_characteristic_values', array('bfiid' => $mgroup->bfi), '', 'username,fullname,extraversion,agreeableness,conscientiousness,neuroticism,openness');
+        if(! mgroup_create_file($path, $dimensionvalues)) {
+            print_error('error');
+        }
+        if(empty(mgroup_read_file($path))) {
             print_error('error');
         }
     }
@@ -94,7 +111,6 @@ function mgroup_add_instance($mgroup, $mform = null) {
     $results = mgroup_form_groups($mgroup, $path);
 
     if(isset($results)) {
-        //$mgroup->groupsize = $mgroup->groupsize;
         $mgroup->timecreated = time();
         $mgroup->id = $DB->insert_record('mgroup', $mgroup);
 
@@ -139,19 +155,36 @@ function mgroup_add_instance($mgroup, $mform = null) {
 function mgroup_update_instance($mgroup, $mform = null) {
     global $DB, $CFG, $MGROUP_CONTENT_FILE;
 
-    $path = $CFG->dataroot.'/temp/filestorage/userfile.txt';
+    $path = $CFG->dataroot.'/temp/filestorage/userfile.csv';
     $characteristics = $mgroup->numberofcharacteristics;
-
-    if(! mgroup_save_file($path, $mform)) {
-        print_error('error');
+    $bfi = '0';
+    
+    if(isset($mgroup->bfi)) {
+        $bfi = $mgroup->bfi;
     }
 
-    if(! mgroup_check_file($path, $characteristics)) {
-        print_error('error');
+    if($bfi == '0') {
+        if(! mgroup_save_file($path, $mform)) {
+            print_error('error');
+        }
+    
+        if(! mgroup_check_file($path, $characteristics)) {
+            print_error('error');
+        }
+    
+        if($mgroup->enrolled == '0') {
+            if(! mgroup_check_users_in_course($mgroup->course, $path)) {
+                print_error('error');
+            }
+        }
     }
-
-    if($mgroup->enrolled == '0') {
-        if(! mgroup_check_users_in_course($mgroup->course, $path)) {
+    else {
+        $mgroup->numberofcharacteristics = 5;
+        $dimensionvalues = $DB->get_records('bfi_characteristic_values', array('bfiid' => $mgroup->bfi), '', 'username,fullname,extraversion,agreeableness,conscientiousness,neuroticism,openness');
+        if(! mgroup_create_file($path, $dimensionvalues)) {
+            print_error('error');
+        }
+        if(empty(mgroup_read_file($path))) {
             print_error('error');
         }
     }
@@ -240,6 +273,29 @@ function mgroup_save_file($path, $mform = null) {
 }
 
 /**
+ * Create a text file of the mod_mgroup.
+ *
+ * @param string $path Text file path.
+ * @param object $dimensionvalues Object with values of each dimension.
+ * @return bool True if successful, false on failure.
+ */
+function mgroup_create_file($path, $dimensionvalues) {
+
+    if(isset($path, $dimensionvalues)) {
+        $data = array();
+        foreach($dimensionvalues as $values) {
+            $data[] = implode(',', (array)$values);
+        }       
+        if(file_put_contents($path, implode("\n", $data)) !== false) {
+            return true;
+        }
+    }
+
+    \core\notification::error(get_string('err_createfile', 'mgroup'));
+    return false;
+}
+
+/**
  * Read a text file of the mod_mgroup.
  *
  * @param string $path Text file path.
@@ -319,23 +375,21 @@ function mgroup_check_parameters($parameters, $characteristics) {
  * Check users enrolled in the course of the mod_mgroup.
  *
  * @param string $course Course id.
- * @param string $path Text field path.
  * @return boolean True if successful, false on failure.
  */
-function mgroup_check_users_in_course($course, $path) {
+function mgroup_check_users_in_course($course) {
     global $DB, $MGROUP_CONTENT_FILE;
 
-    if(isset($course, $path)) {
-        //$content = mgroup_read_file($path);
+    if(isset($course)) {
         $errors = false;
         $sql = "SELECT  a.id, a.username, b.userid, b.modifierid
                 FROM    {user} a
                 JOIN    {user_enrolments} b ON a.id = b.userid
-                WHERE   a.username = :id
+                WHERE   a.username = :username
                         AND b.modifierid = :course";
         foreach ($MGROUP_CONTENT_FILE as $user) {
-            list($id, $fullname) = $user;
-            if(! $DB->record_exists_sql($sql, array('id' => $id, 'course' => $course))) {
+            list($username, $fullname) = $user;
+            if(! $DB->record_exists_sql($sql, array('username' => $username, 'course' => $course))) {
                 $errors = true;
                 \core\notification::error(get_string('err_user', 'mgroup', array('name' => $fullname)));
             }
@@ -356,7 +410,11 @@ function mgroup_check_users_in_course($course, $path) {
  * @return object Array with results if successful, null on failure.
  */
 function mgroup_form_groups($mgroup, $path) {
-
+    /*
+    foreach($mgroup as $key => $value) {
+        \core\notification::error($key.' => '.$value.' Path: '.realpath($path));
+    }
+    */
     $characteristics = $mgroup->numberofcharacteristics;
     $groupsize = $mgroup->groupsize;
     $populationsize = $mgroup->populationsize;
@@ -403,5 +461,6 @@ function mgroup_form_groups($mgroup, $path) {
     if(isset($results)) {
         return $results;
     }
+
     return null;
 }
