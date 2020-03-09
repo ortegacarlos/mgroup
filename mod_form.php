@@ -49,7 +49,6 @@ class mod_mgroup_mod_form extends moodleform_mod {
         $mform->addElement('header', 'general', get_string('general', 'form'));
 
         // Adding the standard "name" field.
-        // $mform->addElement('static', 'hello', get_string('hello', 'mgroup', array('firstname' => $USER->firstname, 'lastname' => $USER->lastname)));
         $mform->addElement('text', 'name', get_string('mgroupname', 'mgroup'), array('size' => '64'));
         if (!empty($CFG->formatstringstriptags)) {
             $mform->setType('name', PARAM_TEXT);
@@ -66,7 +65,6 @@ class mod_mgroup_mod_form extends moodleform_mod {
         $mform->setType('groupsize', PARAM_INT);
         $mform->addRule('groupsize', null, 'required', null, 'client');
         $mform->addRule('groupsize', null, 'numeric', 'extraruledata', 'client');
-        #$mform->addRule('groupsize', get_string('err_numeric', 'mgroup'), 'nonzero', null, 'client');
         $mform->setDefault('groupsize', 4);
         $mform->addHelpButton('groupsize', 'groupsize', 'mgroup');
 
@@ -115,18 +113,18 @@ class mod_mgroup_mod_form extends moodleform_mod {
         if(empty($recordsbfi)) {
             $mform->addRule('numberofcharacteristics', null, 'required', null, 'client');
         }
+        else {
+            $mform->hideIf('numberofcharacteristics', 'bfi', 'neq', 0);
+        }
         $mform->addRule('numberofcharacteristics', null, 'numeric', 'extraruledata', 'client');
-        #$mform->addRule('numberofcharacteristics', get_string('err_numeric', 'mgroup'), 'nonzero', null, 'client');
         $mform->setDefault('numberofcharacteristics', 5);
         $mform->addHelpButton('numberofcharacteristics', 'numberofcharacteristics', 'mgroup');
-        //$mform->hideIf('numberofcharacteristics', 'bfi', 'neq', 0);
 
         // Adding the "populationsize" field.
         $mform->addElement('text', 'populationsize', get_string('populationsize', 'mgroup'), array('size' => '64'));
         $mform->setType('populationsize', PARAM_INT);
         $mform->addRule('populationsize', null, 'required', null, 'client');
         $mform->addRule('populationsize', null, 'numeric', 'extraruledata', 'client');
-        #$mform->addRule('populationsize', get_string('err_numeric', 'mgroup'), 'nonzero', null, 'client');
         $mform->setDefault('populationsize', 50);
         $mform->addHelpButton('populationsize', 'populationsize', 'mgroup');
 
@@ -135,7 +133,6 @@ class mod_mgroup_mod_form extends moodleform_mod {
         $mform->setType('selectionoperator', PARAM_INT);
         $mform->addRule('selectionoperator', null, 'required', null, 'client');
         $mform->addRule('selectionoperator', null, 'numeric', 'extraruledata', 'client');
-        #$mform->addRule('selectionoperator', get_string('err_numeric', 'mgroup'), 'nonzero', null, 'client');
         $mform->setDefault('selectionoperator', 40);
         $mform->addHelpButton('selectionoperator', 'selectionoperator', 'mgroup');
 
@@ -144,12 +141,10 @@ class mod_mgroup_mod_form extends moodleform_mod {
         $mform->setType('mutationoperator', PARAM_FLOAT);
         $mform->addRule('mutationoperator', null, 'required', null, 'client');
         $mform->addRule('mutationoperator', null, 'numeric', 'extraruledata', 'client');
-        #$mform->addRule('mutationoperator', get_string('err_numeric', 'mgroup'), 'nonzero', null, 'client');
         $mform->setDefault('mutationoperator', 0.2);
         $mform->addHelpButton('mutationoperator', 'mutationoperator', 'mgroup');
 
         // Adding grouping settings.
-        #$mform->addElement('static', 'label1', 'mgroupsettings', get_string('mgroupsettings', 'mgroup'));
         $mform->addElement('header', 'groupingsettings', get_string('groupingsettings', 'mgroup'));
         $groupingtype = array();
         $homogeneous = $mform->createElement('radio', 'groupingtype', '', get_string('homogeneous', 'mgroup'), 0, null);
@@ -164,9 +159,7 @@ class mod_mgroup_mod_form extends moodleform_mod {
         $mform->addHelpButton('groupingtypear', 'groupingtypear', 'mgroup');
 
         //Adding characteristic panel
-        //$mform->addElement('hidden', 'characteristic', '5');
         if($mform->elementExists('numberofcharacteristics')) {
-            //$characteristic = $mform->getElementValue('numberofcharacteristics');
             $homocharacteristic = array();
             $hetecharacteristic = array();
             for($i = 0; $i<50; $i++) {
