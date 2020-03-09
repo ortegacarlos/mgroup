@@ -127,7 +127,12 @@ function mgroup_add_instance($mgroup, $mform = null) {
                 $data->username = (string)$username;
                 foreach($MGROUP_CONTENT_FILE as $content) {
                     if(in_array((string)$username, $content, true)) {
-                        $data->fullname = $content[1];
+                        if(mb_detect_encoding($content[1], 'UTF-8', true) != 'UTF-8') {
+                            $data->fullname = utf8_encode($content[1]);
+                        }
+                        else {
+                            $data->fullname = $content[1];
+                        }
                     }
                 }
                 if(empty($data->fullname)) {
@@ -207,7 +212,12 @@ function mgroup_update_instance($mgroup, $mform = null) {
                 $data[$index]->fullname = null;
                 foreach($MGROUP_CONTENT_FILE as $content) {
                     if(in_array((string)$username, $content, true)) {
-                        $data[$index]->fullname = $content[1];
+                        if(mb_detect_encoding($content[1], 'UTF-8', true) != 'UTF-8') {
+                            $data->fullname = utf8_encode($content[1]);
+                        }
+                        else {
+                            $data->fullname = $content[1];
+                        }
                     }
                 }
                 if(empty($data[$index]->fullname)) {
@@ -309,7 +319,7 @@ function mgroup_read_file($path) {
     if(isset($path)) {
         if($content = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES)) {
             foreach($content as $line) {
-                $parameters[] = explode(',', utf8_encode($line));
+                $parameters[] = explode(',', $line);
             }
             $MGROUP_CONTENT_FILE = $parameters;
             return $parameters;
