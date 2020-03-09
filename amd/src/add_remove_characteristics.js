@@ -34,7 +34,7 @@ define(['jquery'], function($) {
                 var style = '';
                 var hidden = '';
                 var disabled = '';
-                if(!$('#id_groupingtype_2').is(':checked')) {
+                if(! $('#id_groupingtype_2').is(':checked')) {
                         style = '="display: none;"';
                         hidden = 'hidden="hidden"';
                         disabled = 'disabled="disabled"';
@@ -72,11 +72,11 @@ define(['jquery'], function($) {
 
             $('#id_numberofcharacteristics').on('change', function(e) {
                 e.preventDefault();
-                console.log($(this));
                 addRadioButton($(this));
             });
 
             $('#id_groupingtype_2').on('change', function(e) {
+                e.preventDefault();
                 if($(this).is(':checked')) {
                     addRadioButton($('#id_numberofcharacteristics'));
                     $('#fgroup_id_grouphomocharacteristic').children('.felement').find('label').removeAttr('hidden');
@@ -89,14 +89,24 @@ define(['jquery'], function($) {
             });
 
             $('#id_groupingtype_1').on('change', function(e) {
+                e.preventDefault();
                 if($(this).is(':checked')) {
                     changeAttributes();
                 }
             });
 
             $('#id_groupingtype_0').on('change', function(e) {
+                e.preventDefault();
                 if($(this).is(':checked')) {
                     changeAttributes();
+                }
+            });
+
+            $('input[name=bfi]').on('change', function(e) {
+                e.preventDefault();
+                if(! $('#id_bfi_0').is(':checked')) {
+                    $('#id_numberofcharacteristics').val(5);
+                    addRadioButton($('#id_numberofcharacteristics'));
                 }
             });
         }
