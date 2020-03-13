@@ -79,7 +79,7 @@ class mod_mgroup_mod_form extends moodleform_mod {
             $bfi[] = $mform->createElement('radio', 'bfi', '', get_string('uploadfile', 'mgroup'), 0, null);
             $mform->addGroup($bfi, 'groupingbfi', get_string('groupingbfi', 'mgroup'), array('<br />'), false);
             $mform->addRule('groupingbfi', null, 'required', null, 'client');
-            $mform->setDefault('bfi', $mform->getElementValue('bfi'));
+            $mform->setDefault('bfi', $bfi[0]->_attributes['value']);
             $mform->addHelpButton('groupingbfi', 'groupingbfi', 'mgroup');
         }
 
