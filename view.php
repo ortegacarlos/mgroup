@@ -71,21 +71,23 @@ $individuals = array_chunk($DB->get_records('mgroup_individuals', array('mgroupi
 if(isset($individuals)) {
     foreach($individuals as $group => $individual) {
         echo $OUTPUT->container_start('group', 'group');
-        echo '<h3>Grupo '.($group + 1).'</h3><hr>';
+        echo '<h3>'.get_string('group', 'mgroup').' '.($group + 1).'</h3><hr>';
         foreach($individual as $values) {
-            $link = true;
-            $user = $DB->get_record('user', array('id' => $values->userid));
-            if($values->userid == '0') {
-                $user = $DB->get_record('user', array('id' => 1));
-                $link = false;
+            if($values->username != '0') {
+                $link = true;
+                $user = $DB->get_record('user', array('id' => $values->userid));
+                if($values->userid == '0') {
+                    $user = $DB->get_record('user', array('id' => 1));
+                    $link = false;
+                }
+                if(isset($user)) {
+                    $user->firstname = $values->fullname;
+                    $user->lastname = '';
+                }
+                echo $OUTPUT->box_start('individual', 'individual');
+                echo $OUTPUT->user_picture($user, array('courseid' => $course->id, 'size' => 50, 'popup' => true, 'includefullname' => true, 'link' => $link));
+                echo $OUTPUT->box_end();
             }
-            if(isset($user)) {
-                $user->firstname = $values->fullname;
-                $user->lastname = '';
-            }
-            echo $OUTPUT->box_start('individual', 'individual');
-            echo $OUTPUT->user_picture($user, array('courseid' => $course->id, 'size' => 50, 'popup' => true, 'includefullname' => true, 'link' => $link));
-            echo $OUTPUT->box_end();
         }
         echo $OUTPUT->container_end();
     }
