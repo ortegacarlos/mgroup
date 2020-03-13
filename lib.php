@@ -125,16 +125,7 @@ function mgroup_add_instance($mgroup, $mform = null) {
                     $data->userid = $userid;
                 }
                 $data->username = (string)$username;
-                foreach($MGROUP_CONTENT_FILE as $content) {
-                    if(in_array((string)$username, $content, true)) {
-                        if(mb_detect_encoding($content[1], 'UTF-8', true) != 'UTF-8') {
-                            $data->fullname = utf8_encode($content[1]);
-                        }
-                        else {
-                            $data->fullname = $content[1];
-                        }
-                    }
-                }
+                $data->fullname = mgroup_searching_individual_in_content_file($username);
                 if(empty($data->fullname)) {
                     $data->fullname = 'DUMMY';
                 }
@@ -203,29 +194,39 @@ function mgroup_update_instance($mgroup, $mform = null) {
     if(isset($results)) {
         foreach($results as $group => $individuals) {
             foreach($individuals as $username) {
-                $data[$index]->mgroupid = $mgroup->instance;
-                $userid = $DB->get_field('user', 'id', array('username' => $username));
-                if(isset($userid)) {
-                    $data[$index]->userid = $userid;
-                }
-                $data[$index]->username = (string)$username;
-                $data[$index]->fullname = null;
-                foreach($MGROUP_CONTENT_FILE as $content) {
-                    if(in_array((string)$username, $content, true)) {
-                        if(mb_detect_encoding($content[1], 'UTF-8', true) != 'UTF-8') {
-                            $data->fullname = utf8_encode($content[1]);
-                        }
-                        else {
-                            $data->fullname = $content[1];
-                        }
+                if(isset($data[$index])) {
+                    $data[$index]->mgroupid = $mgroup->instance;
+                    $userid = $DB->get_field('user', 'id', array('username' => $username));
+                    if(isset($userid)) {
+                        $data[$index]->userid = $userid;
                     }
+                    $data[$index]->username = (string)$username;
+                    $data[$index]->fullname = mgroup_searching_individual_in_content_file($username);
+                    if(empty($data[$index]->fullname)) {
+                        $data[$index]->fullname = 'DUMMY';
+                    }
+                    $data[$index]->timemodified = time();
+                    $DB->update_record('mgroup_individuals', $data[$index]);
+                    $index++;
                 }
-                if(empty($data[$index]->fullname)) {
-                    $data[$index]->fullname = 'DUMMY';
+                else {
+                    $datainsert = new stdClass();
+                    $datainsert->mgroupid = $mgroup->instance;
+                    $datainsert->courseid = (int)$mgroup->course;
+                    $datainsert->workgroup = ($group + 1);
+                    $userid = $DB->get_field('user', 'id', array('username' => $username));
+                    if(isset($userid)) {
+                        $datainsert->userid = $userid;
+                    }
+                    $datainsert->username = (string)$username;
+                    $datainsert->fullname = mgroup_searching_individual_in_content_file($username);
+                    if(empty($datainsert->fullname)) {
+                        $datainsert->fullname = 'DUMMY';
+                    }
+                    $datainsert->timecreated = time();
+                    $DB->insert_record('mgroup_individuals', $datainsert);
+                    $index++;
                 }
-                $data[$index]->timemodified = time();
-                $DB->update_record('mgroup_individuals', $data[$index]);
-                $index++;
             }
         }
         $mgroup->timemodified = time();
@@ -261,6 +262,28 @@ function mgroup_delete_instance($id) {
     }
 
     return $result;
+}
+
+/**
+ * Search a individual in the content file.
+ *
+ * @param string $username Username of the individual.
+ * @return string String with individual's fullname, null on failure.
+ */
+function mgroup_searching_individual_in_content_file($username) {
+    global $MGROUP_CONTENT_FILE;
+
+    foreach($MGROUP_CONTENT_FILE as $content) {
+        if(in_array((string)$username, $content, true)) {
+            if(mb_detect_encoding($content[1], 'UTF-8', true) != 'UTF-8') {
+                return(utf8_encode($content[1]));
+            }
+            else {
+                return($content[1]);
+            }
+        }
+    }
+    return null;
 }
 
 /**
@@ -420,11 +443,6 @@ function mgroup_check_users_in_course($course) {
  * @return object Array with results if successful, null on failure.
  */
 function mgroup_form_groups($mgroup, $path) {
-    /*
-    foreach($mgroup as $key => $value) {
-        \core\notification::error($key.' => '.$value.' Path: '.realpath($path));
-    }
-    */
     $characteristics = $mgroup->numberofcharacteristics;
     $groupsize = $mgroup->groupsize;
     $populationsize = $mgroup->populationsize;
@@ -452,16 +470,17 @@ function mgroup_form_groups($mgroup, $path) {
     $generations = 0;
     $ga = new Java('GA', $data, $populationsize, $selectionoperator, $mutationoperator);
     $ga->initialPopulation();
-    if($groupingtype == 0) {
+    if(java_values($data->getGroupingType()) == 0) {
         $ga->checkFitnessMinimize();
     }
     $ga->evaluation();
     //java_values($ga->getPopulation()[$ga->getBestPosition()]->getRawFitness()) > 0.01
     while ($generations < 1000) {
-        $ga->rouletteWheelW((int)ceil(java_values($ga->getPopulationSize())) * ((double)java_values($ga->getSelectionPercent()) / 100));
+        //$ga->rouletteWheelW((int)ceil(java_values($ga->getPopulationSize())) * ((double)java_values($ga->getSelectionPercent()) / 100));
+        $ga->tournDeterministicSelection(2);
         $ga->reproduction();
         $ga->mutation();
-        if($groupingtype == 0) {
+        if(java_values($data->getGroupingType()) == 0) {
             $ga->checkFitnessMinimize();
         }
         $ga->evaluation();
