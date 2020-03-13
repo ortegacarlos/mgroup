@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['pluginname'] = 'Formación de Grupos colaborativos';
 $string['modulename'] = 'Formación de Grupos Colaborativos';
-$string['modulename_help'] = 'El módulo "Formación de Grupos Colaborativos" permite al docente la formación grupos de trabajo con un enfoque colaborativo con los estudiantes de un curso.';
+$string['modulename_help'] = 'El módulo "Formación de Grupos Colaborativos" permite formar grupos para escenarios de trabajo colaborativo; formación basada en características de los participantes, como por ejemplo, rasgos de la personalidad.';
 $string['modulenameplural'] = 'Formación de Grupos Colaborativos';
 
 $string['mgroupname'] = 'Nombre del grupo';
@@ -76,6 +76,8 @@ $string['grouphomocharacteristic_help'] = 'Seleccione las características que s
 
 $string['grouphetecharacteristic'] = 'Heterogéneo para...';
 $string['grouphetecharacteristic_help'] = 'Seleccione las características que serán tomadas como heterogéneas al momento de la conformación de grupos.';
+
+$string['group'] = 'Grupo';
 
 // Add string admin settings
 $string['defaultsettings'] = 'Configuración por defecto';
