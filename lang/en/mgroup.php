@@ -40,7 +40,7 @@ $string['groupsize'] = 'Tamaño del grupo';
 $string['groupsize_help'] = 'Digite un valor entero correspondiente a la cantidad de individuos en cada grupo. El valor por defecto es de 4 individuos.';
 
 $string['numberofcharacteristics'] = 'Cantidad de características';
-$string['numberofcharacteristics_help'] = 'Digite un valor entero correspondiente a la cantidad de características de cada individuo necesarias para la conformación de los grupos. El valor por defecto es de 5 características.';
+$string['numberofcharacteristics_help'] = 'Digite un valor entero correspondiente a la cantidad de características de cada individuo necesarias para la formación de los grupos. El valor por defecto es de 5 características.';
 
 $string['populationsize'] = 'Tamaño de la población';
 $string['populationsize_help'] = 'Digite un valor entero correspondiente al tamaño de la población a considerar. El valor por defecto es de 50 individuos.';
@@ -53,11 +53,11 @@ $string['mutationoperator_help'] = 'Digite un valor real correspondiente a la pr
 
 $string['uploadfile'] = 'Subir archivo';
 
-$string['groupingbfi'] = 'Seleccione una opción';
-$string['groupingbfi_help'] = 'Seleccione una opción si desea formar los grupos con los valores obtenidos de la selección del módulo "BFI", de lo contrario seleccione la opción "Subir archivo" para utilizar sus valores y formar los grupos.';
+$string['groupingbfi'] = 'Fuente de datos';
+$string['groupingbfi_help'] = 'Seleccione una opción si desea formar los grupos con los resultados obtenidos del módulo "Resultados BFI", de lo contrario seleccione la opción "Subir archivo" para utilizar sus valores y formar los grupos.';
 
 $string['userfile'] = 'Archivo de datos';
-$string['userfile_help'] = 'Campo para cargar el archivo de texto plano con los datos requeridos para la conformación de grupos de trabajo colaborativo.';
+$string['userfile_help'] = 'Campo para cargar un archivo de texto plano, con valores separados por comas (.csv), que almacena los datos y cuantificación de las características de los individuos requeridos para la formación de grupos de trabajo colaborativo.';
 
 $string['enrolled'] = 'Permitir estudiantes no matriculados en el curso';
 $string['enrolled_help'] = 'Seleccione esta opción si desea permitir la formación de grupos con estudiantes no matriculados en su curso.';
@@ -69,13 +69,13 @@ $string['heterogeneous'] = 'Heterogéneo';
 $string['mixed'] = 'Mixto';
 
 $string['groupingtypear'] = 'Tipo de agrupamiento';
-$string['groupingtypear_help'] = 'Seleccione el tipo de agrupamiento que desea utilizar al momento de hacer la conformación de grupos. El agrupamiento mixto toma un combinación de características homogéneas y heterogéneas al momento de hacer la conformación de grupos.';
+$string['groupingtypear_help'] = 'Seleccione el tipo de agrupamiento que desea utilizar al momento de hacer la formación de grupos. El agrupamiento mixto toma un combinación de características homogéneas y heterogéneas al momento de hacer la formación de grupos.';
 
 $string['grouphomocharacteristic'] = 'Homogéneo para...';
-$string['grouphomocharacteristic_help'] = 'Seleccione las características que serán tomadas como homogéneas al momento de la conformación de grupos.';
+$string['grouphomocharacteristic_help'] = 'Seleccione las características que serán tomadas como homogéneas al momento de la formación de grupos.';
 
 $string['grouphetecharacteristic'] = 'Heterogéneo para...';
-$string['grouphetecharacteristic_help'] = 'Seleccione las características que serán tomadas como heterogéneas al momento de la conformación de grupos.';
+$string['grouphetecharacteristic_help'] = 'Seleccione las características que serán tomadas como heterogéneas al momento de la formación de grupos.';
 
 $string['group'] = 'Grupo';
 
