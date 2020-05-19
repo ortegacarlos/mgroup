@@ -466,9 +466,9 @@ function mgroup_form_groups($mgroup, $path) {
         }
     }
 
-    $data = new Java('Data', $path, $groupsize, $groupingtype, $hetecharacteristics, $homocharacteristics);
+    $data = new Java('TeamB_Pack.Data', $path, $groupsize, $groupingtype, $hetecharacteristics, $homocharacteristics);
     $generations = 0;
-    $ga = new Java('GA', $data, $populationsize, $selectionoperator, $mutationoperator);
+    $ga = new Java('TeamB_Pack.GA', $data, $populationsize, $selectionoperator, $mutationoperator);
     $ga->initialPopulation();
     if(java_values($data->getGroupingType()) == 0) {
         $ga->checkFitnessMinimize();
