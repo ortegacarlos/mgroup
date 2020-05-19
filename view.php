@@ -78,12 +78,16 @@ if(isset($individuals)) {
                 $user = $DB->get_record('user', array('id' => $values->userid));
                 if($values->userid == '0') {
                     $user = $DB->get_record('user', array('id' => 1));
+                    $user->firstname = $values->fullname;
+                    $user->lastname = '';
                     $link = false;
                 }
+                /*
                 if(isset($user)) {
                     $user->firstname = $values->fullname;
                     $user->lastname = '';
                 }
+                */
                 echo $OUTPUT->box_start('individual', 'individual');
                 echo $OUTPUT->user_picture($user, array('courseid' => $course->id, 'size' => 50, 'popup' => true, 'includefullname' => true, 'link' => $link));
                 echo $OUTPUT->box_end();
