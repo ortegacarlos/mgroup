@@ -27,6 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 if(isset($CFG->mgroup_javaserver)) {
     require_once($CFG->mgroup_javaserver);
 }
+
 //The content of the text file to be used in later functions
 global $MGROUP_CONTENT_FILE;
 $MGROUP_CONTENT_FILE = null;

@@ -81,8 +81,8 @@ $string['group'] = 'Grupo';
 
 // Add string admin settings
 $string['defaultsettings'] = 'Configuración por defecto';
-$string['javaserver'] = 'Dirección del servidor Java';
-$string['javaserver_desc'] = 'La dirección por defecto corresponde a un servidor Java ejecutándose en la misma máquina en la cual se ejecuta el servidor Web. Si el servidor Java se encuentra ejecuntando en otra máquina, por favor ingrese la dirección correspondiente.';
+$string['javaserver'] = 'Dirección de la aplicación PHP/Java Bridge';
+$string['javaserver_desc'] = 'La dirección por defecto accede a la aplicación que escucha en la interfaz local. Si la aplicación se encuentra ejecuntando fuera de un ambiente local, por favor ingrese la dirección correspondiente.';
 
 // Add string errors
 $string['err_groupsize'] = 'Debe suministrar un valor entero mayor a 0';
