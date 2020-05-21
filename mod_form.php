@@ -65,6 +65,7 @@ class mod_mgroup_mod_form extends moodleform_mod {
         $mform->setType('groupsize', PARAM_INT);
         $mform->addRule('groupsize', null, 'required', null, 'client');
         $mform->addRule('groupsize', null, 'numeric', 'extraruledata', 'client');
+        $mform->addRule('groupsize', null, 'nopunctuation', null, 'client');
         $mform->setDefault('groupsize', 4);
         $mform->addHelpButton('groupsize', 'groupsize', 'mgroup');
 
@@ -117,6 +118,7 @@ class mod_mgroup_mod_form extends moodleform_mod {
             $mform->hideIf('numberofcharacteristics', 'bfi', 'neq', 0);
         }
         $mform->addRule('numberofcharacteristics', null, 'numeric', 'extraruledata', 'client');
+        $mform->addRule('numberofcharacteristics', null, 'nopunctuation', null, 'client');
         $mform->setDefault('numberofcharacteristics', 5);
         $mform->addHelpButton('numberofcharacteristics', 'numberofcharacteristics', 'mgroup');
 
@@ -125,6 +127,7 @@ class mod_mgroup_mod_form extends moodleform_mod {
         $mform->setType('populationsize', PARAM_INT);
         $mform->addRule('populationsize', null, 'required', null, 'client');
         $mform->addRule('populationsize', null, 'numeric', 'extraruledata', 'client');
+        $mform->addRule('populationsize', null, 'nopunctuation', null, 'client');
         $mform->setDefault('populationsize', 50);
         $mform->addHelpButton('populationsize', 'populationsize', 'mgroup');
 
@@ -143,6 +146,14 @@ class mod_mgroup_mod_form extends moodleform_mod {
         $mform->addRule('mutationoperator', null, 'numeric', 'extraruledata', 'client');
         $mform->setDefault('mutationoperator', 0.2);
         $mform->addHelpButton('mutationoperator', 'mutationoperator', 'mgroup');
+
+        // Adding the "numberofgenerations" field.
+        $mform->addElement('text', 'numberofgenerations', get_string('numberofgenerations', 'mgroup'), array('size' => '64'));
+        $mform->setType('numberofgenerations', PARAM_INT);
+        $mform->addRule('numberofgenerations', null, 'required', null, 'client');
+        $mform->addRule('numberofgenerations', null, 'numeric', 'extraruledata', 'client');
+        $mform->setDefault('numberofgenerations', 150);
+        $mform->addHelpButton('numberofgenerations', 'numberofgenerations', 'mgroup');
 
         // Adding grouping settings.
         $mform->addElement('header', 'groupingsettings', get_string('groupingsettings', 'mgroup'));
@@ -189,6 +200,17 @@ class mod_mgroup_mod_form extends moodleform_mod {
         $errors = parent::validation($data, $files);
         $groupsize = $DB->get_field('mgroup', 'groupsize', array('id' => $data['instance']));
 
+        if(array_key_exists('groupsize', $data)) {
+            if(! $this->validation_groupsize($data['groupsize'])) {
+                $errors['groupsize'] = get_string('err_groupsize', 'mgroup');
+            }
+            if($groupsize != false) {
+                if(! $this->validation_groupsize($data['groupsize'], (int)$groupsize)) {
+                    $errors['groupsize'] = get_string('err_groupsizedb', 'mgroup');
+                }
+            }
+        }
+
         if(array_key_exists('numberofcharacteristics', $data)) {
             if(! $this->validation_groupsize($data['numberofcharacteristics'])) {
                 $errors['numberofcharacteristics'] = get_string('err_numberofcharacteristics', 'mgroup');
@@ -201,17 +223,6 @@ class mod_mgroup_mod_form extends moodleform_mod {
             }
         }
 
-        if(array_key_exists('groupsize', $data)) {
-            if(! $this->validation_groupsize($data['groupsize'])) {
-                $errors['groupsize'] = get_string('err_groupsize', 'mgroup');
-            }
-            if($groupsize != false) {
-                if(! $this->validation_groupsize($data['groupsize'], (int)$groupsize)) {
-                    $errors['groupsize'] = get_string('err_groupsizedb', 'mgroup');
-                }
-            }
-        }
-
         if(array_key_exists('selectionoperator', $data)) {
             if(! $this->validation_selectionoperator($data['selectionoperator'])) {
                 $errors['selectionoperator'] = get_string('err_selectionoperator', 'mgroup');
@@ -221,6 +232,12 @@ class mod_mgroup_mod_form extends moodleform_mod {
         if(array_key_exists('mutationoperator', $data)) {
             if(! $this->validation_mutationoperator($data['mutationoperator'])) {
                 $errors['mutationoperator'] = get_string('err_mutationoperator', 'mgroup');
+            }
+        }
+
+        if(array_key_exists('numberofgenerations', $data)) {
+            if(! $this->validation_groupsize($data['numberofgenerations'])) {
+                $errors['numberofgenerations'] = get_string('err_numberofgenerations', 'mgroup');
             }
         }
 

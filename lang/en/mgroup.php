@@ -51,6 +51,9 @@ $string['selectionoperator_help'] = 'Digite un valor entero correspondiente al p
 $string['mutationoperator'] = 'Operador de mutación';
 $string['mutationoperator_help'] = 'Digite un valor real correspondiente a la probabilidad a considerar para el operador de mutación. El valor por defecto es de 0.2.';
 
+$string['numberofgenerations'] = 'Cantidad de generaciones';
+$string['numberofgenerations_help'] = 'Digite un valor entero correspondiente a la cantidad máxima de generaciones para el ciclo de evolución. El valor por defecto es de 150 generaciones.';
+
 $string['uploadfile'] = 'Subir archivo';
 
 $string['groupingbfi'] = 'Fuente de datos';
@@ -91,6 +94,7 @@ $string['err_numberofcharacteristics'] = 'Debe suministrar un valor entero mayor
 $string['err_populationsize'] = 'Debe suministrar un valor entero mayor a 0';
 $string['err_selectionoperator'] = 'Debe suministrar un valor entero entre 1 y 100';
 $string['err_mutationoperator'] = 'Debe suministrar un valor entre 0 y 1';
+$string['err_numberofgenerations'] = 'Debe suministrar un valor entero mayor a 0';
 $string['err_savefile'] = 'Error al guardar el archivo o  no se cargó ningún archivo previamente';
 $string['err_createfile'] = 'Error al crear el archivo';
 $string['err_readfile'] = 'Error al leer el archivo';

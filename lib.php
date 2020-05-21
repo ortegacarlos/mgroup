@@ -449,6 +449,7 @@ function mgroup_form_groups($mgroup, $path) {
     $populationsize = $mgroup->populationsize;
     $selectionoperator = $mgroup->selectionoperator;
     $mutationoperator = $mgroup->mutationoperator;
+    $maxgenerations = $mgroup->numberofgenerations;
     $groupingtype = (int)$mgroup->groupingtype;
     $hetecharacteristics = null;
     $homocharacteristics = null;
@@ -476,7 +477,7 @@ function mgroup_form_groups($mgroup, $path) {
     }
     $ga->evaluation();
     //java_values($ga->getPopulation()[$ga->getBestPosition()]->getRawFitness()) > 0.01
-    while ($generations < 1000) {
+    while ($generations < $maxgenerations) {
         //$ga->rouletteWheelW((int)ceil(java_values($ga->getPopulationSize())) * ((double)java_values($ga->getSelectionPercent()) / 100));
         $ga->tournDeterministicSelection(2);
         $ga->reproduction();
