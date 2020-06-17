@@ -18,7 +18,7 @@
  * Prints an instance of mod_mgroup.
  *
  * @package     mod_mgroup
- * @copyright   2019 Carlos Ortega <carlosortega@udenar.edu.co>
+ * @copyright   2019 Carlos Ortega <carlosortega@udenar.edu.co> Oscar Revelo Sánchez <orevelo@udenar.edu.co> Jesús Insuasti Portilla <insuasty@udenar.edu.co>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
