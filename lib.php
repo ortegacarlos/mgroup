@@ -284,6 +284,7 @@ function mgroup_searching_individual_in_content_file($username) {
             }
         }
     }
+
     return null;
 }
 
@@ -392,7 +393,7 @@ function mgroup_check_file($path, $characteristics) {
 function mgroup_check_parameters($parameters, $characteristics) {
 
     if(isset($parameters, $characteristics)) {
-        if($characteristics != (count($parameters)-2)) {
+        if($characteristics != (count($parameters)-3)) {
             return false;
         }
         foreach($parameters as $parameter) {
@@ -488,8 +489,18 @@ function mgroup_form_groups($mgroup, $path) {
         $ga->evaluation();
         $generations++;
     }
+
     $results = java_values($ga->getPopulation()[$ga->getBestPosition()]->getGenes());
+
     if(isset($results)) {
+        foreach($results as $keygroup => $group) {
+            foreach($group as $keyusername => $username) {
+                if(empty(mgroup_searching_individual_in_content_file($username))) {
+                    $results[$keygroup][$keyusername] = 0;
+                }
+            }
+        }
+        
         return $results;
     }
 
