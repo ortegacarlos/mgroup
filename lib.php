@@ -75,7 +75,7 @@ function mgroup_supports($feature) {
 function mgroup_add_instance($mgroup, $mform = null) {
     global $DB, $CFG, $MGROUP_CONTENT_FILE;
 
-    $path = $CFG->dataroot.'/temp/filestorage/userfile.csv';
+    $path = $CFG->dataroot.'/temp/filestorage/userfile_'.(time() + rand()).'.csv';
     $characteristics = $mgroup->numberofcharacteristics;
     $bfi = '0';
     
@@ -88,19 +88,19 @@ function mgroup_add_instance($mgroup, $mform = null) {
             print_error('error');
         }
     
-        if(! mgroup_check_file($path, $characteristics)) {
+        if(! mgroup_check_file($characteristics)) {
             print_error('error');
         }
     
         if($mgroup->enrolled == '0') {
-            if(! mgroup_check_users_in_course($mgroup->course, $path)) {
+            if(! mgroup_check_users_in_course($mgroup->course)) {
                 print_error('error');
             }
         }
     }
     else {
         $mgroup->numberofcharacteristics = 5;
-        $dimensionvalues = $DB->get_records('bfi_characteristic_values', array('bfiid' => $mgroup->bfi), '', 'username,fullname,extraversion,agreeableness,conscientiousness,neuroticism,openness');
+        $dimensionvalues = $DB->get_records('bfi_characteristic_values', array('bfiid' => $mgroup->bfi), '', 'userid,extraversion,agreeableness,conscientiousness,neuroticism,openness');
         if(! mgroup_create_file($path, $dimensionvalues)) {
             print_error('error');
         }
@@ -152,7 +152,7 @@ function mgroup_add_instance($mgroup, $mform = null) {
 function mgroup_update_instance($mgroup, $mform = null) {
     global $DB, $CFG, $MGROUP_CONTENT_FILE;
 
-    $path = $CFG->dataroot.'/temp/filestorage/userfile.csv';
+    $path = $CFG->dataroot.'/temp/filestorage/userfile_'.(time() + rand()).'.csv';
     $characteristics = $mgroup->numberofcharacteristics;
     $bfi = '0';
     
@@ -165,19 +165,19 @@ function mgroup_update_instance($mgroup, $mform = null) {
             print_error('error');
         }
     
-        if(! mgroup_check_file($path, $characteristics)) {
+        if(! mgroup_check_file($characteristics)) {
             print_error('error');
         }
     
         if($mgroup->enrolled == '0') {
-            if(! mgroup_check_users_in_course($mgroup->course, $path)) {
+            if(! mgroup_check_users_in_course($mgroup->course)) {
                 print_error('error');
             }
         }
     }
     else {
         $mgroup->numberofcharacteristics = 5;
-        $dimensionvalues = $DB->get_records('bfi_characteristic_values', array('bfiid' => $mgroup->bfi), '', 'username,fullname,extraversion,agreeableness,conscientiousness,neuroticism,openness');
+        $dimensionvalues = $DB->get_records('bfi_characteristic_values', array('bfiid' => $mgroup->bfi), '', 'userid,extraversion,agreeableness,conscientiousness,neuroticism,openness');
         if(! mgroup_create_file($path, $dimensionvalues)) {
             print_error('error');
         }
@@ -315,18 +315,42 @@ function mgroup_save_file($path, $mform = null) {
  * @return bool True if successful, false on failure.
  */
 function mgroup_create_file($path, $dimensionvalues) {
+    global $DB;
 
     if(isset($path, $dimensionvalues)) {
         $data = array();
         foreach($dimensionvalues as $values) {
-            $data[] = implode(',', (array)$values);
-        }       
+            $data_user = $DB->get_record('user', array('id' => $values->userid), 'username, firstname, lastname, email');
+            $fullname = $data_user->firstname.' '.$data_user->lastname;
+            $values = (array)$values;
+            $userid = array_shift($values);
+            array_unshift($values, $data_user->username, $fullname, $data_user->email);
+            $data[] = implode(',', $values);
+        } 
         if(file_put_contents($path, implode("\n", $data)) !== false) {
             return true;
         }
     }
 
     \core\notification::error(get_string('err_createfile', 'mgroup'));
+    return false;
+}
+
+/**
+ * Delete a text file of the mod_mgroup.
+ *
+ * @param string $path Text file path.
+ * @return bool True if successful, false on failure.
+ */
+function mgroup_delete_file($path) {
+
+    if(isset($path)) {
+        if(unlink($path)) {
+            return true;
+        }
+    }
+
+    \core\notification::error(get_string('err_deletefile', 'mgroup'));
     return false;
 }
 
@@ -358,17 +382,17 @@ function mgroup_read_file($path) {
 /**
  * Check a text file of the mod_mgroup.
  *
- * @param string $path Text file path.
+ * @param int $characteristics Number of characteristics.
  * @return boolean True if successful, false on failure.
  */
-function mgroup_check_file($path, $characteristics) {
+function mgroup_check_file($characteristics) {
+    global $MGROUP_CONTENT_FILE;
 
-    $content = mgroup_read_file($path);
+    $content = $MGROUP_CONTENT_FILE;
 
-    if(isset($path, $characteristics, $content)) {
+    if(isset($characteristics, $content)) {
         $errrors = false;
         foreach($content as $line_number => $line) {
-            //$parameters = explode(',', $line);
             if(! mgroup_check_parameters($line, $characteristics)) {
                 $errrors = true;
                 \core\notification::error(get_string('err_checkparameters', 'mgroup', array('number' => $line_number+1)));
@@ -477,9 +501,7 @@ function mgroup_form_groups($mgroup, $path) {
         $ga->checkFitnessMinimize();
     }
     $ga->evaluation();
-    //java_values($ga->getPopulation()[$ga->getBestPosition()]->getRawFitness()) > 0.01
     while ($generations < $maxgenerations) {
-        //$ga->rouletteWheelW((int)ceil(java_values($ga->getPopulationSize())) * ((double)java_values($ga->getSelectionPercent()) / 100));
         $ga->tournDeterministicSelection(2);
         $ga->reproduction();
         $ga->mutation();
@@ -491,6 +513,10 @@ function mgroup_form_groups($mgroup, $path) {
     }
 
     $results = java_values($ga->getPopulation()[$ga->getBestPosition()]->getGenes());
+
+    if(! mgroup_delete_file($path)) {
+        print_error('error');
+    }
 
     if(isset($results)) {
         foreach($results as $keygroup => $group) {

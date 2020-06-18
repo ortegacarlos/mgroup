@@ -97,6 +97,7 @@ $string['err_mutationoperator'] = 'Debe suministrar un valor entre 0 y 1';
 $string['err_numberofgenerations'] = 'Debe suministrar un valor entero mayor a 0';
 $string['err_savefile'] = 'Error al guardar el archivo o  no se cargó ningún archivo previamente';
 $string['err_createfile'] = 'Error al crear el archivo';
+$string['err_deletefile'] = 'Error al eliminar el archivo';
 $string['err_readfile'] = 'Error al leer el archivo';
 $string['err_checkfile'] = 'Revise las inconsistencias encontradas en el archivo';
 $string['err_checkparameters'] = 'Hay inconsistencias en la línea {$a->number}. El número de características ingresadas no coincide con el número de características guardadas en el archivo.';
