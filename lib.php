@@ -88,7 +88,7 @@ function mgroup_add_instance($mgroup, $mform = null) {
             print_error('error');
         }
     
-        if(! mgroup_check_file($characteristics)) {
+        if(! mgroup_check_file($characteristics, $path)) {
             print_error('error');
         }
     
@@ -165,7 +165,7 @@ function mgroup_update_instance($mgroup, $mform = null) {
             print_error('error');
         }
     
-        if(! mgroup_check_file($characteristics)) {
+        if(! mgroup_check_file($characteristics, $path)) {
             print_error('error');
         }
     
@@ -385,10 +385,9 @@ function mgroup_read_file($path) {
  * @param int $characteristics Number of characteristics.
  * @return boolean True if successful, false on failure.
  */
-function mgroup_check_file($characteristics) {
-    global $MGROUP_CONTENT_FILE;
+function mgroup_check_file($characteristics, $path) {
 
-    $content = $MGROUP_CONTENT_FILE;
+    $content = mgroup_read_file($path);
 
     if(isset($characteristics, $content)) {
         $errrors = false;
