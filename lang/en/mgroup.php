@@ -56,8 +56,8 @@ $string['numberofgenerations_help'] = 'Digite un valor entero correspondiente a 
 
 $string['uploadfile'] = 'Subir archivo';
 
-$string['groupingbfi'] = 'Fuente de datos';
-$string['groupingbfi_help'] = 'Seleccione una opción si desea formar los grupos con los resultados obtenidos del módulo "Resultados BFI", de lo contrario seleccione la opción "Subir archivo" para utilizar sus valores y formar los grupos.';
+$string['groupingmbfi'] = 'Fuente de datos';
+$string['groupingmbfi_help'] = 'Seleccione una opción si desea formar los grupos con los resultados obtenidos del módulo "Resultados BFI", de lo contrario seleccione la opción "Subir archivo" para utilizar sus valores y formar los grupos.';
 
 $string['userfile'] = 'Archivo de datos';
 $string['userfile_help'] = 'Campo para cargar un archivo de texto plano, con valores separados por comas (.csv), que almacena los datos y cuantificación de las características de los individuos requeridos para la formación de grupos de trabajo colaborativo.';

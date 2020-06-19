@@ -77,13 +77,13 @@ function mgroup_add_instance($mgroup, $mform = null) {
 
     $path = $CFG->dataroot.'/temp/filestorage/userfile_'.(time() + rand()).'.csv';
     $characteristics = $mgroup->numberofcharacteristics;
-    $bfi = '0';
+    $mbfi = '0';
     
-    if(isset($mgroup->bfi)) {
-        $bfi = $mgroup->bfi;
+    if(isset($mgroup->mbfi)) {
+        $mbfi = $mgroup->mbfi;
     }
 
-    if($bfi == '0') {
+    if($mbfi == '0') {
         if(! mgroup_save_file($path, $mform)) {
             print_error('error');
         }
@@ -100,7 +100,7 @@ function mgroup_add_instance($mgroup, $mform = null) {
     }
     else {
         $mgroup->numberofcharacteristics = 5;
-        $dimensionvalues = $DB->get_records('bfi_characteristic_values', array('bfiid' => $mgroup->bfi), '', 'userid,extraversion,agreeableness,conscientiousness,neuroticism,openness');
+        $dimensionvalues = $DB->get_records('mbfi_characteristic_values', array('mbfiid' => $mgroup->mbfi), '', 'userid,extraversion,agreeableness,conscientiousness,neuroticism,openness');
         if(! mgroup_create_file($path, $dimensionvalues)) {
             print_error('error');
         }
@@ -154,13 +154,13 @@ function mgroup_update_instance($mgroup, $mform = null) {
 
     $path = $CFG->dataroot.'/temp/filestorage/userfile_'.(time() + rand()).'.csv';
     $characteristics = $mgroup->numberofcharacteristics;
-    $bfi = '0';
+    $mbfi = '0';
     
-    if(isset($mgroup->bfi)) {
-        $bfi = $mgroup->bfi;
+    if(isset($mgroup->mbfi)) {
+        $mbfi = $mgroup->mbfi;
     }
 
-    if($bfi == '0') {
+    if($mbfi == '0') {
         if(! mgroup_save_file($path, $mform)) {
             print_error('error');
         }
@@ -177,7 +177,7 @@ function mgroup_update_instance($mgroup, $mform = null) {
     }
     else {
         $mgroup->numberofcharacteristics = 5;
-        $dimensionvalues = $DB->get_records('bfi_characteristic_values', array('bfiid' => $mgroup->bfi), '', 'userid,extraversion,agreeableness,conscientiousness,neuroticism,openness');
+        $dimensionvalues = $DB->get_records('mbfi_characteristic_values', array('mbfiid' => $mgroup->mbfi), '', 'userid,extraversion,agreeableness,conscientiousness,neuroticism,openness');
         if(! mgroup_create_file($path, $dimensionvalues)) {
             print_error('error');
         }

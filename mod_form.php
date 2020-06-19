@@ -69,37 +69,37 @@ class mod_mgroup_mod_form extends moodleform_mod {
         $mform->setDefault('groupsize', 4);
         $mform->addHelpButton('groupsize', 'groupsize', 'mgroup');
 
-        // Adding the "BFI" instance
-        $bfi = array();
+        // Adding the "MBFI" instance
+        $mbfi = array();
         $course = $DB->get_record('course', array('id' => $COURSE->id), '*', MUST_EXIST);
-        $recordsbfi = get_all_instances_in_course('bfi', $course);
-        if(! empty($recordsbfi)) {
-            foreach($recordsbfi as $recordbfi) {
-                $bfi[] = $mform->createElement('radio', 'bfi', '', $recordbfi->name, (int)$recordbfi->id, null);
+        $recordsmbfi = get_all_instances_in_course('mbfi', $course);
+        if(! empty($recordsmbfi)) {
+            foreach($recordsmbfi as $recordmbfi) {
+                $mbfi[] = $mform->createElement('radio', 'mbfi', '', $recordmbfi->name, (int)$recordmbfi->id, null);
             }
-            $bfi[] = $mform->createElement('radio', 'bfi', '', get_string('uploadfile', 'mgroup'), 0, null);
-            $mform->addGroup($bfi, 'groupingbfi', get_string('groupingbfi', 'mgroup'), array('<br />'), false);
-            $mform->addRule('groupingbfi', null, 'required', null, 'client');
-            $mform->setDefault('bfi', $bfi[0]->_attributes['value']);
-            $mform->addHelpButton('groupingbfi', 'groupingbfi', 'mgroup');
+            $mbfi[] = $mform->createElement('radio', 'mbfi', '', get_string('uploadfile', 'mgroup'), 0, null);
+            $mform->addGroup($mbfi, 'groupingmbfi', get_string('groupingmbfi', 'mgroup'), array('<br />'), false);
+            $mform->addRule('groupingmbfi', null, 'required', null, 'client');
+            $mform->setDefault('mbfi', $mbfi[0]->_attributes['value']);
+            $mform->addHelpButton('groupingmbfi', 'groupingmbfi', 'mgroup');
         }
 
         // Adding the "userfile" field.
         $mform->addElement('filepicker', 'userfile', get_string('userfile', 'mgroup'), null,
                 array('maxbytes'=>1048576, 'accepted_types'=>'.csv'));
         $mform->addHelpButton('userfile', 'userfile', 'mgroup');
-        if(empty($recordsbfi)) {
+        if(empty($recordsmbfi)) {
             $mform->addRule('userfile', null, 'required', null, 'client');
         }
         else {
-            $mform->hideIf('userfile', 'bfi', 'neq', 0);
+            $mform->hideIf('userfile', 'mbfi', 'neq', 0);
         }
         
         //Adding chekbox verification of enrolled students
         $mform->addElement('advcheckbox', 'enrolled', '', get_string('enrolled', 'mgroup'), null, array(0, 1));
         $mform->addHelpButton('enrolled', 'enrolled', 'mgroup');
-        if(! empty($recordsbfi)) {
-            $mform->hideIf('enrolled', 'bfi', 'neq', 0);
+        if(! empty($recordsmbfi)) {
+            $mform->hideIf('enrolled', 'mbfi', 'neq', 0);
         }
 
         // Adding the standard "intro" and "introformat" fields.
@@ -111,11 +111,11 @@ class mod_mgroup_mod_form extends moodleform_mod {
         // Adding the "numberofcharacteristics" field.
         $mform->addElement('text', 'numberofcharacteristics', get_string('numberofcharacteristics', 'mgroup'), array('size' => '64'));
         $mform->setType('numberofcharacteristics', PARAM_INT);
-        if(empty($recordsbfi)) {
+        if(empty($recordsmbfi)) {
             $mform->addRule('numberofcharacteristics', null, 'required', null, 'client');
         }
         else {
-            $mform->hideIf('numberofcharacteristics', 'bfi', 'neq', 0);
+            $mform->hideIf('numberofcharacteristics', 'mbfi', 'neq', 0);
         }
         $mform->addRule('numberofcharacteristics', null, 'numeric', 'extraruledata', 'client');
         $mform->addRule('numberofcharacteristics', null, 'nopunctuation', null, 'client');
