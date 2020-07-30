@@ -89,11 +89,13 @@ function mgroup_add_instance($mgroup, $mform = null) {
         }
     
         if(! mgroup_check_file($characteristics, $path)) {
+            mgroup_delete_file($path);
             print_error('error');
         }
     
         if($mgroup->enrolled == '0') {
             if(! mgroup_check_users_in_course($mgroup->course)) {
+                mgroup_delete_file($path);
                 print_error('error');
             }
         }
@@ -105,6 +107,7 @@ function mgroup_add_instance($mgroup, $mform = null) {
             print_error('error');
         }
         if(empty(mgroup_read_file($path))) {
+            mgroup_delete_file($path);
             print_error('error');
         }
     }
@@ -166,11 +169,13 @@ function mgroup_update_instance($mgroup, $mform = null) {
         }
     
         if(! mgroup_check_file($characteristics, $path)) {
+            mgroup_delete_file($path);
             print_error('error');
         }
     
         if($mgroup->enrolled == '0') {
             if(! mgroup_check_users_in_course($mgroup->course)) {
+                mgroup_delete_file($path);
                 print_error('error');
             }
         }
@@ -182,6 +187,7 @@ function mgroup_update_instance($mgroup, $mform = null) {
             print_error('error');
         }
         if(empty(mgroup_read_file($path))) {
+            mgroup_delete_file($path);
             print_error('error');
         }
     }
@@ -438,16 +444,19 @@ function mgroup_check_parameters($parameters, $characteristics) {
 function mgroup_check_users_in_course($course) {
     global $DB, $MGROUP_CONTENT_FILE;
 
-    if(isset($course)) {
+    $users = search_users($course, NULL, NULL);
+
+    if(isset($course) && (! empty($users))) {
         $errors = false;
-        $sql = "SELECT  a.id, a.username, b.userid, b.modifierid
-                FROM    {user} a
-                JOIN    {user_enrolments} b ON a.id = b.userid
-                WHERE   a.username = :username
-                        AND b.modifierid = :course";
+        //$sql = "SELECT  a.id, a.username, b.userid, b.modifierid
+        //        FROM    {user} a
+        //        JOIN    {user_enrolments} b ON a.id = b.userid
+        //        WHERE   a.username = :username
+        //                AND b.modifierid = :course";
         foreach ($MGROUP_CONTENT_FILE as $user) {
             list($username, $fullname) = $user;
-            if(! $DB->record_exists_sql($sql, array('username' => $username, 'course' => $course))) {
+            $userid = $DB->get_field('user', 'id', array('username' => $username));
+            if(! array_key_exists($userid, $users)) {//$DB->record_exists_sql($sql, array('username' => $username, 'course' => $course))) {
                 $errors = true;
                 \core\notification::error(get_string('err_user', 'mgroup', array('name' => $fullname)));
             }
