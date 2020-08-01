@@ -64,9 +64,27 @@ Una vez hecha a comprobación, se debe llevar a cabo la instalación del adaptad
   La siguiente es la estructura de la dirección que se debe proporcionar
   `http://dominio-o-ip-del-servidor:puerto-de-escucha/nombre-aplicación-php-java-bridge/java/Java.inc`.
 
+## Archivo de Datos ##
+Los datos de los individuos a agrupar, incluyendo la cuantificación de sus
+características, se leen desde un archivo de texto plano, con valores separados
+por comas (.csv), con una estructura por registro similar a la que se muestra:
+
+ID|NOMBRE|CORREO|C1|C2|C3|C4|C5|...|Cn
+--|------|------|--|--|--|--|--|---|--
+6|INDIVIDUO6|INDIVIDUO6@PRUEBA.COM|4.000|3.000|3.7778|3.125|4.400|...|n
+
+El campo ID es un número identificador único de cada individuo que debe
+corresponder con el nombre de usuario del individuo sólo si éste se encuentra
+registrado en la plataforma, esto con el fin de comprobar que todos los
+individuos se encuentran matriculados en el curso si la opción que permita la
+formación de los grupos con estudiantes no matriculados no ha sido
+activada. Cada uno de los valores de las características consideradas,
+provienen de la aplicación de algún tipo de instrumento o test que permiten su
+denominación y cuantificación, por ejemplo, el *"Big Five Inventory – BFI"*. 
+
 ## Funcionamiento ##
 1. Crear una actividad de **Formación de Grupos Colaborativos**.
-2. Diligenciar el formulario con los parámetros que considere adecuados.
+2. Diligenciar el formulario con los valores que considere adecuados.
 3. Guardar y mostrar los resultados.
 
 ## License ##
