@@ -1,12 +1,80 @@
-# M-GROUP #
+# Información General #
 
-TODO Describe the plugin shortly here.
+El módulo permite la formación de grupos con un enfoque colaborativo dentro
+de un curso, con un tamaño de grupo y características de agrupamiento que el
+docente del curso considere apropiadas.
 
-TODO Provide more detailed description here.
+Requiere como fuente de datos de un archivo de texto plano, con valores
+separados por comas, donde se encuentra los datos de los individuos y la
+cuantificación de sus características, o permite utilizar como fuente de datos
+los valores obtenidos por una instancia del complemento **M-BFI**.
+
+El módulo permite hacer la formación de los grupos con estudiantes que no se
+encuentren matriculados en el curso sólo si la opción de permitir se encuentra
+habilitada.
+
+## Requisitos de Funcionamiento ##
+
+Para instalar y poner en funcionamiento el complemento, se debe tener en cuenta
+los siguientes requisitos:
+
+* Un servidor de aplicaciones Java como Glassfish, JBoss, Tomcat, etc.
+* Un servidor web que interprete scripts de PHP como Apache, IIS, etc.
+* Para mayor información relacionada con los servidores de aplicaciones Java y
+  Web soportados se puede dirigir a su [sitio](http://php-java-bridge.sourceforge.net/pjb/installation.php).
+
+## Instalación del Adaptador PHP/JAVA Bridge ##
+
+PHP/Java Bridge permite conectar un motor de script nativo como PHP con una
+máquina virtual Java, permite una comunicación más rápida y más confiable que
+la comunicación directa a través de la interfaz nativa de Java, y no se
+requiere de componentes adicionales para invocar procedimientos de Java desde
+PHP o procedimientos PHP desde Java.
+
+Antes de hacer la instalación del adaptador se debe verificar los siguientes
+requisitos:
+
+* Se necesita de Java 1.4 o superior ejecutándose en cualquier sistema
+  operativo o arquitectura, puesto que PHP/Java Bridge es una aplicación Java
+  JEE pura.
+* Se recomienda Apache Tomcat 7 o superior, o cualquier servidor JEE estándar o
+  un motor de servlet para ejecutar código Java.
+
+Una vez hecha a comprobación, se debe llevar a cabo la instalación del adaptador:
+
+* Instalar la aplicación [*JavaBridgeTemplate721.war*](http://sourceforge.net/projects/php-java-bridge/files/Binary%20package/php-java-bridge_7.2.1/JavaBridgeTemplate721.war/download)
+  en su servidor de aplicaciones Java.
+* Modificar la línea `allow_url_include=On` del archivo de configuración
+  **php.ini** de PHP.
+* Se puede encontrar más información relacionada con la aplicación o con el
+  proceso de instalación su [sitio](http://php-java-bridge.sourceforge.net/).
+
+## Instalación del módulo ##
+
+* Verificar que la versión de Moodle sea igual o superior a la 3.0.
+* Escoger una de las 3 formas de llevar a cabo la instalación del módulo:
+  * Buscar e instalar directamente desde el directorio de [plugins](https://moodle.org/plugins/).
+  * Instalar módulos externos desde la administración del sitio mediante un
+    archivo ZIP.
+  * Descomprimir el archivo y copiar la carpeta en el directorio `/mod` ubicado
+    en el directorio raíz de la instalación.
+* En **Nuevos ajustes** ingresar la dirección web que apunta al archivo
+  `Java.inc` ubicado dentro del directorio raíz donde se ejecuta la
+  aplicación Java Bridge.<br>
+  La siguiente es la estructura de la dirección que se debe proporcionar
+  `http://dominio-o-ip-del-servidor:puerto-de-escucha/nombre-aplicación-php-java-bridge/java/Java.inc`.
+
+## Funcionamiento ##
+1. Crear una actividad de **Formación de Grupos Colaborativos**.
+2. Diligenciar el formulario con los parámetros que considere adecuados.
+3. Guardar y mostrar los resultados.
 
 ## License ##
 
-2019 Carlos Ortega <carlosortega@udenar.edu.co> Oscar Revelo Sánchez <orevelo@udenar.edu.co> Jesús Insuasti Portilla <insuasty@udenar.edu.co>
+Carlos Ortega <carlosortega@udenar.edu.co><br>
+Oscar Revelo Sánchez <orevelo@udenar.edu.co><br>
+Jesús Insuasti Portilla <insuasty@udenar.edu.co><br>
+2019
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
