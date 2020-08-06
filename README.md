@@ -42,12 +42,12 @@ requisitos:
 
 Una vez hecha a comprobación, se debe llevar a cabo la instalación del adaptador:
 
-* Instalar la aplicación [*JavaBridgeTemplate721.war*](http://sourceforge.net/projects/php-java-bridge/files/Binary%20package/php-java-bridge_7.2.1/JavaBridgeTemplate721.war/download)
+* Instalar la aplicación [JavaBridgeTemplate721.war](http://sourceforge.net/projects/php-java-bridge/files/Binary%20package/php-java-bridge_7.2.1/JavaBridgeTemplate721.war/download)
   en su servidor de aplicaciones Java.
 * Modificar la línea `allow_url_include=On` del archivo de configuración
   **php.ini** de PHP.
 * Se puede encontrar más información relacionada con la aplicación o con el
-  proceso de instalación su [sitio](http://php-java-bridge.sourceforge.net/).
+  proceso de instalación en su [sitio](http://php-java-bridge.sourceforge.net/).
 
 ## Instalación del módulo ##
 
