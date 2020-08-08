@@ -103,3 +103,12 @@ $string['err_checkfile'] = 'Revise las inconsistencias encontradas en el archivo
 $string['err_checkparameters'] = 'Hay inconsistencias en la línea {$a->number}. El número de características ingresadas no coincide con el número de características guardadas en el archivo.';
 $string['err_checkusers'] = 'Revise que los estudiantes se encuentran matriculados en el curso';
 $string['err_user'] = '{$a->name} no se encuentra matriculado en el curso';
+
+// Add string PDF file
+$string['title_file'] = 'Grupos de Trabajo Colaborativo';
+$string['author_file'] = 'Docente del curso: {$a->teacher}';
+$string['keywords_file'] = 'Moodle, Grupo de trabajo, Trabajo colaborativo';
+$string['subject_file'] = 'Grupos de trabajo colaborativo generado por el módulo M-GROUP de Moodle';
+$string['list_file'] = 'Listado de Grupos Colaborativos';
+$string['general_information_file'] = 'Información General';
+$string['date_file'] = 'Creado en: {$a->date}';

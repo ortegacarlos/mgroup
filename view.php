@@ -27,6 +27,7 @@ require_once(__DIR__.'/lib.php');
 
 // Course_module ID, or
 $id = optional_param('id', 0, PARAM_INT);
+$download = optional_param('download', '', PARAM_ALPHA);
 
 // ... module instance id.
 $m  = optional_param('m', 0, PARAM_INT);
@@ -47,6 +48,8 @@ require_login($course, true, $cm);
 
 $modulecontext = context_module::instance($cm->id);
 
+require_capability('mod/mgroup:view', $modulecontext);
+
 $event = \mod_mgroup\event\course_module_viewed::create(array(
     'objectid' => $moduleinstance->id,
     'context' => $modulecontext
@@ -55,18 +58,119 @@ $event->add_record_snapshot('course', $course);
 $event->add_record_snapshot('mgroup', $moduleinstance);
 $event->trigger();
 
-$PAGE->set_url('/mod/mgroup/view.php', array('id' => $cm->id));
-$PAGE->set_title(format_string($moduleinstance->name));
-$PAGE->set_heading(format_string($course->fullname));
-$PAGE->set_context($modulecontext);
+$url = new moodle_url('/mod/mgroup/view.php', array('id' => $cm->id));
+if ($download !== '') {
+    $url->param('download', $download);
+}
 
-echo $OUTPUT->header();
-
-echo '<div class="clearer"></div>';
+//$PAGE->set_url('/mod/mgroup/view.php', array('id' => $cm->id));
+$PAGE->set_url($url);
 
 $user = null;
 $groupsize = $DB->get_field('mgroup', 'groupsize', array('id' => $moduleinstance->id));
 $individuals = array_chunk($DB->get_records('mgroup_individuals', array('mgroupid' => $moduleinstance->id)), (int)$groupsize);
+
+if ($download == '') {
+    $PAGE->set_title(format_string($moduleinstance->name));
+    $PAGE->set_heading(format_string($course->fullname));
+    $PAGE->set_context($modulecontext);
+
+    echo $OUTPUT->header();
+}
+
+// Print PDF file
+if ($download == 'pdf' && has_capability('mod/mgroup:downloaddata', $modulecontext)) {
+    require_once($CFG->libdir . '/pdflib.php');
+
+    $mgroupname = $DB->get_field('mgroup', 'name', array('id' => $moduleinstance->id));
+    $filename = clean_filename("$course->shortname ".strip_tags(format_string($mgroupname, true))).'.pdf';
+    $date = gmdate("d\-M\-Y H:i:s", time());
+    $teacher = 'teacher';
+    $fontfamily = 'helvetica';
+
+    $pdf = new pdf();
+
+    $pdf->SetTitle(get_string('title_file', 'mgroup'));
+    $pdf->SetAuthor(get_string('author_file', 'mgroup', array('teacher' => $teacher)));
+    $pdf->SetCreator($SITE->fullname);
+    $pdf->SetKeywords(get_string('keywords_file', 'mgroup'));
+    $pdf->SetSubject(get_string('subject_file', 'mgroup'));
+    $pdf->SetMargins(20, 40);
+
+    // Print Header file
+    $pdf->setPrintHeader(true);
+    $pdf->setHeaderMargin(25);
+    $pdf->setHeaderFont(array($fontfamily, 'B', 12));
+    $pdf->setHeaderData('mod/mgroup/pix/icon.svg', 10, $SITE->fullname, $CFG->wwwroot);
+
+    // Print Footer file
+    $pdf->setPrintFooter(true);
+    $pdf->setFooterMargin(25);
+    $pdf->setFooterFont(array($fontfamily, '', 10));
+
+    $pdf->AddPage();
+
+    $doc->SetTextColor(0, 0, 0);
+    $doc->SetFillColor(222, 226, 230);
+    $doc->SetFont($fontfamily, 'B', 30);
+    $doc->Cell(0, 0, get_string('list_file', 'mgroup'), 0, 1, 'C', 1);
+
+    $pdf->SetFont($fontfamily, '', 12);
+    $pdf->Ln(6);
+    $pdf->SetTextColor(0, 0, 0);
+
+    $pdf->SetFont($fontfamily, 'B', 15);
+    $pdf->Cell(0, 0, get_string('general_information_file', 'mgroup'), 0, 1, 'L');
+    $pdf->SetFont($fontfamily, '', 12);
+    $pdf->Cell(0, 0, get_string('author_file', 'mgroup'), 0, 1, 'L');
+    $pdf->Cell(0, 0, get_string('date_file', 'mgroup', array('date' => $date)), 0, 1, 'L');
+    $pdf->Ln(6);
+
+    if (isset($individuals)) {
+        foreach ($individuals as $group => $individual) {
+            $pdf->SetFont($fontfamily, 'B', 20);
+            $pdf->Cell(0, 0, get_string('group', 'mgroup') . ' ' . ($group + 1), 0, 1, 'L');
+            $pdf->Ln(1);
+            $pdf->writeHTML('<hr>');
+            $fill = true;
+            $pdf->SetFont($fontfamily, '', 12);
+            $index = 1;
+            foreach ($individual as $values) {
+                if ($values->username != '0') {
+                    if ($fill) {
+                        $pdf->Cell(0, 0, $index++ . '. ' . $values->fullname, 'B', 1, 'L', $fill);
+                        $fill = false;
+                    } else {
+                        $pdf->Cell(0, 0, $index++ . '. ' . $values->fullname, 'B', 1, 'L', $fill);
+                        $fill = true;
+                    }
+                }
+            }
+            $pdf->Ln(6);
+        }
+    }
+
+    $pdf->Output($filename);
+    exit();
+}
+
+if (data_submitted() && confirm_sesskey() && has_capability('mod(mgroup:downloaddata', $modulecontext)) {
+    redirect("view.php?id=$cm->id");
+}
+
+echo '<div class="clearer"></div>';
+
+if (! empty($individuals)) {
+    $downloadoptions = array();
+    $options = array();
+    $options['id'] = "$cm->id";
+    $options['download'] = 'pdf';
+    $button = $OUTPUT->single_button(new moodle_url('view.php', $options), get_string('downloadpdf', 'mgroup'));
+    $downloadoptions[] = html_writer::tag('div', $button, array('class' => 'align-self-center'));
+    echo html_writer::tag('div', implode('', $downloadoptions), array('class' => 'row justify-content-center'));
+}
+
+echo '<div class="clearer"></div>';
 
 if(isset($individuals)) {
     foreach($individuals as $group => $individual) {
