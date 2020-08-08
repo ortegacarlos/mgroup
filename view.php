@@ -101,7 +101,7 @@ if ($download == 'pdf' && has_capability('mod/mgroup:downloaddata', $moduleconte
     $pdf->setPrintHeader(true);
     $pdf->setHeaderMargin(25);
     $pdf->setHeaderFont(array($fontfamily, 'B', 12));
-    $pdf->setHeaderData('mod/mgroup/pix/icon.svg', 10, $SITE->fullname, $CFG->wwwroot);
+    $pdf->setHeaderData('mod/mgroup/pix/icon.png', 15, $SITE->fullname, $CFG->wwwroot);
 
     // Print Footer file
     $pdf->setPrintFooter(true);
@@ -112,7 +112,7 @@ if ($download == 'pdf' && has_capability('mod/mgroup:downloaddata', $moduleconte
 
     $pdf->SetTextColor(0, 0, 0);
     $pdf->SetFillColor(222, 226, 230);
-    $pdf->SetFont($fontfamily, 'B', 30);
+    $pdf->SetFont($fontfamily, 'B', 24);
     $pdf->Cell(0, 0, get_string('list_file', 'mgroup'), 0, 1, 'C', 1);
 
     $pdf->SetFont($fontfamily, '', 12);
