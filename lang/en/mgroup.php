@@ -112,3 +112,4 @@ $string['subject_file'] = 'Grupos de trabajo colaborativo generado por el módul
 $string['list_file'] = 'Listado de Grupos Colaborativos';
 $string['general_information_file'] = 'Información General';
 $string['date_file'] = 'Creado en: {$a->date}';
+$string['downloadpdf'] = 'Descargar PDF';

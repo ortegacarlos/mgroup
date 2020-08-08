@@ -105,15 +105,15 @@ if ($download == 'pdf' && has_capability('mod/mgroup:downloaddata', $moduleconte
 
     // Print Footer file
     $pdf->setPrintFooter(true);
-    $pdf->setFooterMargin(25);
+    $pdf->setFooterMargin(20);
     $pdf->setFooterFont(array($fontfamily, '', 10));
 
     $pdf->AddPage();
 
-    $doc->SetTextColor(0, 0, 0);
-    $doc->SetFillColor(222, 226, 230);
-    $doc->SetFont($fontfamily, 'B', 30);
-    $doc->Cell(0, 0, get_string('list_file', 'mgroup'), 0, 1, 'C', 1);
+    $pdf->SetTextColor(0, 0, 0);
+    $pdf->SetFillColor(222, 226, 230);
+    $pdf->SetFont($fontfamily, 'B', 30);
+    $pdf->Cell(0, 0, get_string('list_file', 'mgroup'), 0, 1, 'C', 1);
 
     $pdf->SetFont($fontfamily, '', 12);
     $pdf->Ln(6);
@@ -122,7 +122,7 @@ if ($download == 'pdf' && has_capability('mod/mgroup:downloaddata', $moduleconte
     $pdf->SetFont($fontfamily, 'B', 15);
     $pdf->Cell(0, 0, get_string('general_information_file', 'mgroup'), 0, 1, 'L');
     $pdf->SetFont($fontfamily, '', 12);
-    $pdf->Cell(0, 0, get_string('author_file', 'mgroup'), 0, 1, 'L');
+    $pdf->Cell(0, 0, get_string('author_file', 'mgroup', array('teacher' => $teacher)), 0, 1, 'L');
     $pdf->Cell(0, 0, get_string('date_file', 'mgroup', array('date' => $date)), 0, 1, 'L');
     $pdf->Ln(6);
 
