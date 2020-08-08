@@ -66,7 +66,7 @@ class mod_mgroup_mod_form extends moodleform_mod {
         $mform->addRule('groupsize', null, 'required', null, 'client');
         $mform->addRule('groupsize', null, 'numeric', 'extraruledata', 'client');
         $mform->addRule('groupsize', null, 'nopunctuation', null, 'client');
-        $mform->setDefault('groupsize', 4);
+        $mform->setDefault('groupsize', 3);
         $mform->addHelpButton('groupsize', 'groupsize', 'mgroup');
 
         // Adding the "MBFI" instance

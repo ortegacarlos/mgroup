@@ -37,7 +37,7 @@ $string['nonewmodules'] = 'No hay Grupos de trabajo colaborativo';
 
 // Add string by form
 $string['groupsize'] = 'Tamaño del grupo';
-$string['groupsize_help'] = 'Digite un valor entero correspondiente a la cantidad de individuos en cada grupo. El valor por defecto es de 4 individuos.';
+$string['groupsize_help'] = 'Digite un valor entero correspondiente a la cantidad de individuos en cada grupo. El valor por defecto es de 3 individuos.';
 
 $string['numberofcharacteristics'] = 'Cantidad de características';
 $string['numberofcharacteristics_help'] = 'Digite un valor entero correspondiente a la cantidad de características de cada individuo necesarias para la formación de los grupos. El valor por defecto es de 5 características.';
