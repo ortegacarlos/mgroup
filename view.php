@@ -83,7 +83,7 @@ if ($download == 'pdf' && has_capability('mod/mgroup:downloaddata', $moduleconte
     require_once($CFG->libdir . '/pdflib.php');
 
     $mgroupname = $DB->get_field('mgroup', 'name', array('id' => $moduleinstance->id));
-    $filename = clean_filename("$course->shortname ".strip_tags(format_string($mgroupname, true))).'.pdf';
+    $filename = clean_filename("$course->shortname " . strip_tags(format_string($mgroupname, true))) . '.pdf';
     $date = gmdate("d\-M\-Y H:i:s", time());
     $teacher = 'teacher';
     $fontfamily = 'helvetica';
@@ -91,17 +91,18 @@ if ($download == 'pdf' && has_capability('mod/mgroup:downloaddata', $moduleconte
     $pdf = new pdf();
 
     $pdf->SetTitle(get_string('title_file', 'mgroup'));
-    $pdf->SetAuthor(get_string('author_file', 'mgroup', array('teacher' => $teacher)));
+    //$pdf->SetAuthor(get_string('author_file', 'mgroup', array('teacher' => $teacher)));
+    $pdf->SetAuthor($teacher);
     $pdf->SetCreator($SITE->fullname);
     $pdf->SetKeywords(get_string('keywords_file', 'mgroup'));
     $pdf->SetSubject(get_string('subject_file', 'mgroup'));
-    $pdf->SetMargins(20, 40);
+    $pdf->SetMargins(25, 50);
 
     // Print Header file
     $pdf->setPrintHeader(true);
-    $pdf->setHeaderMargin(25);
+    $pdf->setHeaderMargin(20);
     $pdf->setHeaderFont(array($fontfamily, 'B', 12));
-    $pdf->setHeaderData('mod/mgroup/pix/icon.png', 15, $SITE->fullname, $CFG->wwwroot);
+    $pdf->setHeaderData('mod/mgroup/pix/icon.png', 22, $SITE->fullname, "$CFG->wwwroot \n" . get_string('subject_file', 'mgroup'));
 
     // Print Footer file
     $pdf->setPrintFooter(true);
@@ -110,14 +111,17 @@ if ($download == 'pdf' && has_capability('mod/mgroup:downloaddata', $moduleconte
 
     $pdf->AddPage();
 
-    $pdf->SetTextColor(0, 0, 0);
-    $pdf->SetFillColor(222, 226, 230);
-    $pdf->SetFont($fontfamily, 'B', 24);
+    //$pdf->SetTextColor(0, 0, 0);
+    //$pdf->SetFillColor(222, 226, 230);
+    $pdf->SetTextColor(255, 255, 255);
+    $pdf->SetFillColor(10, 73, 250);
+    $pdf->SetFont($fontfamily, 'B', 26);
     $pdf->Cell(0, 0, get_string('list_file', 'mgroup'), 0, 1, 'C', 1);
 
     $pdf->SetFont($fontfamily, '', 12);
     $pdf->Ln(6);
     $pdf->SetTextColor(0, 0, 0);
+    $pdf->SetFillColor(222, 226, 230);
 
     $pdf->SetFont($fontfamily, 'B', 15);
     $pdf->Cell(0, 0, get_string('general_information_file', 'mgroup'), 0, 1, 'L');
