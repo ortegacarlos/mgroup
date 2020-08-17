@@ -75,7 +75,7 @@ function mgroup_supports($feature) {
 function mgroup_add_instance($mgroup, $mform = null) {
     global $DB, $CFG, $MGROUP_CONTENT_FILE;
 
-    $path = $CFG->dataroot.'/temp/filestorage/userfile_'.(time() + rand()).'.csv';
+    $path = $CFG->dataroot.'/temp/filestorage/mgroupuserfile_'.(time() + rand()).'.csv';
     $characteristics = $mgroup->numberofcharacteristics;
     $mbfi = '0';
     
@@ -301,7 +301,7 @@ function mgroup_searching_individual_in_content_file($username) {
  * @param mod_mgroup_mod_form $mform The form.
  * @return bool True if successful, false on failure.
  */
-function mgroup_save_file($path, $mform = null) {
+function mgroup_save_file($path, $mform) {
 
     if(isset($path, $mform)) {
         if($mform->save_file('userfile', $path, true)) {
@@ -400,7 +400,7 @@ function mgroup_check_file($characteristics, $path) {
         foreach($content as $line_number => $line) {
             if(! mgroup_check_parameters($line, $characteristics)) {
                 $errrors = true;
-                \core\notification::error(get_string('err_checkparameters', 'mgroup', array('number' => $line_number+1)));
+                \core\notification::error(get_string('err_checkparameters', 'mgroup', array('number' => $line_number + 1)));
             }
         }
         if(! $errrors) {
@@ -422,7 +422,7 @@ function mgroup_check_file($characteristics, $path) {
 function mgroup_check_parameters($parameters, $characteristics) {
 
     if(isset($parameters, $characteristics)) {
-        if($characteristics != (count($parameters)-3)) {
+        if($characteristics != (count($parameters) - 3)) {
             return false;
         }
         foreach($parameters as $parameter) {

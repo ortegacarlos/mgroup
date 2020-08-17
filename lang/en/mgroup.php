@@ -57,7 +57,7 @@ $string['numberofgenerations_help'] = 'Digite un valor entero correspondiente a 
 $string['uploadfile'] = 'Subir archivo';
 
 $string['groupingmbfi'] = 'Fuente de datos';
-$string['groupingmbfi_help'] = 'Seleccione una opción si desea formar los grupos con los resultados obtenidos del módulo "Resultados BFI", de lo contrario seleccione la opción "Subir archivo" para utilizar sus valores y formar los grupos.';
+$string['groupingmbfi_help'] = 'Seleccione una opción si desea formar los grupos con los resultados obtenidos del módulo "M-BFI", de lo contrario seleccione la opción "Subir archivo" para utilizar sus valores y formar los grupos.';
 
 $string['userfile'] = 'Archivo de datos';
 $string['userfile_help'] = 'Campo para cargar un archivo de texto plano, con valores separados por comas (.csv), que almacena los datos y cuantificación de las características de los individuos requeridos para la formación de grupos de trabajo colaborativo.';
@@ -88,21 +88,21 @@ $string['javaserver'] = 'Dirección de la aplicación PHP/Java Bridge';
 $string['javaserver_desc'] = 'La dirección por defecto accede a la aplicación que escucha en la interfaz local. Si la aplicación se encuentra ejecuntando fuera de un ambiente local, por favor ingrese la dirección correspondiente.';
 
 // Add string errors
-$string['err_groupsize'] = 'Debe suministrar un valor entero mayor a 0';
-$string['err_groupsizedb'] = 'El tamaño del grupo no corresponde con el guardado en la base de datos';
-$string['err_numberofcharacteristics'] = 'Debe suministrar un valor entero mayor a 0';
-$string['err_populationsize'] = 'Debe suministrar un valor entero mayor a 0';
-$string['err_selectionoperator'] = 'Debe suministrar un valor entero entre 1 y 100';
-$string['err_mutationoperator'] = 'Debe suministrar un valor entre 0 y 1';
-$string['err_numberofgenerations'] = 'Debe suministrar un valor entero mayor a 0';
-$string['err_savefile'] = 'Error al guardar el archivo o  no se cargó ningún archivo previamente';
-$string['err_createfile'] = 'Error al crear el archivo';
-$string['err_deletefile'] = 'Error al eliminar el archivo';
-$string['err_readfile'] = 'Error al leer el archivo';
-$string['err_checkfile'] = 'Revise las inconsistencias encontradas en el archivo';
+$string['err_groupsize'] = 'Debe suministrar un valor entero mayor a 0.';
+$string['err_groupsizedb'] = 'El tamaño del grupo no corresponde con el guardado en la base de datos.';
+$string['err_numberofcharacteristics'] = 'Debe suministrar un valor entero mayor a 0.';
+$string['err_populationsize'] = 'Debe suministrar un valor entero mayor a 0.';
+$string['err_selectionoperator'] = 'Debe suministrar un valor entero entre 1 y 100.';
+$string['err_mutationoperator'] = 'Debe suministrar un valor entre 0 y 1.';
+$string['err_numberofgenerations'] = 'Debe suministrar un valor entero mayor a 0.';
+$string['err_savefile'] = 'Error al guardar el archivo o  no se cargó ningún archivo previamente.';
+$string['err_createfile'] = 'Error al crear el archivo.';
+$string['err_deletefile'] = 'Error al eliminar el archivo.';
+$string['err_readfile'] = 'Error al leer el archivo.';
+$string['err_checkfile'] = 'Revise las inconsistencias encontradas en el archivo.';
 $string['err_checkparameters'] = 'Hay inconsistencias en la línea {$a->number}. El número de características ingresadas no coincide con el número de características guardadas en el archivo.';
-$string['err_checkusers'] = 'Revise que los estudiantes se encuentran matriculados en el curso';
-$string['err_user'] = '{$a->name} no se encuentra matriculado en el curso';
+$string['err_checkusers'] = 'Revise que los estudiantes se encuentran matriculados en el curso.';
+$string['err_user'] = '{$a->name} no se encuentra matriculado en el curso.';
 
 // Add string PDF file
 $string['title_file'] = 'Grupos de Trabajo Colaborativo';
