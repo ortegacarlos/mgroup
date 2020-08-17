@@ -126,8 +126,15 @@ if ($download == 'pdf' && has_capability('mod/mgroup:downloaddata', $moduleconte
     $pdf->SetFont($fontfamily, 'B', 15);
     $pdf->Cell(0, 0, get_string('general_information_file', 'mgroup'), 0, 1, 'L');
     $pdf->SetFont($fontfamily, '', 12);
-    $pdf->Cell(0, 0, get_string('author_file', 'mgroup', array('teacher' => $teacher)), 0, 1, 'L');
-    $pdf->Cell(0, 0, get_string('date_file', 'mgroup', array('date' => $date)), 0, 1, 'L');
+    $generalinformation = '<strong>'.get_string('teacher_course', 'mgroup').'</strong>';
+    $generalinformation .= $teacher.'<br />';
+    $generalinformation .= '<strong>'.get_string('course_file', 'mgroup').'</strong>';
+    $generalinformation .= $course->fullname.'<br />';
+    $generalinformation .= '<strong>'.get_string('date_file', 'mgroup').'</strong>';
+    $generalinformation .= $date.'<br />';
+    $pdf->writeHTML($generalinformation);
+    //$pdf->Cell(0, 0, get_string('author_file', 'mgroup', array('teacher' => $teacher)), 0, 1, 'L');
+    //$pdf->Cell(0, 0, get_string('date_file', 'mgroup', array('date' => $date)), 0, 1, 'L');
     $pdf->Ln(6);
 
     if (isset($individuals)) {

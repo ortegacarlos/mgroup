@@ -106,10 +106,11 @@ $string['err_user'] = '{$a->name} no se encuentra matriculado en el curso.';
 
 // Add string PDF file
 $string['title_file'] = 'Grupos de Trabajo Colaborativo';
-$string['author_file'] = 'Docente del curso: {$a->teacher}';
+$string['teacher_course'] = 'Docente del curso: ';
 $string['keywords_file'] = 'Moodle, Grupo de trabajo, Trabajo colaborativo';
 $string['subject_file'] = 'M-GROUP: Complemento de Moodle para la Formación de Grupos Colaborativos';
 $string['list_file'] = 'Listado de Grupos Colaborativos';
 $string['general_information_file'] = 'Información General';
-$string['date_file'] = 'Creado en: {$a->date}';
+$string['date_file'] = 'Creado en: ';
+$string['course_file'] = 'Curso: ';
 $string['downloadpdf'] = 'Descargar PDF';
