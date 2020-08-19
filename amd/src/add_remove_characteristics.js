@@ -27,14 +27,14 @@ define(['jquery'], function($) {
 
             function addRadioButton(element) {
                 var fitemid = $('#fgroup_id_grouphomocharacteristic').children('.felement').find('.fitem').prop('id');
-                var numberofcharacteristics = parseInt(element.val());
+                var numberofcharacteristics = (parseInt(element.val()) > 0) ? parseInt(element.val()) : 5;
                 var index = fitemid.split('_');
                 var labelid = fitemid.substr(0, fitemid.length - index[index.length - 1].length);
                 index = parseInt(index[index.length - 1]);
                 var style = '';
                 var hidden = '';
                 var disabled = '';
-                if(! $('#id_groupingtype_2').is(':checked')) {
+                if (! $('#id_groupingtype_2').is(':checked')) {
                         style = '="display: none;"';
                         hidden = 'hidden="hidden"';
                         disabled = 'disabled="disabled"';
@@ -77,7 +77,7 @@ define(['jquery'], function($) {
 
             $('#id_groupingtype_2').on('change', function(e) {
                 e.preventDefault();
-                if($(this).is(':checked')) {
+                if ($(this).is(':checked')) {
                     addRadioButton($('#id_numberofcharacteristics'));
                     $('#fgroup_id_grouphomocharacteristic').children('.felement').find('label').removeAttr('hidden');
                     $('#fgroup_id_grouphomocharacteristic').children('.felement').find('label').attr('style', '');
@@ -90,21 +90,21 @@ define(['jquery'], function($) {
 
             $('#id_groupingtype_1').on('change', function(e) {
                 e.preventDefault();
-                if($(this).is(':checked')) {
+                if ($(this).is(':checked')) {
                     changeAttributes();
                 }
             });
 
             $('#id_groupingtype_0').on('change', function(e) {
                 e.preventDefault();
-                if($(this).is(':checked')) {
+                if ($(this).is(':checked')) {
                     changeAttributes();
                 }
             });
 
-            $('input[name=bfi]').on('change', function(e) {
+            $('input[name=datasource]').on('change', function(e) {
                 e.preventDefault();
-                if(! $('#id_bfi_0').is(':checked')) {
+                if (! $('#id_datasource_0').is(':checked')) {
                     $('#id_numberofcharacteristics').val(5);
                     addRadioButton($('#id_numberofcharacteristics'));
                 }

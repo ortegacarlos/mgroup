@@ -42,6 +42,15 @@ $string['groupsize_help'] = 'Digite un valor entero correspondiente a la cantida
 $string['numberofcharacteristics'] = 'Cantidad de características';
 $string['numberofcharacteristics_help'] = 'Digite un valor entero correspondiente a la cantidad de características de cada individuo necesarias para la formación de los grupos. El valor por defecto es de 5 características.';
 
+$string['datasource'] = 'Seleccione una opción';
+$string['datasource_help'] = 'Seleccione una opción si desea la formación de los grupos con datos de una instancia del módulo "Resultados BFI", de lo contrario seleccione la opción "Subir archivo" para utilizar sus valores y formar los grupos.';
+
+$string['mbfi'] = 'Resultados previos';
+$string['uploadfile'] = 'Subir archivo';
+
+$string['mbfiar'] = 'Seleccione una instancia';
+$string['mbfiar_help'] = 'Escoja una instancia para utilizar sus datos y formar los grupos.';
+
 $string['populationsize'] = 'Tamaño de la población';
 $string['populationsize_help'] = 'Digite un valor entero correspondiente al tamaño de la población a considerar. El valor por defecto es de 50 individuos.';
 
@@ -54,10 +63,8 @@ $string['mutationoperator_help'] = 'Digite un valor real correspondiente a la pr
 $string['numberofgenerations'] = 'Cantidad de generaciones';
 $string['numberofgenerations_help'] = 'Digite un valor entero correspondiente a la cantidad máxima de generaciones para el ciclo de evolución. El valor por defecto es de 150 generaciones.';
 
-$string['uploadfile'] = 'Subir archivo';
-
-$string['groupingmbfi'] = 'Fuente de datos';
-$string['groupingmbfi_help'] = 'Seleccione una opción si desea formar los grupos con los resultados obtenidos del módulo "M-BFI", de lo contrario seleccione la opción "Subir archivo" para utilizar sus valores y formar los grupos.';
+//$string['groupingmbfi'] = 'Fuente de datos';
+//$string['groupingmbfi_help'] = 'Seleccione una opción si desea formar los grupos con los resultados obtenidos del módulo "M-BFI", de lo contrario seleccione la opción "Subir archivo" para utilizar sus valores y formar los grupos.';
 
 $string['userfile'] = 'Archivo de datos';
 $string['userfile_help'] = 'Campo para cargar un archivo de texto plano, con valores separados por comas (.csv), que almacena los datos y cuantificación de las características de los individuos requeridos para la formación de grupos de trabajo colaborativo.';

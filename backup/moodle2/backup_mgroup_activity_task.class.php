@@ -55,12 +55,12 @@ class backup_mgroup_activity_task extends backup_activity_task {
         $base = preg_quote($CFG->wwwroot,"/");
 
         // Link to the list of mgroups
-        $search="/(".$base."\/mod\/mgroup\/index.php\?id\=)([0-9]+)/";
-        $content= preg_replace($search, '$@MGROUPINDEX*$2@$', $content);
+        $search = "/(".$base."\/mod\/mgroup\/index.php\?id\=)([0-9]+)/";
+        $content = preg_replace($search, '$@MGROUPINDEX*$2@$', $content);
 
         // Link to mgroup view by moduleid
-        $search="/(".$base."\/mod\/mgroup\/view.php\?id\=)([0-9]+)/";
-        $content= preg_replace($search, '$@MGROUPVIEWBYID*$2@$', $content);
+        $search = "/(".$base."\/mod\/mgroup\/view.php\?id\=)([0-9]+)/";
+        $content = preg_replace($search, '$@MGROUPVIEWBYID*$2@$', $content);
 
         return $content;
     }

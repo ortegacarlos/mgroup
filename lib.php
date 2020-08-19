@@ -77,36 +77,35 @@ function mgroup_add_instance($mgroup, $mform = null) {
 
     $path = $CFG->dataroot.'/temp/filestorage/mgroupuserfile_'.(time() + rand()).'.csv';
     $characteristics = $mgroup->numberofcharacteristics;
-    $mbfi = '0';
+    $datasource = '0';
     
-    if(isset($mgroup->mbfi)) {
-        $mbfi = $mgroup->mbfi;
+    if (isset($mgroup->datasource)) {
+        $datasource = $mgroup->datasource;
     }
 
-    if($mbfi == '0') {
-        if(! mgroup_save_file($path, $mform)) {
+    if ($datasource == '0') {
+        if (! mgroup_save_file($path, $mform)) {
             print_error('error');
         }
     
-        if(! mgroup_check_file($characteristics, $path)) {
+        if (! mgroup_check_file($characteristics, $path)) {
             mgroup_delete_file($path);
             print_error('error');
         }
     
-        if($mgroup->enrolled == '0') {
-            if(! mgroup_check_users_in_course($mgroup->course)) {
+        if ($mgroup->enrolled == '0') {
+            if (! mgroup_check_users_in_course($mgroup->course)) {
                 mgroup_delete_file($path);
                 print_error('error');
             }
         }
-    }
-    else {
+    } else {
         $mgroup->numberofcharacteristics = 5;
         $dimensionvalues = $DB->get_records('mbfi_characteristic_values', array('mbfiid' => $mgroup->mbfi), '', 'userid,extraversion,agreeableness,conscientiousness,neuroticism,openness');
-        if(! mgroup_create_file($path, $dimensionvalues)) {
+        if (! mgroup_create_file($path, $dimensionvalues)) {
             print_error('error');
         }
-        if(empty(mgroup_read_file($path))) {
+        if (empty(mgroup_read_file($path))) {
             mgroup_delete_file($path);
             print_error('error');
         }
@@ -114,23 +113,23 @@ function mgroup_add_instance($mgroup, $mform = null) {
 
     $results = mgroup_form_groups($mgroup, $path);
 
-    if(isset($results)) {
+    if (isset($results)) {
         $mgroup->timecreated = time();
         $mgroup->id = $DB->insert_record('mgroup', $mgroup);
 
-        foreach($results as $group => $individuals) {
-            foreach($individuals as $username) {
+        foreach ($results as $group => $individuals) {
+            foreach ($individuals as $username) {
                 $data = new stdClass();
                 $data->mgroupid = $mgroup->id;
                 $data->courseid = (int)$mgroup->course;
                 $data->workgroup = ($group + 1);
                 $userid = $DB->get_field('user', 'id', array('username' => $username));
-                if(isset($userid)) {
+                if (isset($userid)) {
                     $data->userid = $userid;
                 }
                 $data->username = (string)$username;
                 $data->fullname = mgroup_searching_individual_in_content_file($username);
-                if(empty($data->fullname)) {
+                if (empty($data->fullname)) {
                     $data->fullname = 'DUMMY';
                 }
                 $data->timecreated = time();
@@ -157,36 +156,35 @@ function mgroup_update_instance($mgroup, $mform = null) {
 
     $path = $CFG->dataroot.'/temp/filestorage/userfile_'.(time() + rand()).'.csv';
     $characteristics = $mgroup->numberofcharacteristics;
-    $mbfi = '0';
+    $datasource = '0';
     
-    if(isset($mgroup->mbfi)) {
-        $mbfi = $mgroup->mbfi;
+    if (isset($mgroup->$datasource)) {
+        $datasource = $mgroup->$datasource;
     }
 
-    if($mbfi == '0') {
-        if(! mgroup_save_file($path, $mform)) {
+    if ($datasource == '0') {
+        if (! mgroup_save_file($path, $mform)) {
             print_error('error');
         }
     
-        if(! mgroup_check_file($characteristics, $path)) {
+        if (! mgroup_check_file($characteristics, $path)) {
             mgroup_delete_file($path);
             print_error('error');
         }
     
-        if($mgroup->enrolled == '0') {
-            if(! mgroup_check_users_in_course($mgroup->course)) {
+        if ($mgroup->enrolled == '0') {
+            if (! mgroup_check_users_in_course($mgroup->course)) {
                 mgroup_delete_file($path);
                 print_error('error');
             }
         }
-    }
-    else {
+    } else {
         $mgroup->numberofcharacteristics = 5;
         $dimensionvalues = $DB->get_records('mbfi_characteristic_values', array('mbfiid' => $mgroup->mbfi), '', 'userid,extraversion,agreeableness,conscientiousness,neuroticism,openness');
-        if(! mgroup_create_file($path, $dimensionvalues)) {
+        if (! mgroup_create_file($path, $dimensionvalues)) {
             print_error('error');
         }
-        if(empty(mgroup_read_file($path))) {
+        if (empty(mgroup_read_file($path))) {
             mgroup_delete_file($path);
             print_error('error');
         }
@@ -198,36 +196,35 @@ function mgroup_update_instance($mgroup, $mform = null) {
 
     $index = 0;
 
-    if(isset($results)) {
-        foreach($results as $group => $individuals) {
-            foreach($individuals as $username) {
-                if(isset($data[$index])) {
+    if (isset($results)) {
+        foreach ($results as $group => $individuals) {
+            foreach ($individuals as $username) {
+                if (isset($data[$index])) {
                     $data[$index]->mgroupid = $mgroup->instance;
                     $userid = $DB->get_field('user', 'id', array('username' => $username));
-                    if(isset($userid)) {
+                    if (isset($userid)) {
                         $data[$index]->userid = $userid;
                     }
                     $data[$index]->username = (string)$username;
                     $data[$index]->fullname = mgroup_searching_individual_in_content_file($username);
-                    if(empty($data[$index]->fullname)) {
+                    if (empty($data[$index]->fullname)) {
                         $data[$index]->fullname = 'DUMMY';
                     }
                     $data[$index]->timemodified = time();
                     $DB->update_record('mgroup_individuals', $data[$index]);
                     $index++;
-                }
-                else {
+                } else {
                     $datainsert = new stdClass();
                     $datainsert->mgroupid = $mgroup->instance;
                     $datainsert->courseid = (int)$mgroup->course;
                     $datainsert->workgroup = ($group + 1);
                     $userid = $DB->get_field('user', 'id', array('username' => $username));
-                    if(isset($userid)) {
+                    if (isset($userid)) {
                         $datainsert->userid = $userid;
                     }
                     $datainsert->username = (string)$username;
                     $datainsert->fullname = mgroup_searching_individual_in_content_file($username);
-                    if(empty($datainsert->fullname)) {
+                    if (empty($datainsert->fullname)) {
                         $datainsert->fullname = 'DUMMY';
                     }
                     $datainsert->timecreated = time();
@@ -261,10 +258,10 @@ function mgroup_delete_instance($id) {
 
     // Delete any dependent records here.
 
-    if(! $DB->delete_records('mgroup', array('id' => $id))) {
+    if (! $DB->delete_records('mgroup', array('id' => $id))) {
         $result = false;
     }
-    if(! $DB->delete_records('mgroup_individuals', array('mgroupid' => $id))) {
+    if (! $DB->delete_records('mgroup_individuals', array('mgroupid' => $id))) {
         $result = false;
     }
 
@@ -280,13 +277,12 @@ function mgroup_delete_instance($id) {
 function mgroup_searching_individual_in_content_file($username) {
     global $MGROUP_CONTENT_FILE;
 
-    foreach($MGROUP_CONTENT_FILE as $content) {
-        if(in_array((string)$username, $content, true)) {
-            if(mb_detect_encoding($content[1], 'UTF-8', true) != 'UTF-8') {
-                return(utf8_encode($content[1]));
-            }
-            else {
-                return($content[1]);
+    foreach ($MGROUP_CONTENT_FILE as $content) {
+        if (in_array((string)$username, $content, true)) {
+            if (mb_detect_encoding($content[1], 'UTF-8', true) != 'UTF-8') {
+                return (utf8_encode($content[1]));
+            } else {
+                return ($content[1]);
             }
         }
     }
@@ -303,8 +299,8 @@ function mgroup_searching_individual_in_content_file($username) {
  */
 function mgroup_save_file($path, $mform) {
 
-    if(isset($path, $mform)) {
-        if($mform->save_file('userfile', $path, true)) {
+    if (isset($path, $mform)) {
+        if ($mform->save_file('userfile', $path, true)) {
             return true;
         }
     }
@@ -323,9 +319,9 @@ function mgroup_save_file($path, $mform) {
 function mgroup_create_file($path, $dimensionvalues) {
     global $DB;
 
-    if(isset($path, $dimensionvalues)) {
+    if (isset($path, $dimensionvalues)) {
         $data = array();
-        foreach($dimensionvalues as $values) {
+        foreach ($dimensionvalues as $values) {
             $data_user = $DB->get_record('user', array('id' => $values->userid), 'username, firstname, lastname, email');
             $fullname = $data_user->firstname.' '.$data_user->lastname;
             $values = (array)$values;
@@ -333,7 +329,7 @@ function mgroup_create_file($path, $dimensionvalues) {
             array_unshift($values, $data_user->username, $fullname, $data_user->email);
             $data[] = implode(',', $values);
         } 
-        if(file_put_contents($path, implode("\n", $data)) !== false) {
+        if (file_put_contents($path, implode("\n", $data)) !== false) {
             return true;
         }
     }
@@ -350,8 +346,8 @@ function mgroup_create_file($path, $dimensionvalues) {
  */
 function mgroup_delete_file($path) {
 
-    if(isset($path)) {
-        if(unlink($path)) {
+    if (isset($path)) {
+        if (unlink($path)) {
             return true;
         }
     }
@@ -371,9 +367,9 @@ function mgroup_read_file($path) {
 
     $parameters = array();
 
-    if(isset($path)) {
-        if($content = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES)) {
-            foreach($content as $line) {
+    if (isset($path)) {
+        if ($content = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES)) {
+            foreach ($content as $line) {
                 $parameters[] = explode(',', $line);
             }
             $MGROUP_CONTENT_FILE = $parameters;
@@ -395,15 +391,15 @@ function mgroup_check_file($characteristics, $path) {
 
     $content = mgroup_read_file($path);
 
-    if(isset($characteristics, $content)) {
+    if (isset($characteristics, $content)) {
         $errrors = false;
-        foreach($content as $line_number => $line) {
-            if(! mgroup_check_parameters($line, $characteristics)) {
+        foreach ($content as $line_number => $line) {
+            if (! mgroup_check_parameters($line, $characteristics)) {
                 $errrors = true;
                 \core\notification::error(get_string('err_checkparameters', 'mgroup', array('number' => $line_number + 1)));
             }
         }
-        if(! $errrors) {
+        if (! $errrors) {
             return true;
         }
     }
@@ -421,12 +417,12 @@ function mgroup_check_file($characteristics, $path) {
  */
 function mgroup_check_parameters($parameters, $characteristics) {
 
-    if(isset($parameters, $characteristics)) {
-        if($characteristics != (count($parameters) - 3)) {
+    if (isset($parameters, $characteristics)) {
+        if ($characteristics != (count($parameters) - 3)) {
             return false;
         }
-        foreach($parameters as $parameter) {
-            if(is_null($parameter)) {
+        foreach ($parameters as $parameter) {
+            if (is_null($parameter)) {
                 return false;
             }
         }
@@ -448,20 +444,15 @@ function mgroup_check_users_in_course($course) {
 
     if(isset($course) && (! empty($users))) {
         $errors = false;
-        //$sql = "SELECT  a.id, a.username, b.userid, b.modifierid
-        //        FROM    {user} a
-        //        JOIN    {user_enrolments} b ON a.id = b.userid
-        //        WHERE   a.username = :username
-        //                AND b.modifierid = :course";
         foreach ($MGROUP_CONTENT_FILE as $user) {
             list($username, $fullname) = $user;
             $userid = $DB->get_field('user', 'id', array('username' => $username));
-            if(! array_key_exists($userid, $users)) {//$DB->record_exists_sql($sql, array('username' => $username, 'course' => $course))) {
+            if (! array_key_exists($userid, $users)) {
                 $errors = true;
                 \core\notification::error(get_string('err_user', 'mgroup', array('name' => $fullname)));
             }
         }
-        if(! $errors) {
+        if (! $errors) {
             return true;
         }
     }
@@ -486,16 +477,15 @@ function mgroup_form_groups($mgroup, $path) {
     $groupingtype = (int)$mgroup->groupingtype;
     $hetecharacteristics = null;
     $homocharacteristics = null;
-    if($groupingtype == 2) {
+    if ($groupingtype == 2) {
         $hetecharacteristics = array();
         $homocharacteristics = array();
         for ($i=0; $i < $characteristics; $i++) {
             $char = 'char'.($i+1);
             $characteristic = $mgroup->$char;
-            if($characteristic == '1') {
+            if ($characteristic == '1') {
                 $hetecharacteristics[] = $i;
-            }
-            else {
+            } else {
                 $homocharacteristics[] = $i;
             }
         }
@@ -505,7 +495,7 @@ function mgroup_form_groups($mgroup, $path) {
     $generations = 0;
     $ga = new Java('TeamB_Pack.GA', $data, $populationsize, $selectionoperator, $mutationoperator);
     $ga->initialPopulation();
-    if(java_values($data->getGroupingType()) == 0) {
+    if (java_values($data->getGroupingType()) == 0) {
         $ga->checkFitnessMinimize();
     }
     $ga->evaluation();
@@ -513,7 +503,7 @@ function mgroup_form_groups($mgroup, $path) {
         $ga->tournDeterministicSelection(2);
         $ga->reproduction();
         $ga->mutation();
-        if(java_values($data->getGroupingType()) == 0) {
+        if (java_values($data->getGroupingType()) == 0) {
             $ga->checkFitnessMinimize();
         }
         $ga->evaluation();
@@ -522,14 +512,14 @@ function mgroup_form_groups($mgroup, $path) {
 
     $results = java_values($ga->getPopulation()[$ga->getBestPosition()]->getGenes());
 
-    if(! mgroup_delete_file($path)) {
+    if (! mgroup_delete_file($path)) {
         print_error('error');
     }
 
-    if(isset($results)) {
-        foreach($results as $keygroup => $group) {
-            foreach($group as $keyusername => $username) {
-                if(empty(mgroup_searching_individual_in_content_file($username))) {
+    if (isset($results)) {
+        foreach ($results as $keygroup => $group) {
+            foreach ($group as $keyusername => $username) {
+                if (empty(mgroup_searching_individual_in_content_file($username))) {
                     $results[$keygroup][$keyusername] = 0;
                 }
             }

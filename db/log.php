@@ -26,7 +26,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $logs = array(
-    array('module'=>'mgroup', 'action'=>'view', 'mtable'=>'mgroup', 'field'=>'name'),
-    array('module'=>'mgroup', 'action'=>'update', 'mtable'=>'mgroup', 'field'=>'name'),
-    array('module'=>'mgroup', 'action'=>'add', 'mtable'=>'mgroup', 'field'=>'name')
+    array('module' => 'mgroup', 'action' => 'view', 'mtable' => 'mgroup', 'field' => 'name'),
+    array('module' => 'mgroup', 'action' => 'update', 'mtable' => 'mgroup', 'field' => 'name'),
+    array('module' => 'mgroup', 'action' => 'add', 'mtable' => 'mgroup', 'field' => 'name'),
+    array('module' => 'mgroup', 'action' => 'download', 'mtable' => 'mgroup', 'field' => 'name')
 );

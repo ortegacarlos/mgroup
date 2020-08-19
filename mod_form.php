@@ -70,36 +70,41 @@ class mod_mgroup_mod_form extends moodleform_mod {
         $mform->addHelpButton('groupsize', 'groupsize', 'mgroup');
 
         // Adding the "MBFI" instance
-        $mbfi = array();
+        $datasource = array();
         $course = $DB->get_record('course', array('id' => $COURSE->id), '*', MUST_EXIST);
         $recordsmbfi = get_all_instances_in_course('mbfi', $course);
-        if(! empty($recordsmbfi)) {
-            foreach($recordsmbfi as $recordmbfi) {
-                $mbfi[] = $mform->createElement('radio', 'mbfi', '', $recordmbfi->name, (int)$recordmbfi->id, null);
+        if (! empty($recordsmbfi)) {
+            $options = array();
+            foreach ($recordsmbfi as $recordmbfi) {
+                $options[(int)$recordmbfi->id] = $recordmbfi->name;
             }
-            $mbfi[] = $mform->createElement('radio', 'mbfi', '', get_string('uploadfile', 'mgroup'), 0, null);
-            $mform->addGroup($mbfi, 'groupingmbfi', get_string('groupingmbfi', 'mgroup'), array('<br />'), false);
-            $mform->addRule('groupingmbfi', null, 'required', null, 'client');
-            $mform->setDefault('mbfi', $mbfi[0]->_attributes['value']);
-            $mform->addHelpButton('groupingmbfi', 'groupingmbfi', 'mgroup');
+            $datasource[] = $mform->createElement('radio', 'datasource', '', get_string('mbfi', 'mgroup'), 1, null);
+            $datasource[] = $mform->createElement('radio', 'datasource', '', get_string('uploadfile', 'mgroup'), 0, null);
+            $mform->addGroup($datasource, 'datasourcear', get_string('datasource', 'mgroup'), array('<br />'), false);
+            $mform->addHelpButton('datasorucear', 'datasource', 'mgroup');
+            $mform->addRule('datasourcear', null, 'required', null, 'client');
+            $mform->setDefault('datasource', $datasource[0]->_attributes['value']);
+            $mbfi = $mform->addElement('select', 'mbfi', get_string('mbfiar', 'mgroup'), $options, null);
+            $mbfi->setSelected(array_key_first($options));
+            $mform->addHelpButton('mbfi', 'mbfiar', 'mgroup');
+            $mform->hideIf('mbfi', 'datasource', 'neq', 1);
         }
 
         // Adding the "userfile" field.
         $mform->addElement('filepicker', 'userfile', get_string('userfile', 'mgroup'), null,
                 array('maxbytes'=>1048576, 'accepted_types'=>'.csv'));
         $mform->addHelpButton('userfile', 'userfile', 'mgroup');
-        if(empty($recordsmbfi)) {
+        if (empty($recordsmbfi)) {
             $mform->addRule('userfile', null, 'required', null, 'client');
-        }
-        else {
-            $mform->hideIf('userfile', 'mbfi', 'neq', 0);
+        } else {
+            $mform->hideIf('userfile', 'datasource', 'neq', 0);
         }
         
         //Adding chekbox verification of enrolled students
         $mform->addElement('advcheckbox', 'enrolled', '', get_string('enrolled', 'mgroup'), null, array(0, 1));
         $mform->addHelpButton('enrolled', 'enrolled', 'mgroup');
-        if(! empty($recordsmbfi)) {
-            $mform->hideIf('enrolled', 'mbfi', 'neq', 0);
+        if (! empty($recordsmbfi)) {
+            $mform->hideIf('enrolled', 'datasource', 'neq', 0);
         }
 
         // Adding the standard "intro" and "introformat" fields.
@@ -111,11 +116,10 @@ class mod_mgroup_mod_form extends moodleform_mod {
         // Adding the "numberofcharacteristics" field.
         $mform->addElement('text', 'numberofcharacteristics', get_string('numberofcharacteristics', 'mgroup'), array('size' => '64'));
         $mform->setType('numberofcharacteristics', PARAM_INT);
-        if(empty($recordsmbfi)) {
+        if (empty($recordsmbfi)) {
             $mform->addRule('numberofcharacteristics', null, 'required', null, 'client');
-        }
-        else {
-            $mform->hideIf('numberofcharacteristics', 'mbfi', 'neq', 0);
+        } else {
+            $mform->hideIf('numberofcharacteristics', 'datasource', 'neq', 0);
         }
         $mform->addRule('numberofcharacteristics', null, 'numeric', 'extraruledata', 'client');
         $mform->addRule('numberofcharacteristics', null, 'nopunctuation', null, 'client');
@@ -170,10 +174,10 @@ class mod_mgroup_mod_form extends moodleform_mod {
         $mform->addHelpButton('groupingtypear', 'groupingtypear', 'mgroup');
 
         //Adding characteristic panel
-        if($mform->elementExists('numberofcharacteristics')) {
+        if ($mform->elementExists('numberofcharacteristics')) {
             $homocharacteristic = array();
             $hetecharacteristic = array();
-            for($i = 0; $i<50; $i++) {
+            for ($i = 0; $i<50; $i++) {
                 $homocharacteristic[] = $mform->createElement('radio', 'char'.($i+1), '', 'C'.($i+1), 0, null);
                 $hetecharacteristic[] = $mform->createElement('radio', 'char'.($i+1), '', 'C'.($i+1), 1, null);
                 $mform->setDefault('char'.(i+1), 0);
@@ -200,43 +204,43 @@ class mod_mgroup_mod_form extends moodleform_mod {
         $errors = parent::validation($data, $files);
         $groupsize = $DB->get_field('mgroup', 'groupsize', array('id' => $data['instance']));
 
-        if(array_key_exists('groupsize', $data)) {
-            if(! $this->validation_groupsize($data['groupsize'])) {
+        if (array_key_exists('groupsize', $data)) {
+            if (! $this->validation_groupsize($data['groupsize'])) {
                 $errors['groupsize'] = get_string('err_groupsize', 'mgroup');
             }
-            if($groupsize != false) {
+            if ($groupsize != false) {
                 if(! $this->validation_groupsize($data['groupsize'], (int)$groupsize)) {
                     $errors['groupsize'] = get_string('err_groupsizedb', 'mgroup');
                 }
             }
         }
 
-        if(array_key_exists('numberofcharacteristics', $data)) {
-            if(! $this->validation_groupsize($data['numberofcharacteristics'])) {
+        if (array_key_exists('numberofcharacteristics', $data)) {
+            if (! $this->validation_groupsize($data['numberofcharacteristics'])) {
                 $errors['numberofcharacteristics'] = get_string('err_numberofcharacteristics', 'mgroup');
             }
         }
 
-        if(array_key_exists('populationsize', $data)) {
-            if(! $this->validation_populationsize($data['populationsize'])) {
+        if (array_key_exists('populationsize', $data)) {
+            if (! $this->validation_populationsize($data['populationsize'])) {
                 $errors['populationsize'] = get_string('err_populationsize', 'mgroup');
             }
         }
 
-        if(array_key_exists('selectionoperator', $data)) {
-            if(! $this->validation_selectionoperator($data['selectionoperator'])) {
+        if (array_key_exists('selectionoperator', $data)) {
+            if (! $this->validation_selectionoperator($data['selectionoperator'])) {
                 $errors['selectionoperator'] = get_string('err_selectionoperator', 'mgroup');
             }
         }
 
-        if(array_key_exists('mutationoperator', $data)) {
-            if(! $this->validation_mutationoperator($data['mutationoperator'])) {
+        if (array_key_exists('mutationoperator', $data)) {
+            if (! $this->validation_mutationoperator($data['mutationoperator'])) {
                 $errors['mutationoperator'] = get_string('err_mutationoperator', 'mgroup');
             }
         }
 
-        if(array_key_exists('numberofgenerations', $data)) {
-            if(! $this->validation_groupsize($data['numberofgenerations'])) {
+        if (array_key_exists('numberofgenerations', $data)) {
+            if (! $this->validation_groupsize($data['numberofgenerations'])) {
                 $errors['numberofgenerations'] = get_string('err_numberofgenerations', 'mgroup');
             }
         }
@@ -246,8 +250,8 @@ class mod_mgroup_mod_form extends moodleform_mod {
 
     
     function validation_groupsize($value, $field = null) {
-        if(isset($field)) {
-            if($value != $field) {
+        if (isset($field)) {
+            if ($value != $field) {
                 return false;
             }
             return true;
