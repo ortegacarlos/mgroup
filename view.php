@@ -63,7 +63,6 @@ if ($download !== '') {
     $url->param('download', $download);
 }
 
-//$PAGE->set_url('/mod/mgroup/view.php', array('id' => $cm->id));
 $PAGE->set_url($url);
 
 $user = null;
@@ -88,10 +87,20 @@ if ($download == 'pdf' && has_capability('mod/mgroup:downloaddata', $moduleconte
     $teacher = 'teacher';
     $fontfamily = 'helvetica';
 
+    $coursecontacts = new core_course_list_element($course);
+    if ($coursecontacts->has_course_contacts()) {
+        foreach ($coursecontacts->get_course_contacts() as $coursecontact) {
+            $rolenames = array_map(function ($role) {
+                return $role->displayname;
+            }, $coursecontact['roles']);
+            //$name = implode(', ', $rolenames).': '.$coursecontact['username'];
+            $teachername = $coursecontact['username'];
+        }
+    }
+
     $pdf = new pdf();
 
     $pdf->SetTitle(get_string('title_file', 'mgroup'));
-    //$pdf->SetAuthor(get_string('author_file', 'mgroup', array('teacher' => $teacher)));
     $pdf->SetAuthor($teacher);
     $pdf->SetCreator($SITE->fullname);
     $pdf->SetKeywords(get_string('keywords_file', 'mgroup'));
@@ -102,7 +111,7 @@ if ($download == 'pdf' && has_capability('mod/mgroup:downloaddata', $moduleconte
     $pdf->setPrintHeader(true);
     $pdf->setHeaderMargin(20);
     $pdf->setHeaderFont(array($fontfamily, 'B', 12));
-    $pdf->setHeaderData('mod/mgroup/pix/icon.png', 22, $SITE->fullname, "$CFG->wwwroot \n" . get_string('subject_file', 'mgroup'));
+    $pdf->setHeaderData('mod/mgroup/pix/icon_header_file.png', 22, $SITE->fullname, "$CFG->wwwroot \n" . get_string('subject_file', 'mgroup'));
 
     // Print Footer file
     $pdf->setPrintFooter(true);
@@ -111,8 +120,6 @@ if ($download == 'pdf' && has_capability('mod/mgroup:downloaddata', $moduleconte
 
     $pdf->AddPage();
 
-    //$pdf->SetTextColor(0, 0, 0);
-    //$pdf->SetFillColor(222, 226, 230);
     $pdf->SetTextColor(255, 255, 255);
     $pdf->SetFillColor(10, 73, 250);
     $pdf->SetFont($fontfamily, 'B', 26);
@@ -133,12 +140,12 @@ if ($download == 'pdf' && has_capability('mod/mgroup:downloaddata', $moduleconte
     $generalinformation .= '<strong>'.get_string('date_file', 'mgroup').'</strong>';
     $generalinformation .= $date.'<br />';
     $pdf->writeHTML($generalinformation);
-    //$pdf->Cell(0, 0, get_string('author_file', 'mgroup', array('teacher' => $teacher)), 0, 1, 'L');
-    //$pdf->Cell(0, 0, get_string('date_file', 'mgroup', array('date' => $date)), 0, 1, 'L');
     $pdf->Ln(6);
 
     if (isset($individuals)) {
         foreach ($individuals as $group => $individual) {
+            $pdf->SetMargins(25, 0);
+            $pdf->Ln(1);
             $pdf->SetFont($fontfamily, 'B', 20);
             $pdf->Cell(0, 0, get_string('group', 'mgroup') . ' ' . ($group + 1), 0, 1, 'L');
             $pdf->Ln(1);
@@ -147,6 +154,8 @@ if ($download == 'pdf' && has_capability('mod/mgroup:downloaddata', $moduleconte
             $pdf->SetFont($fontfamily, '', 12);
             $index = 1;
             foreach ($individual as $values) {
+                $pdf->SetMargins(35, 0);
+                $pdf->Ln(1);
                 if ($values->username != '0') {
                     if ($fill) {
                         $pdf->Cell(0, 0, $index++ . '. ' . $values->fullname, 'B', 1, 'L', $fill);
@@ -183,26 +192,20 @@ if (! empty($individuals)) {
 
 echo '<div class="clearer"></div>';
 
-if(isset($individuals)) {
-    foreach($individuals as $group => $individual) {
+if (isset($individuals)) {
+    foreach ($individuals as $group => $individual) {
         echo $OUTPUT->container_start('group', 'group');
         echo '<h3>'.get_string('group', 'mgroup').' '.($group + 1).'</h3><hr>';
-        foreach($individual as $values) {
-            if($values->username != '0') {
+        foreach ($individual as $values) {
+            if ($values->username != '0') {
                 $link = true;
                 $user = $DB->get_record('user', array('id' => $values->userid));
-                if($values->userid == '0') {
+                if ($values->userid == '0') {
                     $user = $DB->get_record('user', array('id' => 1));
                     $user->firstname = $values->fullname;
                     $user->lastname = '';
                     $link = false;
                 }
-                /*
-                if(isset($user)) {
-                    $user->firstname = $values->fullname;
-                    $user->lastname = '';
-                }
-                */
                 echo $OUTPUT->box_start('individual', 'individual');
                 echo $OUTPUT->user_picture($user, array('courseid' => $course->id, 'size' => 50, 'popup' => true, 'includefullname' => true, 'link' => $link));
                 echo $OUTPUT->box_end();
