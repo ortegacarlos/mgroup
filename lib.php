@@ -84,17 +84,17 @@ function mgroup_add_instance($mgroup, $mform = null) {
     }
 
     if ($datasource == '0') {
-        if (! mgroup_save_file($path, $mform)) {
+        if (!mgroup_save_file($path, $mform)) {
             print_error('error');
         }
     
-        if (! mgroup_check_file($characteristics, $path)) {
+        if (!mgroup_check_file($characteristics, $path)) {
             mgroup_delete_file($path);
             print_error('error');
         }
     
         if ($mgroup->enrolled == '0') {
-            if (! mgroup_check_users_in_course($mgroup->course)) {
+            if (!mgroup_check_users_in_course($mgroup->course)) {
                 mgroup_delete_file($path);
                 print_error('error');
             }
@@ -102,7 +102,7 @@ function mgroup_add_instance($mgroup, $mform = null) {
     } else {
         $mgroup->numberofcharacteristics = 5;
         $dimensionvalues = $DB->get_records('mbfi_characteristic_values', array('mbfiid' => $mgroup->mbfi), '', 'userid,extraversion,agreeableness,conscientiousness,neuroticism,openness');
-        if (! mgroup_create_file($path, $dimensionvalues)) {
+        if (!mgroup_create_file($path, $dimensionvalues)) {
             print_error('error');
         }
         if (empty(mgroup_read_file($path))) {
@@ -136,7 +136,7 @@ function mgroup_add_instance($mgroup, $mform = null) {
                 $DB->insert_record('mgroup_individuals', $data);
             }
         }
-        //file_put_contents($CFG->dataroot.'/temp/filestorage/resultscreate.json', json_encode($results));
+        
         return $mgroup->id;
     }
 }
@@ -163,17 +163,17 @@ function mgroup_update_instance($mgroup, $mform = null) {
     }
 
     if ($datasource == '0') {
-        if (! mgroup_save_file($path, $mform)) {
+        if (!mgroup_save_file($path, $mform)) {
             print_error('error');
         }
     
-        if (! mgroup_check_file($characteristics, $path)) {
+        if (!mgroup_check_file($characteristics, $path)) {
             mgroup_delete_file($path);
             print_error('error');
         }
     
         if ($mgroup->enrolled == '0') {
-            if (! mgroup_check_users_in_course($mgroup->course)) {
+            if (!mgroup_check_users_in_course($mgroup->course)) {
                 mgroup_delete_file($path);
                 print_error('error');
             }
@@ -181,7 +181,7 @@ function mgroup_update_instance($mgroup, $mform = null) {
     } else {
         $mgroup->numberofcharacteristics = 5;
         $dimensionvalues = $DB->get_records('mbfi_characteristic_values', array('mbfiid' => $mgroup->mbfi), '', 'userid,extraversion,agreeableness,conscientiousness,neuroticism,openness');
-        if (! mgroup_create_file($path, $dimensionvalues)) {
+        if (!mgroup_create_file($path, $dimensionvalues)) {
             print_error('error');
         }
         if (empty(mgroup_read_file($path))) {
@@ -236,7 +236,6 @@ function mgroup_update_instance($mgroup, $mform = null) {
         $mgroup->timemodified = time();
         $mgroup->id = $mgroup->instance;
 
-        //file_put_contents($CFG->dataroot.'/temp/filestorage/resultsupdate.json', json_encode($results));
         return $DB->update_record('mgroup', $mgroup);
     }
 }
@@ -250,7 +249,7 @@ function mgroup_update_instance($mgroup, $mform = null) {
 function mgroup_delete_instance($id) {
     global $DB;
 
-    if (! $mgroup = $DB->get_record('mgroup', array('id' => $id))) {
+    if (!$mgroup = $DB->get_record('mgroup', array('id' => $id))) {
         return false;
     }
 
@@ -258,10 +257,10 @@ function mgroup_delete_instance($id) {
 
     // Delete any dependent records here.
 
-    if (! $DB->delete_records('mgroup', array('id' => $id))) {
+    if (!$DB->delete_records('mgroup', array('id' => $id))) {
         $result = false;
     }
-    if (! $DB->delete_records('mgroup_individuals', array('mgroupid' => $id))) {
+    if (!$DB->delete_records('mgroup_individuals', array('mgroupid' => $id))) {
         $result = false;
     }
 
@@ -394,12 +393,12 @@ function mgroup_check_file($characteristics, $path) {
     if (isset($characteristics, $content)) {
         $errrors = false;
         foreach ($content as $line_number => $line) {
-            if (! mgroup_check_parameters($line, $characteristics)) {
+            if (!mgroup_check_parameters($line, $characteristics)) {
                 $errrors = true;
                 \core\notification::error(get_string('err_checkparameters', 'mgroup', array('number' => $line_number + 1)));
             }
         }
-        if (! $errrors) {
+        if (!$errrors) {
             return true;
         }
     }
@@ -442,17 +441,17 @@ function mgroup_check_users_in_course($course) {
 
     $users = search_users($course, NULL, NULL);
 
-    if(isset($course) && (! empty($users))) {
+    if(isset($course) && (!empty($users))) {
         $errors = false;
         foreach ($MGROUP_CONTENT_FILE as $user) {
             list($username, $fullname) = $user;
             $userid = $DB->get_field('user', 'id', array('username' => $username));
-            if (! array_key_exists($userid, $users)) {
+            if (!array_key_exists($userid, $users)) {
                 $errors = true;
                 \core\notification::error(get_string('err_user', 'mgroup', array('name' => $fullname)));
             }
         }
-        if (! $errors) {
+        if (!$errors) {
             return true;
         }
     }
@@ -512,7 +511,7 @@ function mgroup_form_groups($mgroup, $path) {
 
     $results = java_values($ga->getPopulation()[$ga->getBestPosition()]->getGenes());
 
-    if (! mgroup_delete_file($path)) {
+    if (!mgroup_delete_file($path)) {
         print_error('error');
     }
 

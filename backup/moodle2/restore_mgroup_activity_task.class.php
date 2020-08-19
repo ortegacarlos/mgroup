@@ -84,9 +84,7 @@ class restore_mgroup_activity_task extends restore_activity_task {
         $rules[] = new restore_log_rule('mgroup', 'add', 'view.php?id={course_module}', '{mgroup}');
         $rules[] = new restore_log_rule('mgroup', 'update', 'view.php?id={course_module}', '{mgroup}');
         $rules[] = new restore_log_rule('mgroup', 'view', 'view.php?id={course_module}', '{mgroup}');
-        $rules[] = new restore_log_rule('mgroup', 'choose', 'view.php?id={course_module}', '{mgroup}');
-        $rules[] = new restore_log_rule('mgroup', 'choose again', 'view.php?id={course_module}', '{mgroup}');
-        $rules[] = new restore_log_rule('mgroup', 'report', 'report.php?id={course_module}', '{mgroup}');
+        $rules[] = new restore_log_rule('mgroup', 'download', 'view.php?id={course_module}', '{mgroup}');
 
         return $rules;
     }

@@ -37,7 +37,7 @@ if ($id) {
     $course         = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
     $moduleinstance = $DB->get_record('mgroup', array('id' => $cm->instance), '*', MUST_EXIST);
 } else if ($m) {
-    $moduleinstance = $DB->get_record('mgroup', array('id' => $m), '*', MUST_EXIST); //Cambio $n por $m
+    $moduleinstance = $DB->get_record('mgroup', array('id' => $m), '*', MUST_EXIST);
     $course         = $DB->get_record('course', array('id' => $moduleinstance->course), '*', MUST_EXIST);
     $cm             = get_coursemodule_from_instance('mgroup', $moduleinstance->id, $course->id, false, MUST_EXIST);
 } else {
@@ -180,7 +180,7 @@ if (data_submitted() && confirm_sesskey() && has_capability('mod(mgroup:download
 
 echo '<div class="clearer"></div>';
 
-if (! empty($individuals)) {
+if (!empty($individuals)) {
     $downloadoptions = array();
     $options = array();
     $options['id'] = "$cm->id";

@@ -40,7 +40,7 @@ class backup_mgroup_activity_structure_step extends backup_activity_structure_st
         $individuals = new backup_nested_element('individuals');
 
         $individual = new backup_nested_element('individual', array('id'), array(
-            'mgroupid', 'workgroup', 'userid', 'username',
+            'workgroup', 'userid', 'username',
             'fullname', 'timecreated', 'timemodified'));
 
         // Build the tree
@@ -55,6 +55,8 @@ class backup_mgroup_activity_structure_step extends backup_activity_structure_st
             FROM    {mgroup_individuals}
             WHERE   mgroupid = ?',
             array(backup::VAR_PARENTID));
+
+        // Define id annotations
 
         // Define file annotations
         $mgroup->annotate_files('mod_mgroup', 'intro', null); // This file area hasn't itemid

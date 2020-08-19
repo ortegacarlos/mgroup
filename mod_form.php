@@ -73,7 +73,7 @@ class mod_mgroup_mod_form extends moodleform_mod {
         $datasource = array();
         $course = $DB->get_record('course', array('id' => $COURSE->id), '*', MUST_EXIST);
         $recordsmbfi = get_all_instances_in_course('mbfi', $course);
-        if (! empty($recordsmbfi)) {
+        if (!empty($recordsmbfi)) {
             $options = array();
             foreach ($recordsmbfi as $recordmbfi) {
                 $options[(int)$recordmbfi->id] = $recordmbfi->name;
@@ -103,7 +103,7 @@ class mod_mgroup_mod_form extends moodleform_mod {
         //Adding chekbox verification of enrolled students
         $mform->addElement('advcheckbox', 'enrolled', '', get_string('enrolled', 'mgroup'), null, array(0, 1));
         $mform->addHelpButton('enrolled', 'enrolled', 'mgroup');
-        if (! empty($recordsmbfi)) {
+        if (!empty($recordsmbfi)) {
             $mform->hideIf('enrolled', 'datasource', 'neq', 0);
         }
 
@@ -205,42 +205,42 @@ class mod_mgroup_mod_form extends moodleform_mod {
         $groupsize = $DB->get_field('mgroup', 'groupsize', array('id' => $data['instance']));
 
         if (array_key_exists('groupsize', $data)) {
-            if (! $this->validation_groupsize($data['groupsize'])) {
+            if (!$this->validation_groupsize($data['groupsize'])) {
                 $errors['groupsize'] = get_string('err_groupsize', 'mgroup');
             }
             if ($groupsize != false) {
-                if(! $this->validation_groupsize($data['groupsize'], (int)$groupsize)) {
+                if(!$this->validation_groupsize($data['groupsize'], (int)$groupsize)) {
                     $errors['groupsize'] = get_string('err_groupsizedb', 'mgroup');
                 }
             }
         }
 
         if (array_key_exists('numberofcharacteristics', $data)) {
-            if (! $this->validation_groupsize($data['numberofcharacteristics'])) {
+            if (!$this->validation_groupsize($data['numberofcharacteristics'])) {
                 $errors['numberofcharacteristics'] = get_string('err_numberofcharacteristics', 'mgroup');
             }
         }
 
         if (array_key_exists('populationsize', $data)) {
-            if (! $this->validation_populationsize($data['populationsize'])) {
+            if (!$this->validation_populationsize($data['populationsize'])) {
                 $errors['populationsize'] = get_string('err_populationsize', 'mgroup');
             }
         }
 
         if (array_key_exists('selectionoperator', $data)) {
-            if (! $this->validation_selectionoperator($data['selectionoperator'])) {
+            if (!$this->validation_selectionoperator($data['selectionoperator'])) {
                 $errors['selectionoperator'] = get_string('err_selectionoperator', 'mgroup');
             }
         }
 
         if (array_key_exists('mutationoperator', $data)) {
-            if (! $this->validation_mutationoperator($data['mutationoperator'])) {
+            if (!$this->validation_mutationoperator($data['mutationoperator'])) {
                 $errors['mutationoperator'] = get_string('err_mutationoperator', 'mgroup');
             }
         }
 
         if (array_key_exists('numberofgenerations', $data)) {
-            if (! $this->validation_groupsize($data['numberofgenerations'])) {
+            if (!$this->validation_groupsize($data['numberofgenerations'])) {
                 $errors['numberofgenerations'] = get_string('err_numberofgenerations', 'mgroup');
             }
         }
