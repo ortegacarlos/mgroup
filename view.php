@@ -84,7 +84,7 @@ if ($download == 'pdf' && has_capability('mod/mgroup:downloaddata', $moduleconte
     $mgroupname = $DB->get_field('mgroup', 'name', array('id' => $moduleinstance->id));
     $filename = clean_filename("$course->shortname " . strip_tags(format_string($mgroupname, true))) . '.pdf';
     $date = gmdate("d\-M\-Y H:i:s", time());
-    $teacher = 'teacher';
+    $teachername = '';
     $fontfamily = 'helvetica';
 
     $coursecontacts = new core_course_list_element($course);
@@ -101,7 +101,7 @@ if ($download == 'pdf' && has_capability('mod/mgroup:downloaddata', $moduleconte
     $pdf = new pdf();
 
     $pdf->SetTitle(get_string('title_file', 'mgroup'));
-    $pdf->SetAuthor($teacher);
+    $pdf->SetAuthor($teachername);
     $pdf->SetCreator($SITE->fullname);
     $pdf->SetKeywords(get_string('keywords_file', 'mgroup'));
     $pdf->SetSubject(get_string('subject_file', 'mgroup'));
@@ -111,7 +111,7 @@ if ($download == 'pdf' && has_capability('mod/mgroup:downloaddata', $moduleconte
     $pdf->setPrintHeader(true);
     $pdf->setHeaderMargin(20);
     $pdf->setHeaderFont(array($fontfamily, 'B', 12));
-    $pdf->setHeaderData('mod/mgroup/pix/icon_header_file.png', 22, $SITE->fullname, "$CFG->wwwroot \n" . get_string('subject_file', 'mgroup'));
+    $pdf->setHeaderData('mod/mgroup/pix/header_file.png', 22, $SITE->fullname, "$CFG->wwwroot \n" . get_string('subject_file', 'mgroup'));
 
     // Print Footer file
     $pdf->setPrintFooter(true);
@@ -134,7 +134,7 @@ if ($download == 'pdf' && has_capability('mod/mgroup:downloaddata', $moduleconte
     $pdf->Cell(0, 0, get_string('general_information_file', 'mgroup'), 0, 1, 'L');
     $pdf->SetFont($fontfamily, '', 12);
     $generalinformation = '<strong>'.get_string('teacher_course', 'mgroup').'</strong>';
-    $generalinformation .= $teacher.'<br />';
+    $generalinformation .= $teachername.'<br />';
     $generalinformation .= '<strong>'.get_string('course_file', 'mgroup').'</strong>';
     $generalinformation .= $course->fullname.'<br />';
     $generalinformation .= '<strong>'.get_string('date_file', 'mgroup').'</strong>';
@@ -144,7 +144,7 @@ if ($download == 'pdf' && has_capability('mod/mgroup:downloaddata', $moduleconte
 
     if (isset($individuals)) {
         foreach ($individuals as $group => $individual) {
-            $pdf->SetMargins(25, 0);
+            $pdf->SetMargins(25, 50);
             $pdf->Ln(1);
             $pdf->SetFont($fontfamily, 'B', 20);
             $pdf->Cell(0, 0, get_string('group', 'mgroup') . ' ' . ($group + 1), 0, 1, 'L');
