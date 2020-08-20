@@ -63,11 +63,8 @@ $string['mutationoperator_help'] = 'Digite un valor real correspondiente a la pr
 $string['numberofgenerations'] = 'Cantidad de generaciones';
 $string['numberofgenerations_help'] = 'Digite un valor entero correspondiente a la cantidad máxima de generaciones para el ciclo de evolución. El valor por defecto es de 150 generaciones.';
 
-//$string['groupingmbfi'] = 'Fuente de datos';
-//$string['groupingmbfi_help'] = 'Seleccione una opción si desea formar los grupos con los resultados obtenidos del módulo "M-BFI", de lo contrario seleccione la opción "Subir archivo" para utilizar sus valores y formar los grupos.';
-
 $string['userfile'] = 'Archivo de datos';
-$string['userfile_help'] = 'Campo para cargar un archivo de texto plano, con valores separados por comas (.csv), que almacena los datos y cuantificación de las características de los individuos requeridos para la formación de grupos de trabajo colaborativo.';
+$string['userfile_help'] = 'Campo para cargar un archivo de texto plano, con valores separados por comas (*.csv), que almacena los datos y cuantificación de las características de los individuos requeridos para la formación de grupos de trabajo colaborativo.';
 
 $string['enrolled'] = 'Permitir estudiantes no matriculados en el curso';
 $string['enrolled_help'] = 'Seleccione esta opción si desea permitir la formación de grupos con estudiantes no matriculados en su curso.';
