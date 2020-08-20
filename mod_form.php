@@ -71,8 +71,10 @@ class mod_mgroup_mod_form extends moodleform_mod {
 
         // Adding the "MBFI" instance
         $datasource = array();
-        $course = $DB->get_record('course', array('id' => $COURSE->id), '*', MUST_EXIST);
-        $recordsmbfi = get_all_instances_in_course('mbfi', $course);
+        if ($DB->record_exists('modules', array('name' => 'mbfi'))) {
+            $course = $DB->get_record('course', array('id' => $COURSE->id), '*', MUST_EXIST);
+            $recordsmbfi = get_all_instances_in_course('mbfi', $course);
+        }
         if (!empty($recordsmbfi)) {
             $options = array();
             foreach ($recordsmbfi as $recordmbfi) {
