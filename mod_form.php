@@ -182,7 +182,7 @@ class mod_mgroup_mod_form extends moodleform_mod {
             for ($i = 0; $i<50; $i++) {
                 $homocharacteristic[] = $mform->createElement('radio', 'char'.($i+1), '', 'C'.($i+1), 0, null);
                 $hetecharacteristic[] = $mform->createElement('radio', 'char'.($i+1), '', 'C'.($i+1), 1, null);
-                $mform->setDefault('char'.(i+1), 0);
+                $mform->setDefault('char'.($i+1), 0);
             }
             $mform->addGroup($homocharacteristic, 'grouphomocharacteristic', get_string('grouphomocharacteristic', 'mgroup'), array(''), false);
             $mform->addHelpButton('grouphomocharacteristic', 'grouphomocharacteristic', 'mgroup');
@@ -201,19 +201,12 @@ class mod_mgroup_mod_form extends moodleform_mod {
     }
 
     function validation($data, $files) {
-        global $DB;
 
         $errors = parent::validation($data, $files);
-        $groupsize = $DB->get_field('mgroup', 'groupsize', array('id' => $data['instance']));
 
         if (array_key_exists('groupsize', $data)) {
             if (!$this->validation_groupsize($data['groupsize'])) {
                 $errors['groupsize'] = get_string('err_groupsize', 'mgroup');
-            }
-            if ($groupsize != false) {
-                if(!$this->validation_groupsize($data['groupsize'], (int)$groupsize)) {
-                    $errors['groupsize'] = get_string('err_groupsizedb', 'mgroup');
-                }
             }
         }
 
@@ -251,13 +244,7 @@ class mod_mgroup_mod_form extends moodleform_mod {
     }
 
     
-    function validation_groupsize($value, $field = null) {
-        if (isset($field)) {
-            if ($value != $field) {
-                return false;
-            }
-            return true;
-        }
+    function validation_groupsize($value) {
         return ($value <= 0 or ! is_int($value)) ? false:true;
     }
     

@@ -73,7 +73,7 @@ function mgroup_supports($feature) {
  * @return int The id of the newly inserted record.
  */
 function mgroup_add_instance($mgroup, $mform = null) {
-    global $DB, $CFG, $MGROUP_CONTENT_FILE;
+    global $DB, $CFG;
 
     $path = $CFG->dataroot.'/temp/filestorage/mgroupuserfile_'.(time() + rand()).'.csv';
     $characteristics = $mgroup->numberofcharacteristics;
@@ -119,21 +119,20 @@ function mgroup_add_instance($mgroup, $mform = null) {
 
         foreach ($results as $group => $individuals) {
             foreach ($individuals as $username) {
-                $data = new stdClass();
-                $data->mgroupid = $mgroup->id;
-                $data->courseid = (int)$mgroup->course;
-                $data->workgroup = ($group + 1);
+                $dataindividual = new stdClass();
+                $dataindividual->mgroupid = $mgroup->id;
+                $dataindividual->workgroup = ($group + 1);
                 $userid = $DB->get_field('user', 'id', array('username' => $username));
                 if (isset($userid)) {
-                    $data->userid = $userid;
+                    $dataindividual->userid = $userid;
                 }
-                $data->username = (string)$username;
-                $data->fullname = mgroup_searching_individual_in_content_file($username);
-                if (empty($data->fullname)) {
-                    $data->fullname = 'DUMMY';
-                }
-                $data->timecreated = time();
-                $DB->insert_record('mgroup_individuals', $data);
+                $dataindividual->username = (string)$username;
+                $dataindividual->fullname = mgroup_searching_individual_in_content_file($username);
+                // if (empty($dataindividual->fullname)) {
+                //     $dataindividual->fullname = 'DUMMY';
+                // }
+                $dataindividual->timecreated = time();
+                $DB->insert_record('mgroup_individuals', $dataindividual);
             }
         }
         
@@ -152,14 +151,14 @@ function mgroup_add_instance($mgroup, $mform = null) {
  * @return bool True if successful, false otherwise.
  */
 function mgroup_update_instance($mgroup, $mform = null) {
-    global $DB, $CFG, $MGROUP_CONTENT_FILE;
+    global $DB, $CFG;
 
     $path = $CFG->dataroot.'/temp/filestorage/userfile_'.(time() + rand()).'.csv';
     $characteristics = $mgroup->numberofcharacteristics;
     $datasource = '0';
     
-    if (isset($mgroup->$datasource)) {
-        $datasource = $mgroup->$datasource;
+    if (isset($mgroup->datasource)) {
+        $datasource = $mgroup->datasource;
     }
 
     if ($datasource == '0') {
@@ -191,46 +190,59 @@ function mgroup_update_instance($mgroup, $mform = null) {
     }
 
     $results = mgroup_form_groups($mgroup, $path);
-    $data = array();
-    $data = array_merge($data, $DB->get_records('mgroup_individuals', array('mgroupid' => $mgroup->instance)));
-
-    $index = 0;
 
     if (isset($results)) {
+        $mgroupindividuals = $DB->get_records('mgroup_individuals', array('mgroupid' => $mgroup->instance));
+        foreach ($mgroupindividuals as $individual) {
+            $DB->delete_records('mgroup_individuals', array('id' => $individual->id));
+        }
         foreach ($results as $group => $individuals) {
             foreach ($individuals as $username) {
-                if (isset($data[$index])) {
-                    $data[$index]->mgroupid = $mgroup->instance;
-                    $userid = $DB->get_field('user', 'id', array('username' => $username));
-                    if (isset($userid)) {
-                        $data[$index]->userid = $userid;
-                    }
-                    $data[$index]->username = (string)$username;
-                    $data[$index]->fullname = mgroup_searching_individual_in_content_file($username);
-                    if (empty($data[$index]->fullname)) {
-                        $data[$index]->fullname = 'DUMMY';
-                    }
-                    $data[$index]->timemodified = time();
-                    $DB->update_record('mgroup_individuals', $data[$index]);
-                    $index++;
-                } else {
-                    $datainsert = new stdClass();
-                    $datainsert->mgroupid = $mgroup->instance;
-                    $datainsert->courseid = (int)$mgroup->course;
-                    $datainsert->workgroup = ($group + 1);
-                    $userid = $DB->get_field('user', 'id', array('username' => $username));
-                    if (isset($userid)) {
-                        $datainsert->userid = $userid;
-                    }
-                    $datainsert->username = (string)$username;
-                    $datainsert->fullname = mgroup_searching_individual_in_content_file($username);
-                    if (empty($datainsert->fullname)) {
-                        $datainsert->fullname = 'DUMMY';
-                    }
-                    $datainsert->timecreated = time();
-                    $DB->insert_record('mgroup_individuals', $datainsert);
-                    $index++;
+                $dataindividual = new stdClass();
+                $dataindividual->mgroupid = $mgroup->instance;
+                $dataindividual->workgroup = ($group + 1);
+                $userid = $DB->get_field('user', 'id', array('username' => $username));
+                if (isset($userid)) {
+                    $dataindividual->userid = $userid;
                 }
+                $dataindividual->username = (string)$username;
+                $dataindividual->fullname = mgroup_searching_individual_in_content_file($username);
+                // if (empty($dataindividual->fullname)) {
+                //     $dataindividual->fullname = 'DUMMY';
+                // }
+                $dataindividual->timecreated = time();
+                $DB->insert_record('mgroup_individuals', $dataindividual);
+                // if (isset($data[$index])) {
+                //     $data[$index]->mgroupid = $mgroup->instance;
+                //     $userid = $DB->get_field('user', 'id', array('username' => $username));
+                //     if (isset($userid)) {
+                //         $data[$index]->userid = $userid;
+                //     }
+                //     $data[$index]->username = (string)$username;
+                //     $data[$index]->fullname = mgroup_searching_individual_in_content_file($username);
+                //     if (empty($data[$index]->fullname)) {
+                //         $data[$index]->fullname = 'DUMMY';
+                //     }
+                //     $data[$index]->timemodified = time();
+                //     $DB->update_record('mgroup_individuals', $data[$index]);
+                //     $index++;
+                // } else {
+                //     $datainsert = new stdClass();
+                //     $datainsert->mgroupid = $mgroup->instance;
+                //     $datainsert->workgroup = ($group + 1);
+                //     $userid = $DB->get_field('user', 'id', array('username' => $username));
+                //     if (isset($userid)) {
+                //         $datainsert->userid = $userid;
+                //     }
+                //     $datainsert->username = (string)$username;
+                //     $datainsert->fullname = mgroup_searching_individual_in_content_file($username);
+                //     // if (empty($datainsert->fullname)) {
+                //     //     $datainsert->fullname = 'DUMMY';
+                //     // }
+                //     $datainsert->timecreated = time();
+                //     $DB->insert_record('mgroup_individuals', $datainsert);
+                //     $index++;
+                // }
             }
         }
         $mgroup->timemodified = time();
@@ -249,7 +261,7 @@ function mgroup_update_instance($mgroup, $mform = null) {
 function mgroup_delete_instance($id) {
     global $DB;
 
-    if (!$mgroup = $DB->get_record('mgroup', array('id' => $id))) {
+    if (!$DB->get_record('mgroup', array('id' => $id))) {
         return false;
     }
 
@@ -490,7 +502,15 @@ function mgroup_form_groups($mgroup, $path) {
         }
     }
 
-    $data = new Java('TeamB_Pack.Data', $path, $groupsize, $groupingtype, $hetecharacteristics, $homocharacteristics);
+    try {
+        $data = new Java('TeamB_Pack.Data', $path, $groupsize, $groupingtype, $hetecharacteristics, $homocharacteristics);
+    } catch (JavaException $ex) {
+        mgroup_delete_file($path);
+        $trace = new java('java.io.ByteArrayOutputStream');
+        $ex->getCause()->printStackTrace(new java('java.io.PrintStream', $trace));
+        throw new Exception("Java Exception {$ex->getMessage()}:<pre> {$trace} </pre>\n");
+    }
+    
     $generations = 0;
     $ga = new Java('TeamB_Pack.GA', $data, $populationsize, $selectionoperator, $mutationoperator);
     $ga->initialPopulation();

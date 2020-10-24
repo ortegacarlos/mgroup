@@ -154,7 +154,7 @@ if ($download == 'pdf' && has_capability('mod/mgroup:downloaddata', $moduleconte
             $pdf->SetFont($fontfamily, '', 12);
             $index = 1;
             foreach ($individual as $values) {
-                $pdf->SetMargins(35, 0);
+                $pdf->SetMargins(35, 50);
                 $pdf->Ln(1);
                 if ($values->username != '0') {
                     if ($fill) {
@@ -186,6 +186,21 @@ if (!empty($individuals)) {
     $options['id'] = "$cm->id";
     $options['download'] = 'pdf';
     $button = $OUTPUT->single_button(new moodle_url('view.php', $options), get_string('downloadpdf', 'mgroup'));
+
+    $content = new DOMDocument();
+    $content->preserveWhiteSpace = FALSE;
+    $content->loadHTML($button);
+    $downloadButtons = $content->getElementsByTagName('button');
+    foreach ($downloadButtons as $downloadButton) {
+        $downloadButton->setAttribute('class', 'btn btn-primary');
+        $downloadButton->setAttribute('title', get_string('downloadpdf', 'mgroup'));
+    }
+    $forms = $content->getElementsByTagName('form');
+    foreach ($forms as $form){
+        $form->setAttribute('target', '_blank');
+    }
+    $button = $content->saveHTML();
+
     $downloadoptions[] = html_writer::tag('div', $button, array('class' => 'align-self-center'));
     echo html_writer::tag('div', implode('', $downloadoptions), array('class' => 'row justify-content-center'));
 }
