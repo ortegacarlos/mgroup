@@ -11,7 +11,7 @@
         <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="The full name of each instance of the module."/>
         <FIELD NAME="groupsize" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The group size of each module mgroup."/>
         <FIELD NAME="datasource" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The datasource of each module mgroup."/>
-        <FIELD NAME="mbfi" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="NULL" SEQUENCE="false" COMMENT="The id of an instance of the mbfi module of each module mgroup."/>
+        <FIELD NAME="mbfi" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The id of an instance of the mbfi module of each module mgroup."/>
         <FIELD NAME="enrolled" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The enrolled student value of each module mgroup."/>
         <FIELD NAME="intro" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="The description of each module mgroup."/>
         <FIELD NAME="numberofcharacteristics" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="5" SEQUENCE="false" COMMENT="The number of characteristics of each module mgroup."/>
