@@ -17,7 +17,7 @@
         <FIELD NAME="numberofcharacteristics" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="5" SEQUENCE="false" COMMENT="The number of characteristics of each module mgroup."/>
         <FIELD NAME="populationsize" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="5" SEQUENCE="false" COMMENT="The population size of each module mgroup."/>
         <FIELD NAME="selectionoperator" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="5" SEQUENCE="false" COMMENT="The selection operator of each module mgroup."/>
-        <FIELD NAME="mutationoperator" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="5" SEQUENCE="false" COMMENT="The mutation operator of each module mgroup."/>
+        <FIELD NAME="mutationoperator" TYPE="float" LENGTH="10" NOTNULL="true" DEFAULT="5" SEQUENCE="false" COMMENT="The mutation operator of each module mgroup."/>
         <FIELD NAME="numberofgenerations" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="5" SEQUENCE="false" COMMENT="The number of generations of each module mgroup."/>
         <FIELD NAME="groupingtype" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="5" SEQUENCE="false" COMMENT="The number of generations of each module mgroup."/>
         <FIELD NAME="introformat" TYPE="int" LENGTH="4" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Text format of intro field"/>

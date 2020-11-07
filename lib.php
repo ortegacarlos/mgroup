@@ -488,6 +488,7 @@ function mgroup_form_groups($mgroup, $path) {
     $groupingtype = (int)$mgroup->groupingtype;
     $hetecharacteristics = null;
     $homocharacteristics = null;
+    $results = null;
     if ($groupingtype == 2) {
         $hetecharacteristics = array();
         $homocharacteristics = array();
@@ -503,49 +504,68 @@ function mgroup_form_groups($mgroup, $path) {
     }
 
     try {
-        $data = new Java('TeamB_Pack.Data', $path, $groupsize, $groupingtype, $hetecharacteristics, $homocharacteristics);
-    } catch (JavaException $ex) {
-        mgroup_delete_file($path);
-        $trace = new java('java.io.ByteArrayOutputStream');
-        $ex->getCause()->printStackTrace(new java('java.io.PrintStream', $trace));
-        throw new Exception("Java Exception {$ex->getMessage()}:<pre> {$trace} </pre>\n");
-    }
-    
-    $generations = 0;
-    $ga = new Java('TeamB_Pack.GA', $data, $populationsize, $selectionoperator, $mutationoperator);
-    $ga->initialPopulation();
-    if (java_values($data->getGroupingType()) == 0) {
-        $ga->checkFitnessMinimize();
-    }
-    $ga->evaluation();
-    while ($generations < $maxgenerations) {
-        $ga->tournDeterministicSelection(2);
-        $ga->reproduction();
-        $ga->mutation();
+        $data = mgroup_get_data($path, $groupsize, $groupingtype, $hetecharacteristics, $homocharacteristics);
+        
+        $generations = 0;
+        $ga = new TeamB_Pack\GA($data, $populationsize, $selectionoperator, $mutationoperator);
+        $ga->initialPopulation();
         if (java_values($data->getGroupingType()) == 0) {
             $ga->checkFitnessMinimize();
         }
         $ga->evaluation();
-        $generations++;
-    }
-
-    $results = java_values($ga->getPopulation()[$ga->getBestPosition()]->getGenes());
-
-    if (!mgroup_delete_file($path)) {
-        print_error('error');
-    }
-
-    if (isset($results)) {
-        foreach ($results as $keygroup => $group) {
-            foreach ($group as $keyusername => $username) {
-                if (empty(mgroup_searching_individual_in_content_file($username))) {
-                    $results[$keygroup][$keyusername] = 0;
-                }
+        while ($generations < $maxgenerations) {
+            $ga->tournDeterministicSelection(2);
+            $ga->reproduction();
+            $ga->mutation();
+            if (java_values($data->getGroupingType()) == 0) {
+                $ga->checkFitnessMinimize();
             }
+            $ga->evaluation();
+            $generations++;
         }
-        
+    
+        $results = java_values($ga->getPopulation()[$ga->getBestPosition()]->getGenes());
+    
+        if (!mgroup_delete_file($path)) {
+            print_error('error');
+        }
+    } catch (Exception $e) {
+        \core\notification::error($e->getMessage());
+    } finally {
         return $results;
     }
+}
 
-    return null;
+/**
+ * Get a data class object from TeamB.
+ *
+ * @param string $path Text field path.
+ * @param int $groupsize Group size
+ * @param int $groupingtype Grouping type
+ * @param object $hetecharacteristics Array with heterogeneous characteristics
+ * @param object $homocharacteristics Array with homogeneous characteristics
+ * @return object TeamB data class instance.
+ */
+function mgroup_get_data($path, $groupsize, $groupingtype, $hetecharacteristics, $homocharacteristics) {
+    $data = null;
+    try {
+        $data = new TeamB_Pack\Data($path, $groupsize, $groupingtype, $hetecharacteristics, $homocharacteristics);
+        return $data;
+    } catch (Exception $e) {
+        $groupsizeexception = new TeamB_Pack\GroupSizeException($e->getCause());
+        switch (java_values($groupsizeexception->getCode()->toString())) {
+            case 'invalid_size':
+                throw new Exception(get_string('invalid_size', 'mgroup'));
+                break;
+            case 'invalid_bound_even':
+                throw new Exception(get_string('invalid_bound_even', 'mgroup'));
+                break;
+            case 'invalid_bound_odd':
+                throw new Exception(get_string('invalid_bound_odd', 'mgroup'));
+                break;
+            default:
+                throw new Exception(get_string('data_exception', 'mgroup'));
+                break;
+        }
+    }
 }

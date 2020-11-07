@@ -205,37 +205,37 @@ class mod_mgroup_mod_form extends moodleform_mod {
         $errors = parent::validation($data, $files);
 
         if (array_key_exists('groupsize', $data)) {
-            if (!$this->validation_groupsize($data['groupsize'])) {
+            if (! $this->validation_groupsize((int)$data['groupsize'])) {
                 $errors['groupsize'] = get_string('err_groupsize', 'mgroup');
             }
         }
 
         if (array_key_exists('numberofcharacteristics', $data)) {
-            if (!$this->validation_groupsize($data['numberofcharacteristics'])) {
+            if (! $this->validation_groupsize((int)$data['numberofcharacteristics'])) {
                 $errors['numberofcharacteristics'] = get_string('err_numberofcharacteristics', 'mgroup');
             }
         }
 
         if (array_key_exists('populationsize', $data)) {
-            if (!$this->validation_populationsize($data['populationsize'])) {
+            if (! $this->validation_groupsize((int)$data['populationsize'])) {
                 $errors['populationsize'] = get_string('err_populationsize', 'mgroup');
             }
         }
 
         if (array_key_exists('selectionoperator', $data)) {
-            if (!$this->validation_selectionoperator($data['selectionoperator'])) {
+            if (! $this->validation_selectionoperator($data['selectionoperator'])) {
                 $errors['selectionoperator'] = get_string('err_selectionoperator', 'mgroup');
             }
         }
 
         if (array_key_exists('mutationoperator', $data)) {
-            if (!$this->validation_mutationoperator($data['mutationoperator'])) {
+            if (! $this->validation_mutationoperator($data['mutationoperator'])) {
                 $errors['mutationoperator'] = get_string('err_mutationoperator', 'mgroup');
             }
         }
 
         if (array_key_exists('numberofgenerations', $data)) {
-            if (!$this->validation_groupsize($data['numberofgenerations'])) {
+            if (! $this->validation_groupsize((int)$data['numberofgenerations'])) {
                 $errors['numberofgenerations'] = get_string('err_numberofgenerations', 'mgroup');
             }
         }
@@ -245,18 +245,14 @@ class mod_mgroup_mod_form extends moodleform_mod {
 
     
     function validation_groupsize($value) {
-        return ($value <= 0 or ! is_int($value)) ? false:true;
-    }
-    
-    function validation_populationsize($value) {
-        return ($value <= 0 or ! is_int($value)) ? false:true;
+        return ($value <= 0 or ! is_int($value)) ? false : true;
     }
 
     function validation_selectionoperator($value) {
-        return ($value <= 0 or $value > 100) ? false:true;
+        return ($value <= 0 or $value > 100) ? false : true;
     }
 
     function validation_mutationoperator($value) {
-        return ($value <= 0 or $value > 1) ? false:true;
+        return ($value <= 0 or $value > 1) ? false : true;
     }
 }

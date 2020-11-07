@@ -67,8 +67,21 @@ $PAGE->set_url($url);
 
 $user = null;
 $groupsize = $DB->get_field('mgroup', 'groupsize', array('id' => $moduleinstance->id));
-$individuals = array_chunk($DB->get_records('mgroup_individuals', array('mgroupid' => $moduleinstance->id)), (int)$groupsize);
-
+$mgroupindividuals = $DB->get_records('mgroup_individuals', array('mgroupid' => $moduleinstance->id));
+$index = 1;
+$group = array();
+$groups = array();
+foreach ($mgroupindividuals as $individual) {
+    if ($individual->workgroup == $index) {
+        $group[] = $individual;
+    } else {
+        $groups[] = $group;
+        $group = null;
+        $group[] = $individual;
+        $index++;
+    }
+}
+$groups[] = $group;
 if ($download == '') {
     $PAGE->set_title(format_string($moduleinstance->name));
     $PAGE->set_heading(format_string($course->fullname));
@@ -82,6 +95,15 @@ if ($download == 'pdf' && has_capability('mod/mgroup:downloaddata', $moduleconte
     require_once($CFG->libdir . '/pdflib.php');
 
     $mgroupname = $DB->get_field('mgroup', 'name', array('id' => $moduleinstance->id));
+    $mgroupgroupintype = $DB->get_field('mgroup', 'groupingtype', array('id' => $moduleinstance->id));
+    $groupingtype = '';
+    if ($mgroupgroupintype == 0) {
+        $groupingtype = get_string('homogeneous', 'mgroup');
+    } elseif ($mgroupgroupintype == 1) {
+        $groupingtype = get_string('heterogeneous', 'mgroup');
+    } elseif ($mgroupgroupintype == 2) {
+        $groupingtype = get_string('mixed', 'mgroup');
+    }
     $filename = clean_filename("$course->shortname " . strip_tags(format_string($mgroupname, true))) . '.pdf';
     $date = gmdate("d\-M\-Y H:i:s", time());
     $teachername = '';
@@ -133,17 +155,19 @@ if ($download == 'pdf' && has_capability('mod/mgroup:downloaddata', $moduleconte
     $pdf->SetFont($fontfamily, 'B', 15);
     $pdf->Cell(0, 0, get_string('general_information_file', 'mgroup'), 0, 1, 'L');
     $pdf->SetFont($fontfamily, '', 12);
-    $generalinformation = '<strong>'.get_string('teacher_course', 'mgroup').'</strong>';
+    $generalinformation = '<strong>'.get_string('teacher_course', 'mgroup').': </strong>';
     $generalinformation .= $teachername.'<br />';
-    $generalinformation .= '<strong>'.get_string('course_file', 'mgroup').'</strong>';
+    $generalinformation .= '<strong>'.get_string('course_file', 'mgroup').': </strong>';
     $generalinformation .= $course->fullname.'<br />';
-    $generalinformation .= '<strong>'.get_string('date_file', 'mgroup').'</strong>';
+    $generalinformation .= '<strong>'.get_string('grouping_type', 'mgroup').': </strong>';
+    $generalinformation .= $groupingtype.'<br />';
+    $generalinformation .= '<strong>'.get_string('date_file', 'mgroup').': </strong>';
     $generalinformation .= $date.'<br />';
     $pdf->writeHTML($generalinformation);
     $pdf->Ln(6);
 
-    if (isset($individuals)) {
-        foreach ($individuals as $group => $individual) {
+    if (isset($groups)) {
+        foreach ($groups as $group => $individual) {
             $pdf->SetMargins(25, 50);
             $pdf->Ln(1);
             $pdf->SetFont($fontfamily, 'B', 20);
@@ -180,7 +204,7 @@ if (data_submitted() && confirm_sesskey() && has_capability('mod(mgroup:download
 
 echo '<div class="clearer"></div>';
 
-if (!empty($individuals)) {
+if (!empty($groups)) {
     $downloadoptions = array();
     $options = array();
     $options['id'] = "$cm->id";
@@ -188,12 +212,12 @@ if (!empty($individuals)) {
     $button = $OUTPUT->single_button(new moodle_url('view.php', $options), get_string('downloadpdf', 'mgroup'));
 
     $content = new DOMDocument();
-    $content->preserveWhiteSpace = FALSE;
+    $content->preservewhitespace = FALSE;
     $content->loadHTML($button);
-    $downloadButtons = $content->getElementsByTagName('button');
-    foreach ($downloadButtons as $downloadButton) {
-        $downloadButton->setAttribute('class', 'btn btn-primary');
-        $downloadButton->setAttribute('title', get_string('downloadpdf', 'mgroup'));
+    $downloadbuttons = $content->getElementsByTagName('button');
+    foreach ($downloadButtons as $downloadbutton) {
+        $downloadbutton->setAttribute('class', 'btn btn-primary');
+        $downloadbutton->setAttribute('title', get_string('downloadpdf_title', 'mgroup', array('coursename' => $course->fullname)));
     }
     $forms = $content->getElementsByTagName('form');
     foreach ($forms as $form){
@@ -207,8 +231,8 @@ if (!empty($individuals)) {
 
 echo '<div class="clearer"></div>';
 
-if (isset($individuals)) {
-    foreach ($individuals as $group => $individual) {
+if (isset($groups)) {
+    foreach ($groups as $group => $individual) {
         echo $OUTPUT->container_start('group', 'group');
         echo '<h3>'.get_string('group', 'mgroup').' '.($group + 1).'</h3><hr>';
         foreach ($individual as $values) {

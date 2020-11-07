@@ -110,11 +110,19 @@ $string['err_user'] = '{$a->name} no se encuentra matriculado en el curso.';
 
 // Add string PDF file
 $string['title_file'] = 'Grupos de Trabajo Colaborativo';
-$string['teacher_course'] = 'Docente del curso: ';
+$string['teacher_course'] = 'Docente del curso';
 $string['keywords_file'] = 'Moodle, Grupo de trabajo, Trabajo colaborativo';
 $string['subject_file'] = 'M-GROUP: Complemento de Moodle para la Formación de Grupos Colaborativos';
 $string['list_file'] = 'Listado de Grupos Colaborativos';
 $string['general_information_file'] = 'Información General';
-$string['date_file'] = 'Creado en: ';
-$string['course_file'] = 'Curso: ';
+$string['date_file'] = 'Creado en';
+$string['course_file'] = 'Curso';
+$string['grouping_type'] = 'Tipo de agrupamiento';
 $string['downloadpdf'] = 'Descargar PDF';
+$string['downloadpdf_title'] = 'Descargar en PDF la formación de grupos colaborativos del curso {$a->coursename}.';
+
+// Add string exceptions
+$string['invalid_size'] = 'Tamaño no adecuado para los grupos!.';
+$string['invalid_bound_even'] = 'El tamaño de los grupos debe ser al menos 2, y no puede superar la mitad del número de individuos!.';
+$string['invalid_bound_odd'] = 'El tamaño de los grupos debe ser al menos 2, y no puede superar la mitad más 1 del número de individuos!.';
+$string['data_exception'] = 'Ha ocurrido un error al instanciar la clase "Data"!.';

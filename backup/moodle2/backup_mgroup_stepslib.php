@@ -34,8 +34,9 @@ class backup_mgroup_activity_structure_step extends backup_activity_structure_st
 
         // Define each element separated
         $mgroup = new backup_nested_element('mgroup', array('id'), array(
-            'course', 'name', 'groupsize', 'intro', 'introformat',
-            'timecreated', 'timemodified'));
+            'course', 'name', 'groupsize', 'datasource', 'mbfi', 'enrolled', 'intro',
+            'numberofcharacteristics', 'populationsize', 'selectionoperator', 'mutationoperator',
+            'numberofgenerations', 'groupingtype', 'introformat', 'timecreated', 'timemodified'));
 
         $individuals = new backup_nested_element('individuals');
 
