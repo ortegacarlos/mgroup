@@ -25,6 +25,8 @@ define(['jquery'], function($) {
     return {
         init: function () {
 
+            window.onloadstart = addRadioButton($('#id_numberofcharacteristics'));
+            
             function addRadioButton(element) {
                 var fitemid = $('#fgroup_id_grouphomocharacteristic').children('.felement').find('.fitem').prop('id');
                 var numberofcharacteristics = (parseInt(element.val()) > 0) ? parseInt(element.val()) : 5;

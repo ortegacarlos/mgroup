@@ -128,9 +128,6 @@ function mgroup_add_instance($mgroup, $mform = null) {
                 }
                 $dataindividual->username = (string)$username;
                 $dataindividual->fullname = mgroup_searching_individual_in_content_file($username);
-                // if (empty($dataindividual->fullname)) {
-                //     $dataindividual->fullname = 'DUMMY';
-                // }
                 $dataindividual->timecreated = time();
                 $DB->insert_record('mgroup_individuals', $dataindividual);
             }
@@ -207,42 +204,8 @@ function mgroup_update_instance($mgroup, $mform = null) {
                 }
                 $dataindividual->username = (string)$username;
                 $dataindividual->fullname = mgroup_searching_individual_in_content_file($username);
-                // if (empty($dataindividual->fullname)) {
-                //     $dataindividual->fullname = 'DUMMY';
-                // }
                 $dataindividual->timecreated = time();
                 $DB->insert_record('mgroup_individuals', $dataindividual);
-                // if (isset($data[$index])) {
-                //     $data[$index]->mgroupid = $mgroup->instance;
-                //     $userid = $DB->get_field('user', 'id', array('username' => $username));
-                //     if (isset($userid)) {
-                //         $data[$index]->userid = $userid;
-                //     }
-                //     $data[$index]->username = (string)$username;
-                //     $data[$index]->fullname = mgroup_searching_individual_in_content_file($username);
-                //     if (empty($data[$index]->fullname)) {
-                //         $data[$index]->fullname = 'DUMMY';
-                //     }
-                //     $data[$index]->timemodified = time();
-                //     $DB->update_record('mgroup_individuals', $data[$index]);
-                //     $index++;
-                // } else {
-                //     $datainsert = new stdClass();
-                //     $datainsert->mgroupid = $mgroup->instance;
-                //     $datainsert->workgroup = ($group + 1);
-                //     $userid = $DB->get_field('user', 'id', array('username' => $username));
-                //     if (isset($userid)) {
-                //         $datainsert->userid = $userid;
-                //     }
-                //     $datainsert->username = (string)$username;
-                //     $datainsert->fullname = mgroup_searching_individual_in_content_file($username);
-                //     // if (empty($datainsert->fullname)) {
-                //     //     $datainsert->fullname = 'DUMMY';
-                //     // }
-                //     $datainsert->timecreated = time();
-                //     $DB->insert_record('mgroup_individuals', $datainsert);
-                //     $index++;
-                // }
             }
         }
         $mgroup->timemodified = time();
