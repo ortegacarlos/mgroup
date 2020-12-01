@@ -85,29 +85,29 @@ function mgroup_add_instance($mgroup, $mform = null) {
 
     if ($datasource == '0') {
         if (!mgroup_save_file($path, $mform)) {
-            print_error('error');
+            print_error('error', '', new moodle_url('/course/view.php', array('id' => $mgroup->course)));
         }
     
         if (!mgroup_check_file($characteristics, $path)) {
             mgroup_delete_file($path);
-            print_error('error');
+            print_error('error', '', new moodle_url('/course/view.php', array('id' => $mgroup->course)));
         }
     
         if ($mgroup->enrolled == '0') {
             if (!mgroup_check_users_in_course($mgroup->course)) {
                 mgroup_delete_file($path);
-                print_error('error');
+                print_error('error', '', new moodle_url('/course/view.php', array('id' => $mgroup->course)));
             }
         }
     } else {
         $mgroup->numberofcharacteristics = 5;
         $dimensionvalues = $DB->get_records('mbfi_characteristic_values', array('mbfiid' => $mgroup->mbfi), '', 'userid,extraversion,agreeableness,conscientiousness,neuroticism,openness');
         if (!mgroup_create_file($path, $dimensionvalues)) {
-            print_error('error');
+            print_error('error', '', new moodle_url('/course/view.php', array('id' => $mgroup->course)));
         }
         if (empty(mgroup_read_file($path))) {
             mgroup_delete_file($path);
-            print_error('error');
+            print_error('error', '', new moodle_url('/course/view.php', array('id' => $mgroup->course)));
         }
     }
 
@@ -160,29 +160,29 @@ function mgroup_update_instance($mgroup, $mform = null) {
 
     if ($datasource == '0') {
         if (!mgroup_save_file($path, $mform)) {
-            print_error('error');
+            print_error('error', '', new moodle_url('/course/view.php', array('id' => $mgroup->course)));
         }
     
         if (!mgroup_check_file($characteristics, $path)) {
             mgroup_delete_file($path);
-            print_error('error');
+            print_error('error', '', new moodle_url('/course/view.php', array('id' => $mgroup->course)));
         }
     
         if ($mgroup->enrolled == '0') {
             if (!mgroup_check_users_in_course($mgroup->course)) {
                 mgroup_delete_file($path);
-                print_error('error');
+                print_error('error', '', new moodle_url('/course/view.php', array('id' => $mgroup->course)));
             }
         }
     } else {
         $mgroup->numberofcharacteristics = 5;
         $dimensionvalues = $DB->get_records('mbfi_characteristic_values', array('mbfiid' => $mgroup->mbfi), '', 'userid,extraversion,agreeableness,conscientiousness,neuroticism,openness');
         if (!mgroup_create_file($path, $dimensionvalues)) {
-            print_error('error');
+            print_error('error', '', new moodle_url('/course/view.php', array('id' => $mgroup->course)));
         }
         if (empty(mgroup_read_file($path))) {
             mgroup_delete_file($path);
-            print_error('error');
+            print_error('error', '', new moodle_url('/course/view.php', array('id' => $mgroup->course)));
         }
     }
 
@@ -490,7 +490,7 @@ function mgroup_form_groups($mgroup, $path) {
         $results = java_values($ga->getPopulation()[$ga->getBestPosition()]->getGenes());
     
         if (!mgroup_delete_file($path)) {
-            print_error('error');
+            print_error('error', '', new moodle_url('/course/view.php', array('id' => $mgroup->course)));
         }
     } catch (Exception $e) {
         \core\notification::error($e->getMessage());
