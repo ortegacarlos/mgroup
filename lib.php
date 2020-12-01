@@ -101,7 +101,7 @@ function mgroup_add_instance($mgroup, $mform = null) {
         }
     } else {
         $mgroup->numberofcharacteristics = 5;
-        $dimensionvalues = $DB->get_records('mbfi_characteristic_values', array('mbfiid' => $mgroup->mbfi), '', 'userid,extraversion,agreeableness,conscientiousness,neuroticism,openness');
+        $dimensionvalues = $DB->get_records('mbfi_characteristic_values', array('mbfiid' => $mgroup->mbfi), '', 'userid,username,fullname,email,extraversion,agreeableness,conscientiousness,neuroticism,openness');
         if (!mgroup_create_file($path, $dimensionvalues)) {
             print_error('error', '', new moodle_url('/course/view.php', array('id' => $mgroup->course)));
         }
@@ -176,7 +176,7 @@ function mgroup_update_instance($mgroup, $mform = null) {
         }
     } else {
         $mgroup->numberofcharacteristics = 5;
-        $dimensionvalues = $DB->get_records('mbfi_characteristic_values', array('mbfiid' => $mgroup->mbfi), '', 'userid,extraversion,agreeableness,conscientiousness,neuroticism,openness');
+        $dimensionvalues = $DB->get_records('mbfi_characteristic_values', array('mbfiid' => $mgroup->mbfi), '', 'userid,username,fullname,email,extraversion,agreeableness,conscientiousness,neuroticism,openness');
         if (!mgroup_create_file($path, $dimensionvalues)) {
             print_error('error', '', new moodle_url('/course/view.php', array('id' => $mgroup->course)));
         }
@@ -296,11 +296,15 @@ function mgroup_create_file($path, $dimensionvalues) {
     if (isset($path, $dimensionvalues)) {
         $data = array();
         foreach ($dimensionvalues as $values) {
-            $data_user = $DB->get_record('user', array('id' => $values->userid), 'username, firstname, lastname, email');
-            $fullname = $data_user->firstname.' '.$data_user->lastname;
-            $values = (array)$values;
-            $userid = array_shift($values);
-            array_unshift($values, $data_user->username, $fullname, $data_user->email);
+            if ($data_user = $DB->get_record('user', array('id' => $values->userid), 'username, firstname, lastname, email')) {
+                $fullname = $data_user->firstname.' '.$data_user->lastname;
+                $values = (array)$values;
+                $userid = array_shift($values);
+                array_unshift($values, $data_user->username, $fullname, $data_user->email);
+            } else {
+                $values = (array)$values;
+                $userid = array_shift($values);
+            }
             $data[] = implode(',', $values);
         } 
         if (file_put_contents($path, implode("\n", $data)) !== false) {

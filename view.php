@@ -215,7 +215,7 @@ if (!empty($groups)) {
     $content->preservewhitespace = FALSE;
     $content->loadHTML($button);
     $downloadbuttons = $content->getElementsByTagName('button');
-    foreach ($downloadButtons as $downloadbutton) {
+    foreach ($downloadbuttons as $downloadbutton) {
         $downloadbutton->setAttribute('class', 'btn btn-primary');
         $downloadbutton->setAttribute('title', get_string('downloadpdf_title', 'mgroup', array('coursename' => $course->fullname)));
     }
