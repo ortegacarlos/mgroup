@@ -1,10 +1,10 @@
 # Información General #
 
-El módulo permite la formación de grupos con un enfoque colaborativo dentro
-de un curso, con un tamaño de grupo y características de agrupamiento que el
+El módulo permite la formación de grupos para escenarios de trabajo
+colaborativo, con un tamaño y características de agrupamiento que el
 docente del curso considere apropiadas.
 
-Requiere como fuente de datos de un archivo de texto plano, con valores
+Requiere como fuente de datos un archivo de texto plano, con valores
 separados por comas, donde se encuentra los datos de los individuos y la
 cuantificación de sus características, o permite utilizar como fuente de datos
 los valores obtenidos por una instancia del complemento **M-BFI**.
@@ -40,7 +40,7 @@ requisitos:
 * Se recomienda Apache Tomcat 7 o superior, o cualquier servidor JEE estándar o
   un motor de servlet para ejecutar código Java.
 
-Una vez hecha a comprobación, se debe llevar a cabo la instalación del adaptador:
+Una vez hecha la comprobación, se debe llevar a cabo la instalación del adaptador:
 
 * Instalar la aplicación [JavaBridgeTemplate721.war](http://sourceforge.net/projects/php-java-bridge/files/Binary%20package/php-java-bridge_7.2.1/JavaBridgeTemplate721.war/download)
   en su servidor de aplicaciones Java.
@@ -61,7 +61,7 @@ Una vez hecha a comprobación, se debe llevar a cabo la instalación del adaptad
 * En **Nuevos ajustes** ingresar la dirección web que apunta al archivo
   `Java.inc` ubicado dentro del directorio raíz donde se ejecuta la
   aplicación Java Bridge.<br>
-  La siguiente es la estructura de la dirección que se debe proporcionar
+  La siguiente es la estructura de dirección que se debe proporcionar
   `http://dominio-o-ip-del-servidor:puerto-de-escucha/nombre-aplicación-php-java-bridge/java/Java.inc`.
 
 ## Archivo de Datos ##
