@@ -299,11 +299,11 @@ function mgroup_create_file($path, $dimensionvalues) {
             if ($data_user = $DB->get_record('user', array('id' => $values->userid), 'username, firstname, lastname, email')) {
                 $fullname = $data_user->firstname.' '.$data_user->lastname;
                 $values = (array)$values;
-                $userid = array_shift($values);
-                array_unshift($values, $data_user->username, $fullname, $data_user->email);
+                array_shift($values);
+                array_merge($values, array('username' => $data_user->username, 'fullname' => $fullname, 'email' => $data_user->email));
             } else {
                 $values = (array)$values;
-                $userid = array_shift($values);
+                array_shift($values);
             }
             $data[] = implode(',', $values);
         } 
